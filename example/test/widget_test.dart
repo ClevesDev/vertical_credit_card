@@ -3,14 +3,19 @@ import 'package:example/main.dart';
 import 'package:vertical_credit_card/vertical_credit_card.dart';
 
 void main() {
-  testWidgets('Smoke test: VerticalCardDemoApp loads and renders all families',
+  testWidgets('Smoke test: VerticalCardDemoApp loads and renders categories',
       (WidgetTester tester) async {
     await tester.pumpWidget(const VerticalCardDemoApp());
     expect(find.text('Vertical Credit Card'), findsOneWidget);
+    expect(find.text('🌐 Regional'), findsOneWidget);
+    expect(find.text('🏦 Neobanks'), findsOneWidget);
+    expect(find.text('🇨🇴 Nequi'), findsOneWidget);
+
+    // Switch to Artistic 3D category
+    await tester.tap(find.text('🎨 Artistic 3D'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('Holo Infinite'), findsOneWidget);
-    expect(find.text('Painterly Globe'), findsOneWidget);
-    expect(find.text('Topographic Gold'), findsOneWidget);
-    expect(find.text('Carbon Stealth'), findsOneWidget);
   });
 
   testWidgets('Wallet Mode test: navigates to VerticalCardStack view',
@@ -148,5 +153,45 @@ void main() {
     expect(find.text(r'$28,500.00'), findsOneWidget);
     expect(find.text('MERCADO PAGO'), findsOneWidget);
     expect(find.text('Mercado Libre'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Studio Banking App: opens bottom sheet and selects Colombia account',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const VerticalCardDemoApp());
+
+    // Navigate to Studio tab
+    await tester.tap(find.text('Studio'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap Banking App mode
+    await tester.tap(find.text('Banking App'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap account badge in profile header
+    final accountBadge = find.text('Primary Global Account');
+    expect(accountBadge, findsOneWidget);
+    await tester.tap(accountBadge);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Bottom sheet title should be visible
+    expect(find.text('Select Active Account & Region'), findsOneWidget);
+
+    // Tap Colombia in bottom sheet
+    final colombiaOption =
+        find.text('Cuenta Nequi Ahorros · Nequi Magenta Neon');
+    expect(colombiaOption, findsOneWidget);
+    await tester.tap(colombiaOption);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify Colombia fintech state
+    expect(find.text('COP'), findsOneWidget);
+    expect(find.text(r'$4.850.000'), findsOneWidget);
+    expect(find.text('NEQUI'), findsOneWidget);
+    expect(find.text('Rappi Prime'), findsOneWidget);
   });
 }
