@@ -49,6 +49,8 @@
   * Multi-country switcher with native currencies (`PEN S/.`, `CLP $`, `GBP £`, `USD $`) and local merchants.
   * Real-time "Rotate CVV" action triggering live `RollingDigitText` odometer spins.
 * **3D Artist Patterns & Procedural Landscapes (Family I):**
+  * `solarEclipse` (`SolarEclipsePainter`): Minimalist total solar eclipse with liquid gold corona and diamond ring lens flare on obsidian.
+  * `desertDune` (`DesertDunePainter`): Warm architectural desert sand dunes at sunset with sharp metallic gold ridge highlights.
   * `alpineHorizon` (`AlpineHorizonPainter`): Minimalist layered mountain range silhouettes with sun/moon, twilight sky, and gold ridge highlights.
   * `worldNavigator` (`WorldMapPainter`): Stylized continents map with geodesic global flight path arcs and coordinates.
   * `greatWave` (`GreatWavePainter`): Japanese Ukiyo-e surging ocean wave pattern with foam crests.
