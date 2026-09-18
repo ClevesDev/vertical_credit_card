@@ -53,8 +53,8 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     {'id': 'Neobank', 'label': '🏦 Neobanks', 'desc': 'Global Digital Banks'},
     {'id': 'Luxury', 'label': '👑 Luxury Metal', 'desc': 'Apple & Amex'},
     {'id': 'Cyber', 'label': '⚡ Cyberpunk', 'desc': 'Neon & Glowing'},
-    {'id': 'Artistic', 'label': '🎨 Artistic 3D', 'desc': 'Holo & Topographic'},
-    {'id': 'All', 'label': '✨ All', 'desc': 'All 34 Presets'},
+    {'id': 'Artistic', 'label': '🎨 Artistic 3D', 'desc': 'Holo & Patterns'},
+    {'id': 'All', 'label': '✨ All', 'desc': 'All 40 Presets'},
   ];
   String _selectedShowcaseCategory = 'Regional';
 
@@ -155,6 +155,36 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'name': 'Carbon Stealth',
       'family': 'Artistic',
       'theme': CardPresets.carbonStealth,
+    },
+    {
+      'name': 'Alpine Horizon',
+      'family': 'Artistic',
+      'theme': CardPresets.alpineHorizon,
+    },
+    {
+      'name': 'World Navigator',
+      'family': 'Artistic',
+      'theme': CardPresets.worldNavigator,
+    },
+    {
+      'name': 'The Great Wave',
+      'family': 'Artistic',
+      'theme': CardPresets.greatWave,
+    },
+    {
+      'name': 'Golden Kintsugi',
+      'family': 'Artistic',
+      'theme': CardPresets.goldenKintsugi,
+    },
+    {
+      'name': 'Cosmos Constellation',
+      'family': 'Artistic',
+      'theme': CardPresets.cosmosConstellation,
+    },
+    {
+      'name': 'Art Déco Gatsby',
+      'family': 'Artistic',
+      'theme': CardPresets.artDecoGold,
     },
     // Regional & Global Fintech Flagships
     {

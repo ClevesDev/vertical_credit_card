@@ -54,6 +54,13 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
   - **Family F (Exotic Physical Materials):** `skeletonNfc` (Nothing Phone style transparent with copper coil), `bambooEco` (organic wood grain), `damascusSteel` (forged wavy folds), `whiteCeramic` (pure pearl ceramic)
   - **Family G (Gamer & Esports RGB):** `razerChroma` (360° dynamic RGB chroma edge glow), `cyberPcb` (printed circuit board traces & vias)
   - **Family H (Crypto & Hardware Wallets):** `ledgerObsidian`, `solanaAurora`
+  - **Family I (3D Artist Patterns & Landscapes):**
+    - `alpineHorizon` (`AlpineHorizonPainter`): Minimalist layered mountain range silhouettes with sun/moon, twilight sky, and gold ridge highlights.
+    - `worldNavigator` (`WorldMapPainter`): Stylized continents map with geodesic global flight path arcs and coordinates.
+    - `greatWave` (`GreatWavePainter`): Japanese Ukiyo-e surging ocean wave pattern with foam crests.
+    - `goldenKintsugi` (`KintsugiPainter`): Organic fractured veins filled with liquid molten gold over dark ceramic.
+    - `cosmosConstellation` (`ConstellationPainter`): Star map with geometric constellations and celestial coordinate rings.
+    - `artDecoGold` (`ArtDecoPainter`): 1920s symmetrical fan arches and stepped gold lines.
 - 🔢 **Dynamic Rolling Digit Component (`RollingDigitText`):** Vertical odometer/slot-machine rolling animation for live CVV security rotation, card regeneration, and balance updates.
 - 🧩 **Slot Injection Architecture:** Fully customizable without touching core code. Inject your own widgets into `chipSlot`, `logoSlot`, `badgeSlot`, or `customOverlay`.
 - 🛡️ **Zero External Dependencies:** Pure Flutter SDK. Vector EMV chip, NFC contactless waves, security hologram, and card network logos (Visa, Mastercard, Amex, Discover) are drawn with pure `CustomPainter`. No SVG loaders, no asset bundling issues.
@@ -96,6 +103,12 @@ VerticalCard.preset(
 ```
 
 Available presets include:
+- `CardPresets.alpineHorizon` (Minimalist layered mountain silhouettes with gold ridge highlights)
+- `CardPresets.worldNavigator` (Stylized continents map with geodesic global flight paths)
+- `CardPresets.greatWave` (Japanese Ukiyo-e surging ocean wave pattern)
+- `CardPresets.goldenKintsugi` (Organic fractured ceramic veins filled with molten gold)
+- `CardPresets.cosmosConstellation` (Celestial star map with geometric constellations)
+- `CardPresets.artDecoGold` (1920s Gatsby symmetrical fan arches & stepped gold lines)
 - `CardPresets.skeletonNfc` (Transparent Nothing-style with copper antenna coils)
 - `CardPresets.bambooEco` (Organic natural bamboo wood grain)
 - `CardPresets.damascusSteel` (Forged wavy Damascus steel layers)
