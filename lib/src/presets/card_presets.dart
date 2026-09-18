@@ -6,11 +6,13 @@ import '../painters/art_deco_painter.dart';
 import '../painters/carbon_fiber_painter.dart';
 import '../painters/constellation_painter.dart';
 import '../painters/damascus_steel_painter.dart';
+import '../painters/desert_dune_painter.dart';
 import '../painters/great_wave_painter.dart';
 import '../painters/kintsugi_painter.dart';
 import '../painters/nfc_antenna_painter.dart';
 import '../painters/painterly_globe_painter.dart';
 import '../painters/pcb_circuit_painter.dart';
+import '../painters/solar_eclipse_painter.dart';
 import '../painters/topographic_painter.dart';
 import '../painters/wood_grain_painter.dart';
 import '../painters/world_map_painter.dart';
@@ -603,6 +605,30 @@ class CardPresets {
         background: const CardBackground.painter(ArtDecoPainter()),
         textColor: const Color(0xFFFBF4D9),
         secondaryTextColor: const Color(0xFFD4AF37),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Minimalist total solar eclipse with liquid gold corona and diamond ring lens flare on obsidian.
+  static VerticalCardTheme get solarEclipse => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(SolarEclipsePainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFFFD54F),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFFFFB300),
+        enablePaymentPulse: true,
+      );
+
+  /// Warm architectural desert sand dunes at sunset with sharp metallic gold ridge highlights.
+  static VerticalCardTheme get desertDune => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(DesertDunePainter()),
+        textColor: const Color(0xFFFFF3E0),
+        secondaryTextColor: const Color(0xFFFFD54F),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,

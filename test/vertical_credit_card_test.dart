@@ -387,10 +387,12 @@ void main() {
       expect(CardPresets.goldenKintsugi.textFinish, CardTextFinish.goldFoil);
       expect(CardPresets.cosmosConstellation.enableDiamondDust, isTrue);
       expect(CardPresets.artDecoGold.chipColor, ChipColor.gold);
+      expect(CardPresets.solarEclipse.enableEdgeGlow, isTrue);
+      expect(CardPresets.desertDune.textFinish, CardTextFinish.goldFoil);
     });
 
     testWidgets(
-        'Renders Alpine Horizon and World Navigator cards in widget tree',
+        'Renders Alpine Horizon, Solar Eclipse, and Desert Dune cards in widget tree',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -406,11 +408,18 @@ void main() {
                     cvv: '321',
                   ),
                   VerticalCard.preset(
-                    preset: CardPresets.worldNavigator,
+                    preset: CardPresets.solarEclipse,
                     cardNumber: '5333 4444 5555 6666',
-                    cardHolder: 'GLOBAL CAPTAIN',
+                    cardHolder: 'SOLAR ECLIPSE',
                     expiryDate: '07/30',
                     cvv: '654',
+                  ),
+                  VerticalCard.preset(
+                    preset: CardPresets.desertDune,
+                    cardNumber: '5444 5555 6666 7777',
+                    cardHolder: 'DESERT GOLD',
+                    expiryDate: '11/32',
+                    cvv: '987',
                   ),
                 ],
               ),
@@ -422,7 +431,8 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('ALEX RIDGE'), findsOneWidget);
-      expect(find.text('GLOBAL CAPTAIN'), findsOneWidget);
+      expect(find.text('SOLAR ECLIPSE'), findsOneWidget);
+      expect(find.text('DESERT GOLD'), findsOneWidget);
     });
   });
 }

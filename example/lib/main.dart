@@ -162,9 +162,14 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'theme': CardPresets.alpineHorizon,
     },
     {
-      'name': 'World Navigator',
+      'name': 'Solar Eclipse',
       'family': 'Artistic',
-      'theme': CardPresets.worldNavigator,
+      'theme': CardPresets.solarEclipse,
+    },
+    {
+      'name': 'Desert Dune',
+      'family': 'Artistic',
+      'theme': CardPresets.desertDune,
     },
     {
       'name': 'The Great Wave',

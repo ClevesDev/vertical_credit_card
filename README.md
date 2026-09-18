@@ -55,6 +55,8 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
   - **Family G (Gamer & Esports RGB):** `razerChroma` (360° dynamic RGB chroma edge glow), `cyberPcb` (printed circuit board traces & vias)
   - **Family H (Crypto & Hardware Wallets):** `ledgerObsidian`, `solanaAurora`
   - **Family I (3D Artist Patterns & Landscapes):**
+    - `solarEclipse` (`SolarEclipsePainter`): Minimalist total solar eclipse with liquid gold corona and diamond ring lens flare on obsidian.
+    - `desertDune` (`DesertDunePainter`): Warm architectural desert sand dunes at sunset with sharp metallic gold ridge highlights.
     - `alpineHorizon` (`AlpineHorizonPainter`): Minimalist layered mountain range silhouettes with sun/moon, twilight sky, and gold ridge highlights.
     - `worldNavigator` (`WorldMapPainter`): Stylized continents map with geodesic global flight path arcs and coordinates.
     - `greatWave` (`GreatWavePainter`): Japanese Ukiyo-e surging ocean wave pattern with foam crests.
@@ -103,6 +105,8 @@ VerticalCard.preset(
 ```
 
 Available presets include:
+- `CardPresets.solarEclipse` (Minimalist total solar eclipse with liquid gold corona and diamond flare)
+- `CardPresets.desertDune` (Warm architectural desert sand dunes with sharp gold ridge highlights)
 - `CardPresets.alpineHorizon` (Minimalist layered mountain silhouettes with gold ridge highlights)
 - `CardPresets.worldNavigator` (Stylized continents map with geodesic global flight paths)
 - `CardPresets.greatWave` (Japanese Ukiyo-e surging ocean wave pattern)
