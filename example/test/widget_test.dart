@@ -101,4 +101,52 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('Unfreeze'), findsOneWidget);
   });
+
+  testWidgets(
+      'Studio Banking App: switches country/currency to Colombia and Mexico',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const VerticalCardDemoApp());
+
+    // Navigate to Studio tab
+    await tester.tap(find.text('Studio'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap Banking App mode
+    await tester.tap(find.text('Banking App'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify initial Global currency
+    expect(find.text('USD'), findsOneWidget);
+    expect(find.text(r'$14,850.50'), findsOneWidget);
+
+    // Tap Colombia
+    final colombiaChip = find.text('Colombia');
+    expect(colombiaChip, findsOneWidget);
+    await tester.tap(colombiaChip);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify Colombia fintech details
+    expect(find.text('COP'), findsOneWidget);
+    expect(find.text(r'$4.850.000'), findsOneWidget);
+    expect(find.text('NEQUI'), findsOneWidget);
+    expect(find.text('Rappi Prime'), findsOneWidget);
+
+    // Tap Mexico
+    final mexicoChip = find.text('México');
+    expect(mexicoChip, findsOneWidget);
+    await tester.ensureVisible(mexicoChip);
+    await tester.pump();
+    await tester.tap(mexicoChip);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify Mexico fintech details
+    expect(find.text('MXN'), findsOneWidget);
+    expect(find.text(r'$28,500.00'), findsOneWidget);
+    expect(find.text('MERCADO PAGO'), findsOneWidget);
+    expect(find.text('Mercado Libre'), findsOneWidget);
+  });
 }
