@@ -17,5 +17,9 @@
   * **Family D (Abstract Art & Textures):** `painterlyGlobe` (Crédit Agricole orbital paint splatter), `topographicGold`, `carbonStealth`.
 * **Holographic Rainbow Foil (`HoloSheenPainter`):** Iridescent shimmer reflecting dynamic spectrum light.
 * **Apple Wallet Style Component (`VerticalCardStack`):** Vertical cascading multi-card stack with smooth spring expansion on selection.
+* **Synchronized Checkout Form (`VerticalCardInputForm`):** Auto-formatting inputs (`4444 4444...`, `MM/YY`, `CVV`), real-time brand detection, and automatic 3D flip to back on CVV focus.
+* **Security Hologram Sticker (`SecurityHologramPainter`):** Realistic metallic rainbow diffraction security foil with vector globe & wave patterns.
+* **Live Card Customizer Studio:** Interactive sandbox in example app with live sliders for card parameters, material presets, and one-tap "Copy Dart Code".
 * **Open-Closed Slot Injection:** Custom widgets for `bankLogo`, `chipWidget`, and `actionBadge`.
-* **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, and brand badges (Visa, Mastercard, Amex, Discover).
+* **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, security hologram, and brand badges (Visa, Mastercard, Amex, Discover).
+

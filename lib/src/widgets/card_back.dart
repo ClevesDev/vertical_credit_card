@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/card_theme.dart';
+import '../painters/security_hologram_painter.dart';
 
 /// The back face layout of the vertical credit card with privacy support.
 class CardBack extends StatelessWidget {
@@ -139,33 +140,22 @@ class CardBack extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 14.0),
-              // Holographic security badge
+              // Metallic Iridescent Security Hologram Sticker
               Container(
-                width: 38.0,
+                width: 42.0,
                 height: 28.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFE0C3FC),
-                      Color(0xFF8EC5FC),
-                      Color(0xFFE0C3FC),
-                    ],
-                  ),
-                  border: Border.all(color: Colors.white.withOpacity(0.4)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      blurRadius: 3,
+                      color: Colors.black.withOpacity(0.25),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.security,
-                    size: 16.0,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
+                child: const CustomPaint(
+                  painter: SecurityHologramPainter(),
                 ),
               ),
             ],

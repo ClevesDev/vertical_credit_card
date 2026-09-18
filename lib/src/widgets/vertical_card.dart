@@ -49,6 +49,10 @@ class VerticalCard extends StatefulWidget {
   /// Whether tapping or clicking the card flips it 180° between front and back.
   final bool enableFlip;
 
+  /// When provided, programmatically controls whether the card displays its back (true) or front (false).
+  /// If null, flipping is governed exclusively by user tap gestures.
+  final bool? isFlipped;
+
   /// Whether pointer dragging or touch interaction deflects the card in 3D perspective.
   final bool enable3DTilt;
 
@@ -100,6 +104,7 @@ class VerticalCard extends StatefulWidget {
     this.isPrivacyMode = false,
     this.enablePrivacyToggle = true,
     this.enableFlip = true,
+    this.isFlipped,
     this.enable3DTilt = true,
     this.enableSpecularGlare = true,
     this.enableHolographicFoil,
@@ -128,6 +133,7 @@ class VerticalCard extends StatefulWidget {
     bool isPrivacyMode = false,
     bool enablePrivacyToggle = true,
     bool enableFlip = true,
+    bool? isFlipped,
     bool enable3DTilt = true,
     bool enableSpecularGlare = true,
     bool? enableHolographicFoil,
@@ -153,6 +159,7 @@ class VerticalCard extends StatefulWidget {
       isPrivacyMode: isPrivacyMode,
       enablePrivacyToggle: enablePrivacyToggle,
       enableFlip: enableFlip,
+      isFlipped: isFlipped,
       enable3DTilt: enable3DTilt,
       enableSpecularGlare: enableSpecularGlare,
       enableHolographicFoil: enableHolographicFoil,
@@ -419,6 +426,11 @@ class _VerticalCardState extends State<VerticalCard>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+
+    if (widget.isFlipped == true) {
+      _flipController.value = 1.0;
+      _showBack = true;
+    }
   }
 
   @override
@@ -428,6 +440,13 @@ class _VerticalCardState extends State<VerticalCard>
       setState(() {
         _isPrivate = widget.isPrivacyMode;
       });
+    }
+    if (widget.isFlipped != null && widget.isFlipped != oldWidget.isFlipped) {
+      if (widget.isFlipped!) {
+        _flipController.forward();
+      } else {
+        _flipController.reverse();
+      }
     }
   }
 
