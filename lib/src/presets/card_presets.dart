@@ -114,4 +114,24 @@ class CardPresets {
         secondaryTextColor: const Color(0xAAFFFFFF),
         chipColor: ChipColor.silver,
       );
+
+  /// Deep obsidian black with dynamic iridescent rainbow holographic foil sheen.
+  static VerticalCardTheme get holoInfinite => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.gradient(
+          LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF191B26),
+              Color(0xFF0C0D14),
+              Color(0xFF161824),
+            ],
+          ),
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xCCFFFFFF),
+        chipColor: ChipColor.silver,
+        isHolographic: true,
+      );
 }

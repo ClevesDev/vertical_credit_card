@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../models/card_brand.dart';
 import '../models/card_theme.dart';
 import '../painters/frost_painter.dart';
+import '../painters/holographic_painter.dart';
 import '../painters/specular_glare_painter.dart';
 import '../presets/card_presets.dart';
 import 'card_back.dart';
@@ -12,29 +13,76 @@ import 'card_front.dart';
 /// A modern, customizable vertical credit/debit card widget with 3D flip animation,
 /// interactive 3D tilt with specular glare, privacy mode, and multiple fintech states.
 class VerticalCard extends StatefulWidget {
+  /// The primary account number string displayed on the card (e.g. 16 digits).
   final String cardNumber;
+
+  /// The cardholder name printed on the lower half of the card.
   final String cardHolder;
+
+  /// Expiration date string formatted typically as MM/YY.
   final String expiryDate;
+
+  /// 3 or 4 digit card verification value printed on the back panel.
   final String cvv;
+
+  /// Optional bank or fintech institution name displayed at the top.
   final String? bankName;
+
+  /// Payment network brand (e.g. Visa, Mastercard, Amex). Auto-detected if null.
   final CardBrand? brand;
+
+  /// Visual theme configuration governing background, typography, and chip colors.
   final VerticalCardTheme cardTheme;
+
+  /// When true, renders an icy frost overlay and security lock across the card.
   final bool isFrozen;
+
+  /// When true, desaturates the card to black-and-white and stamps "EXPIRED".
   final bool isExpired;
+
+  /// When true, masks card numbers with bullets (•••• •••• •••• 1234).
   final bool isPrivacyMode;
+
+  /// Whether tapping the card number or eye icon toggles the privacy masking.
   final bool enablePrivacyToggle;
+
+  /// Whether tapping or clicking the card flips it 180° between front and back.
   final bool enableFlip;
+
+  /// Whether pointer dragging or touch interaction deflects the card in 3D perspective.
   final bool enable3DTilt;
+
+  /// Whether a dynamic specular light reflection moves across the card as it tilts.
   final bool enableSpecularGlare;
+
+  /// Whether an iridescent rainbow holographic sheen moves across the card as it tilts.
+  /// If null, automatically falls back to [VerticalCardTheme.isHolographic].
+  final bool? enableHolographicFoil;
+
+  /// Maximum deflection angle in radians for the 3D tilt gesture.
   final double maxTiltAngle;
+
+  /// Width of the card widget. Height is calculated via ID-1 aspect ratio (1 : 1.586).
   final double width;
+
+  /// Optional callback invoked when the user taps or clicks the card.
   final VoidCallback? onTap;
+
+  /// Callback notified whenever the card flips between front (false) and back (true).
   final ValueChanged<bool>? onFlipChange;
+
+  /// Callback notified whenever privacy mode is toggled.
   final ValueChanged<bool>? onPrivacyChange;
 
   // Customization Slots (Open-Closed Principle)
+
+  /// Slot allowing injection of a custom institution logo or widget.
   final Widget? bankLogo;
+
+  /// Slot allowing injection of a custom EMV chip widget.
   final Widget? chipWidget;
+
+  /// Slot allowing injection of custom status badge (e.g. "DEBIT", "VIP").
   final Widget? actionBadge;
 
   /// Default constructor accepting a custom or preset [VerticalCardTheme].
@@ -54,6 +102,7 @@ class VerticalCard extends StatefulWidget {
     this.enableFlip = true,
     this.enable3DTilt = true,
     this.enableSpecularGlare = true,
+    this.enableHolographicFoil,
     this.maxTiltAngle = 0.24, // ~14 degrees
     this.width = 240.0,
     this.onTap,
@@ -81,6 +130,7 @@ class VerticalCard extends StatefulWidget {
     bool enableFlip = true,
     bool enable3DTilt = true,
     bool enableSpecularGlare = true,
+    bool? enableHolographicFoil,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
@@ -105,6 +155,7 @@ class VerticalCard extends StatefulWidget {
       enableFlip: enableFlip,
       enable3DTilt: enable3DTilt,
       enableSpecularGlare: enableSpecularGlare,
+      enableHolographicFoil: enableHolographicFoil,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
@@ -409,11 +460,14 @@ class _VerticalCardState extends State<VerticalCard>
 
     setState(() {
       // Calculate normalized tilt delta
-      final dx = (details.localPosition.dx - widget.width / 2) / (widget.width / 2);
+      final dx =
+          (details.localPosition.dx - widget.width / 2) / (widget.width / 2);
       final dy = (details.localPosition.dy - cardHeight / 2) / (cardHeight / 2);
 
-      _tiltX = (dx * widget.maxTiltAngle).clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
-      _tiltY = (dy * widget.maxTiltAngle).clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
+      _tiltX = (dx * widget.maxTiltAngle)
+          .clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
+      _tiltY = (dy * widget.maxTiltAngle)
+          .clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
     });
   }
 
@@ -499,10 +553,26 @@ class _VerticalCardState extends State<VerticalCard>
             if (widget.isExpired) {
               cardFace = ColorFiltered(
                 colorFilter: const ColorFilter.matrix(<double>[
-                  0.2126, 0.7152, 0.0722, 0, 0,
-                  0.2126, 0.7152, 0.0722, 0, 0,
-                  0.2126, 0.7152, 0.0722, 0, 0,
-                  0,      0,      0,      1, 0,
+                  0.2126,
+                  0.7152,
+                  0.0722,
+                  0,
+                  0,
+                  0.2126,
+                  0.7152,
+                  0.0722,
+                  0,
+                  0,
+                  0.2126,
+                  0.7152,
+                  0.0722,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
                 ]),
                 child: cardFace,
               );
@@ -540,6 +610,25 @@ class _VerticalCardState extends State<VerticalCard>
                         ),
                       ),
 
+                    // Dynamic iridescent rainbow holographic foil overlay
+                    if ((widget.enableHolographicFoil ??
+                            widget.cardTheme.isHolographic) &&
+                        !widget.isFrozen)
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: widget.cardTheme.borderRadius,
+                          child: IgnorePointer(
+                            child: CustomPaint(
+                              painter: HolographicFoilPainter(
+                                tiltX: _tiltX,
+                                tiltY: _tiltY,
+                                borderRadius: widget.cardTheme.borderRadius,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
                     // Frozen Overlay Layer
                     if (widget.isFrozen)
                       Positioned.fill(
@@ -566,7 +655,8 @@ class _VerticalCardState extends State<VerticalCard>
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.cyanAccent.withOpacity(0.35),
+                                        color:
+                                            Colors.cyanAccent.withOpacity(0.35),
                                         blurRadius: 15,
                                       ),
                                     ],
@@ -604,7 +694,8 @@ class _VerticalCardState extends State<VerticalCard>
                         child: Transform.rotate(
                           angle: -math.pi / 6,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 6),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: const Color(0xFFE53935),

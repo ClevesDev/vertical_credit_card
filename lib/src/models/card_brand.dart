@@ -1,12 +1,27 @@
 /// Supported payment networks for vertical credit/debit cards.
 enum CardBrand {
+  /// Visa card network.
   visa,
+
+  /// Mastercard card network.
   mastercard,
+
+  /// American Express card network.
   americanExpress,
+
+  /// Discover card network.
   discover,
+
+  /// Diners Club card network.
   dinersClub,
+
+  /// JCB card network.
   jcb,
+
+  /// China UnionPay card network.
   unionPay,
+
+  /// Generic/unrecognized card network fallback.
   generic;
 
   /// Helper to auto-detect the [CardBrand] from a raw card number.
@@ -20,7 +35,8 @@ enum CardBrand {
     }
 
     // Mastercard: 51-55 or 2221-2720
-    if (RegExp(r'^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[0-1]|2720)').hasMatch(cleaned)) {
+    if (RegExp(r'^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[0-1]|2720)')
+        .hasMatch(cleaned)) {
       return CardBrand.mastercard;
     }
 
@@ -30,7 +46,9 @@ enum CardBrand {
     }
 
     // Discover: 6011, 622126-622925, 644-649, 65
-    if (RegExp(r'^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5])|64[4-9]|65)').hasMatch(cleaned)) {
+    if (RegExp(
+            r'^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5])|64[4-9]|65)')
+        .hasMatch(cleaned)) {
       return CardBrand.discover;
     }
 

@@ -1,11 +1,21 @@
 ## 0.0.1
 
-* Initial release of `vertical_credit_card`.
-* Native support for modern vertical credit/debit card layouts (ISO/IEC 7810 ID-1 portrait).
-* 3 built-in themes:
-  * **Flat / Solid:** Clean neo-banking styles (Nubank, BBVA, Wise).
-  * **Metallic Luxury:** Realistic brushed titanium, gold, silver, obsidian, and rose gold with specular highlights.
-  * **Glassmorphic Neon:** Translucent frosted glass with backdrop blur and neon glow edges.
-* Interactive 3D flip animation with gesture tap detection.
-* `isFrozen` state with frosty ice overlay and glowing security lock.
-* Zero third-party dependencies: 100% pure Flutter SDK with custom painters for EMV chip, contactless NFC waves, and brand logos.
+* **Native Vertical Orientation:** 100% focused on portrait cards following ISO/IEC 7810 ID-1 aspect ratio ($1 : 1.586$).
+* **Interactive 3D Perspective Tilt:** Real-time gyroscopic/pointer deflection with realistic focal length and spring-back damping physics (`Curves.easeOutBack`).
+* **Dynamic Specular Glare (`SpecularGlarePainter`):** Ambient lighting reflection that dynamically sweeps across the card surface according to the tilt angle.
+* **180° 3D Flip Animation:** Hardware-accelerated perspective rotation revealing magnetic stripe, signature panel, and CVV on the back.
+* **Tap-to-Reveal Privacy Mode:** Interactive number masking (`•••• •••• •••• 4321`) with eye toggle icon and tap gesture.
+* **Special Financial States:**
+  * `isFrozen`: Fractal ice crystal overlay with security padlock.
+  * `isExpired`: Desaturated black & white styling with angled official `"EXPIRED"` stamp.
+* **Extensible Background Architecture (`CardBackground`):**
+  * Solid colors, linear/radial gradients, metallic brushed finishes, glassmorphism, custom painters, and arbitrary widget builders.
+* **Curated Design Presets (`CardPresets`):**
+  * **Family A (Neobank Modern):** `nubank`, `wise`.
+  * **Family B (Luxury Heavy Metals):** `appleTitanium`, `amexCenturion`, `goldPrestige`.
+  * **Family C (Cyberpunk & Web3):** `neonCyan`, `matrixGreen`.
+  * **Family D (Abstract Art & Textures):** `painterlyGlobe` (Crédit Agricole orbital paint splatter), `topographicGold`, `carbonStealth`.
+* **Holographic Rainbow Foil (`HoloSheenPainter`):** Iridescent shimmer reflecting dynamic spectrum light.
+* **Apple Wallet Style Component (`VerticalCardStack`):** Vertical cascading multi-card stack with smooth spring expansion on selection.
+* **Open-Closed Slot Injection:** Custom widgets for `bankLogo`, `chipWidget`, and `actionBadge`.
+* **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, and brand badges (Visa, Mastercard, Amex, Discover).

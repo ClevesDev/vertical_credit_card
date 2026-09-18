@@ -3,42 +3,85 @@ import '../backgrounds/card_background.dart';
 
 /// The visual style classification of the vertical card.
 enum VerticalCardThemeType {
+  /// Clean solid color or gradient neo-bank style.
   flat,
+
+  /// Brushed metallic premium finish.
   metallic,
+
+  /// Translucent frosted glassmorphism with neon accents.
   glass,
+
+  /// Custom vector painted artistic textures.
   artistic,
 }
 
 /// The metallic material finish.
 enum MetalType {
+  /// Minimalist Apple Card style brushed titanium.
   brushedTitanium,
+
+  /// Rich reflective gold finish.
   gold,
+
+  /// Cool brushed silver platinum finish.
   silver,
+
+  /// Deep obsidian black finish (Amex Centurion style).
   obsidian,
+
+  /// Warm metallic rose gold finish.
   roseGold,
 }
 
 /// The EMV chip color finish.
 enum ChipColor {
+  /// Traditional gold contact pads.
   gold,
+
+  /// Modern silver platinum contact pads.
   silver,
+
+  /// Stealth matte black contact pads.
   black,
 }
 
 /// Configuration class defining the full aesthetic theme of a [VerticalCard].
 class VerticalCardTheme {
+  /// The high-level classification type of this theme.
   final VerticalCardThemeType type;
+
+  /// The underlying background rendering strategy.
   final CardBackground background;
+
+  /// Color used for primary card text (card number, cardholder name).
   final Color textColor;
+
+  /// Color used for secondary labels (VAL THRU, bank name).
   final Color secondaryTextColor;
+
+  /// Color palette applied to the vector EMV chip.
   final ChipColor chipColor;
+
+  /// Corner border radius for the card container.
   final BorderRadius borderRadius;
+
+  /// Drop shadows cast by the card container.
   final List<BoxShadow>? shadows;
 
   // Preserved properties for backward compatibility and specialized inspectors
+
+  /// Glowing neon accent color for glassmorphism themes.
   final Color? neonColor;
+
+  /// Backdrop filter blur sigma for glassmorphism themes.
   final double blur;
+
+  /// Specific metal finish type when [type] is [VerticalCardThemeType.metallic].
   final MetalType? metalType;
+
+  /// Whether an iridescent rainbow holographic foil sheen is applied.
+  final bool isHolographic;
 
   const VerticalCardTheme({
     this.type = VerticalCardThemeType.flat,
@@ -51,6 +94,7 @@ class VerticalCardTheme {
     this.neonColor,
     this.blur = 12.0,
     this.metalType,
+    this.isHolographic = false,
   });
 
   /// Factory for clean, flat or gradient modern neo-bank cards (Nubank, BBVA, Wise style).

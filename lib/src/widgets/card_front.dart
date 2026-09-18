@@ -52,20 +52,27 @@ class CardFront extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Left Slot: Bank Logo or Bank Name
-              if (bankLogo != null)
-                bankLogo!
-              else if (bankName != null && bankName!.isNotEmpty)
-                Text(
-                  bankName!.toUpperCase(),
-                  style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16.0,
-                    letterSpacing: 2.0,
-                  ),
-                )
-              else
-                const SizedBox.shrink(),
+              Expanded(
+                child: bankLogo != null
+                    ? Align(alignment: Alignment.centerLeft, child: bankLogo!)
+                    : (bankName != null && bankName!.isNotEmpty)
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              bankName!.toUpperCase(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16.0,
+                                letterSpacing: 2.0,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+              ),
+              const SizedBox(width: 8.0),
 
               // Right Slot: Action Badge + Contactless Indicator
               Row(
@@ -135,7 +142,9 @@ class CardFront extends StatelessWidget {
                     ),
                     const SizedBox(width: 8.0),
                     Icon(
-                      isPrivacyMode ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      isPrivacyMode
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
                       size: 15.0,
                       color: textColor.withOpacity(0.35),
                     ),
@@ -174,7 +183,9 @@ class CardFront extends StatelessWidget {
                           ),
                           const SizedBox(width: 6.0),
                           Text(
-                            isPrivacyMode ? '••/••' : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
+                            isPrivacyMode
+                                ? '••/••'
+                                : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
                             style: TextStyle(
                               color: textColor,
                               fontSize: 12.5,
@@ -188,7 +199,9 @@ class CardFront extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     // Cardholder Name
                     Text(
-                      cardHolder.isEmpty ? 'CARDHOLDER NAME' : cardHolder.toUpperCase(),
+                      cardHolder.isEmpty
+                          ? 'CARDHOLDER NAME'
+                          : cardHolder.toUpperCase(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
