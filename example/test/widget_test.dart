@@ -18,6 +18,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('Holo Infinite'), findsOneWidget);
+    expect(find.text('Alpine Horizon'), findsOneWidget);
   });
 
   testWidgets('Wallet Mode test: navigates to VerticalCardStack view',

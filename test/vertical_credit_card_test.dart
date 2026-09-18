@@ -379,5 +379,50 @@ void main() {
       expect(find.text('SATOSHI NAKAMOTO'), findsOneWidget);
       expect(find.text('PRO GAMER'), findsOneWidget);
     });
+
+    test('Initializes 3D Artist Patterns presets properly', () {
+      expect(CardPresets.alpineHorizon.textFinish, CardTextFinish.goldFoil);
+      expect(CardPresets.worldNavigator.enableEdgeGlow, isTrue);
+      expect(CardPresets.greatWave.textFinish, CardTextFinish.goldFoil);
+      expect(CardPresets.goldenKintsugi.textFinish, CardTextFinish.goldFoil);
+      expect(CardPresets.cosmosConstellation.enableDiamondDust, isTrue);
+      expect(CardPresets.artDecoGold.chipColor, ChipColor.gold);
+    });
+
+    testWidgets(
+        'Renders Alpine Horizon and World Navigator cards in widget tree',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  VerticalCard.preset(
+                    preset: CardPresets.alpineHorizon,
+                    cardNumber: '4222 3333 4444 5555',
+                    cardHolder: 'ALEX RIDGE',
+                    expiryDate: '09/31',
+                    cvv: '321',
+                  ),
+                  VerticalCard.preset(
+                    preset: CardPresets.worldNavigator,
+                    cardNumber: '5333 4444 5555 6666',
+                    cardHolder: 'GLOBAL CAPTAIN',
+                    expiryDate: '07/30',
+                    cvv: '654',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('ALEX RIDGE'), findsOneWidget);
+      expect(find.text('GLOBAL CAPTAIN'), findsOneWidget);
+    });
   });
 }

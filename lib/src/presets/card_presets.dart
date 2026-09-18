@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import '../backgrounds/card_background.dart';
 import '../models/card_theme.dart';
+import '../painters/alpine_horizon_painter.dart';
+import '../painters/art_deco_painter.dart';
 import '../painters/carbon_fiber_painter.dart';
+import '../painters/constellation_painter.dart';
 import '../painters/damascus_steel_painter.dart';
+import '../painters/great_wave_painter.dart';
+import '../painters/kintsugi_painter.dart';
 import '../painters/nfc_antenna_painter.dart';
 import '../painters/painterly_globe_painter.dart';
 import '../painters/pcb_circuit_painter.dart';
 import '../painters/topographic_painter.dart';
 import '../painters/wood_grain_painter.dart';
+import '../painters/world_map_painter.dart';
 
 /// Curated library of ready-to-use, professional vertical credit card themes.
 class CardPresets {
@@ -526,6 +532,79 @@ class CardPresets {
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
         isHolographic: true,
+        enablePaymentPulse: true,
+      );
+
+  // ---------------------------------------------------------------------------
+  // FAMILIA I: 3D ARTIST & PATRONES GEOMÉTRICOS
+  // ---------------------------------------------------------------------------
+
+  /// Layered minimalist mountain horizon with dusk twilight and gold ridge highlights.
+  static VerticalCardTheme get alpineHorizon => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(AlpineHorizonPainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFF9A825),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Luxury global traveler world map with geodesic flight routes and coordinates.
+  static VerticalCardTheme get worldNavigator => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(WorldMapPainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFF00E5FF),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFF00E5FF),
+        enablePaymentPulse: true,
+      );
+
+  /// Dynamic Japanese Ukiyo-e surging ocean wave pattern with crest foam and gold accents.
+  static VerticalCardTheme get greatWave => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(GreatWavePainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFF1F5F9),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Japanese Golden Kintsugi fractured ceramic with liquid molten gold seams.
+  static VerticalCardTheme get goldenKintsugi => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(KintsugiPainter()),
+        textColor: const Color(0xFFFDF6E2),
+        secondaryTextColor: const Color(0xFFFFD700),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Deep space celestial star map with constellations and astrolabe orbital rings.
+  static VerticalCardTheme get cosmosConstellation => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(ConstellationPainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFF93C5FD),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        enableDiamondDust: true,
+        enablePaymentPulse: true,
+      );
+
+  /// Symmetrical 1920s Great Gatsby architectural Art Déco fan arches and gold chevrons.
+  static VerticalCardTheme get artDecoGold => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(ArtDecoPainter()),
+        textColor: const Color(0xFFFBF4D9),
+        secondaryTextColor: const Color(0xFFD4AF37),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,
       );
 }

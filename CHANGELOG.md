@@ -48,5 +48,12 @@
 * **Interactive Studio Banking App Enhancements:**
   * Multi-country switcher with native currencies (`PEN S/.`, `CLP $`, `GBP £`, `USD $`) and local merchants.
   * Real-time "Rotate CVV" action triggering live `RollingDigitText` odometer spins.
+* **3D Artist Patterns & Procedural Landscapes (Family I):**
+  * `alpineHorizon` (`AlpineHorizonPainter`): Minimalist layered mountain range silhouettes with sun/moon, twilight sky, and gold ridge highlights.
+  * `worldNavigator` (`WorldMapPainter`): Stylized continents map with geodesic global flight path arcs and coordinates.
+  * `greatWave` (`GreatWavePainter`): Japanese Ukiyo-e surging ocean wave pattern with foam crests.
+  * `goldenKintsugi` (`KintsugiPainter`): Organic fractured veins filled with liquid molten gold over dark ceramic.
+  * `cosmosConstellation` (`ConstellationPainter`): Star map with geometric constellations and celestial coordinate rings.
+  * `artDecoGold` (`ArtDecoPainter`): 1920s symmetrical fan arches and stepped gold lines.
 * **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, security hologram, and brand badges (Visa, Mastercard, Amex, Discover).
 
