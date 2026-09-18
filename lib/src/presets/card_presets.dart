@@ -550,14 +550,14 @@ class CardPresets {
         enablePaymentPulse: true,
       );
 
-  /// Luxury global traveler world map with geodesic flight routes and coordinates.
+  /// Luxury global traveler world map with geodesic flight routes, supersonic delta jets, and 3D gold compass rose.
   static VerticalCardTheme get worldNavigator => VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
         background: const CardBackground.painter(WorldMapPainter()),
         textColor: Colors.white,
         secondaryTextColor: const Color(0xFF00E5FF),
-        chipColor: ChipColor.silver,
-        textFinish: CardTextFinish.silverFoil,
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.goldFoil,
         enableEdgeGlow: true,
         edgeGlowColor: const Color(0xFF00E5FF),
         enablePaymentPulse: true,
