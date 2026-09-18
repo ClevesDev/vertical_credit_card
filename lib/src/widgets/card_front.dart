@@ -1,13 +1,11 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../models/card_brand.dart';
 import '../models/card_theme.dart';
-import '../painters/metallic_painter.dart';
 import 'brand_logo.dart';
 import 'contactless.dart';
 import 'emv_chip.dart';
 
-/// The front face layout of the vertical credit card.
+/// The front face layout of the vertical credit card with slot injection support.
 class CardFront extends StatelessWidget {
   final String cardNumber;
   final String cardHolder;
@@ -16,6 +14,9 @@ class CardFront extends StatelessWidget {
   final CardBrand brand;
   final VerticalCardTheme cardTheme;
   final bool isFrozen;
+  final Widget? bankLogo;
+  final Widget? chipWidget;
+  final Widget? actionBadge;
 
   const CardFront({
     super.key,
@@ -26,6 +27,9 @@ class CardFront extends StatelessWidget {
     required this.cardTheme,
     this.bankName,
     this.isFrozen = false,
+    this.bankLogo,
+    this.chipWidget,
+    this.actionBadge,
   });
 
   @override
@@ -38,12 +42,15 @@ class CardFront extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top Row: Bank name + Contactless indicator
+          // Top Row: Bank Name / Logo + Contactless & Action Badge
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (bankName != null && bankName!.isNotEmpty)
+              // Left Slot: Bank Logo or Bank Name
+              if (bankLogo != null)
+                bankLogo!
+              else if (bankName != null && bankName!.isNotEmpty)
                 Text(
                   bankName!.toUpperCase(),
                   style: TextStyle(
@@ -55,24 +62,31 @@ class CardFront extends StatelessWidget {
                 )
               else
                 const SizedBox.shrink(),
-              ContactlessIcon(
-                size: 22.0,
-                color: textColor.withOpacity(0.75),
+
+              // Right Slot: Action Badge + Contactless Indicator
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (actionBadge != null) ...[
+                    actionBadge!,
+                    const SizedBox(width: 8.0),
+                  ],
+                  ContactlessIcon(
+                    size: 22.0,
+                    color: textColor.withOpacity(0.75),
+                  ),
+                ],
               ),
             ],
           ),
 
           const SizedBox(height: 24.0),
 
-          // EMV Smart Chip
+          // Chip Slot: Custom chip or default EmvChip
           Row(
             children: [
-              EmvChip(
-                isSilver: cardTheme.metalType == MetalType.silver ||
-                    cardTheme.metalType == MetalType.brushedTitanium,
-              ),
+              chipWidget ?? EmvChip(chipColor: cardTheme.chipColor),
               const SizedBox(width: 8.0),
-              // Arrow indicator pointing upwards into the chip slot
               Icon(
                 Icons.arrow_upward_rounded,
                 size: 16,
@@ -169,52 +183,15 @@ class CardFront extends StatelessWidget {
       ),
     );
 
-    // Apply specific theme background decorating
+    // Delegate background rendering to CardBackground strategy
     return ClipRRect(
       borderRadius: cardTheme.borderRadius,
-      child: _buildThemedBackground(child: cardBody),
+      child: cardTheme.background.build(
+        context,
+        borderRadius: cardTheme.borderRadius,
+        child: cardBody,
+      ),
     );
-  }
-
-  Widget _buildThemedBackground({required Widget child}) {
-    switch (cardTheme.type) {
-      case VerticalCardThemeType.glass:
-        return BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: cardTheme.blur,
-            sigmaY: cardTheme.blur,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: cardTheme.backgroundColor,
-              borderRadius: cardTheme.borderRadius,
-              border: Border.all(
-                color: (cardTheme.neonColor ?? Colors.cyanAccent).withOpacity(0.65),
-                width: 1.5,
-              ),
-            ),
-            child: child,
-          ),
-        );
-
-      case VerticalCardThemeType.metallic:
-        return CustomPaint(
-          painter: MetallicCardPainter(
-            metalType: cardTheme.metalType ?? MetalType.brushedTitanium,
-          ),
-          child: child,
-        );
-
-      case VerticalCardThemeType.flat:
-        return Container(
-          decoration: BoxDecoration(
-            color: cardTheme.backgroundColor,
-            gradient: cardTheme.gradient,
-            borderRadius: cardTheme.borderRadius,
-          ),
-          child: child,
-        );
-    }
   }
 
   String _formatCardNumber(String number) {

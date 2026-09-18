@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/card_brand.dart';
 import '../models/card_theme.dart';
 import '../painters/frost_painter.dart';
+import '../presets/card_presets.dart';
 import 'card_back.dart';
 import 'card_front.dart';
 
 /// A modern, customizable vertical credit/debit card widget with 3D flip animation,
-/// luxury metallic textures, glassmorphism, and frozen card states.
+/// luxury metallic textures, glassmorphism, artistic patterns, and frozen card states.
 class VerticalCard extends StatefulWidget {
   final String cardNumber;
   final String cardHolder;
@@ -22,7 +23,12 @@ class VerticalCard extends StatefulWidget {
   final VoidCallback? onTap;
   final ValueChanged<bool>? onFlipChange;
 
-  /// Default constructor accepting a fully customizable [VerticalCardTheme].
+  // Customization Slots (Open-Closed Principle)
+  final Widget? bankLogo;
+  final Widget? chipWidget;
+  final Widget? actionBadge;
+
+  /// Default constructor accepting a custom or preset [VerticalCardTheme].
   const VerticalCard({
     super.key,
     required this.cardNumber,
@@ -37,7 +43,49 @@ class VerticalCard extends StatefulWidget {
     this.width = 240.0,
     this.onTap,
     this.onFlipChange,
+    this.bankLogo,
+    this.chipWidget,
+    this.actionBadge,
   });
+
+  /// Convenient factory to instantiate a card directly using a preset from [CardPresets].
+  factory VerticalCard.preset({
+    Key? key,
+    required String cardNumber,
+    required String cardHolder,
+    required String expiryDate,
+    required String cvv,
+    required VerticalCardTheme preset,
+    String? bankName,
+    CardBrand? brand,
+    bool isFrozen = false,
+    bool enableFlip = true,
+    double width = 240.0,
+    VoidCallback? onTap,
+    ValueChanged<bool>? onFlipChange,
+    Widget? bankLogo,
+    Widget? chipWidget,
+    Widget? actionBadge,
+  }) {
+    return VerticalCard(
+      key: key,
+      cardNumber: cardNumber,
+      cardHolder: cardHolder,
+      expiryDate: expiryDate,
+      cvv: cvv,
+      bankName: bankName,
+      brand: brand,
+      cardTheme: preset,
+      isFrozen: isFrozen,
+      enableFlip: enableFlip,
+      width: width,
+      onTap: onTap,
+      onFlipChange: onFlipChange,
+      bankLogo: bankLogo,
+      chipWidget: chipWidget,
+      actionBadge: actionBadge,
+    );
+  }
 
   /// Convenient factory for clean, flat or gradient modern neo-bank cards (Nubank/BBVA style).
   factory VerticalCard.flat({
@@ -51,11 +99,15 @@ class VerticalCard extends StatefulWidget {
     Color backgroundColor = const Color(0xFF1E1E2C),
     Gradient? gradient,
     Color textColor = Colors.white,
+    ChipColor chipColor = ChipColor.gold,
     bool isFrozen = false,
     bool enableFlip = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
+    Widget? bankLogo,
+    Widget? chipWidget,
+    Widget? actionBadge,
   }) {
     return VerticalCard(
       key: key,
@@ -69,12 +121,16 @@ class VerticalCard extends StatefulWidget {
         backgroundColor: backgroundColor,
         gradient: gradient,
         textColor: textColor,
+        chipColor: chipColor,
       ),
       isFrozen: isFrozen,
       enableFlip: enableFlip,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
+      bankLogo: bankLogo,
+      chipWidget: chipWidget,
+      actionBadge: actionBadge,
     );
   }
 
@@ -89,11 +145,15 @@ class VerticalCard extends StatefulWidget {
     CardBrand? brand,
     MetalType metalType = MetalType.brushedTitanium,
     Color? textColor,
+    ChipColor? chipColor,
     bool isFrozen = false,
     bool enableFlip = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
+    Widget? bankLogo,
+    Widget? chipWidget,
+    Widget? actionBadge,
   }) {
     return VerticalCard(
       key: key,
@@ -106,12 +166,16 @@ class VerticalCard extends StatefulWidget {
       cardTheme: VerticalCardTheme.metallic(
         metalType: metalType,
         textColor: textColor,
+        chipColor: chipColor,
       ),
       isFrozen: isFrozen,
       enableFlip: enableFlip,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
+      bankLogo: bankLogo,
+      chipWidget: chipWidget,
+      actionBadge: actionBadge,
     );
   }
 
@@ -127,11 +191,15 @@ class VerticalCard extends StatefulWidget {
     Color neonColor = const Color(0xFF00F0FF),
     double blur = 14.0,
     Color textColor = Colors.white,
+    ChipColor chipColor = ChipColor.silver,
     bool isFrozen = false,
     bool enableFlip = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
+    Widget? bankLogo,
+    Widget? chipWidget,
+    Widget? actionBadge,
   }) {
     return VerticalCard(
       key: key,
@@ -145,12 +213,61 @@ class VerticalCard extends StatefulWidget {
         neonColor: neonColor,
         blur: blur,
         textColor: textColor,
+        chipColor: chipColor,
       ),
       isFrozen: isFrozen,
       enableFlip: enableFlip,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
+      bankLogo: bankLogo,
+      chipWidget: chipWidget,
+      actionBadge: actionBadge,
+    );
+  }
+
+  /// Convenient factory for custom artistic patterns (Family D).
+  factory VerticalCard.artistic({
+    Key? key,
+    required String cardNumber,
+    required String cardHolder,
+    required String expiryDate,
+    required String cvv,
+    required CustomPainter painter,
+    String? bankName,
+    CardBrand? brand,
+    Color textColor = Colors.white,
+    ChipColor chipColor = ChipColor.gold,
+    bool isFrozen = false,
+    bool enableFlip = true,
+    double width = 240.0,
+    VoidCallback? onTap,
+    ValueChanged<bool>? onFlipChange,
+    Widget? bankLogo,
+    Widget? chipWidget,
+    Widget? actionBadge,
+  }) {
+    return VerticalCard(
+      key: key,
+      cardNumber: cardNumber,
+      cardHolder: cardHolder,
+      expiryDate: expiryDate,
+      cvv: cvv,
+      bankName: bankName,
+      brand: brand,
+      cardTheme: VerticalCardTheme.artistic(
+        painter: painter,
+        textColor: textColor,
+        chipColor: chipColor,
+      ),
+      isFrozen: isFrozen,
+      enableFlip: enableFlip,
+      width: width,
+      onTap: onTap,
+      onFlipChange: onFlipChange,
+      bankLogo: bankLogo,
+      chipWidget: chipWidget,
+      actionBadge: actionBadge,
     );
   }
 
@@ -217,10 +334,8 @@ class _VerticalCardState extends State<VerticalCard>
         child: AnimatedBuilder(
           animation: _flipAnimation,
           builder: (context, child) {
-            // Angle goes from 0 to pi (180 degrees)
             final angle = _flipAnimation.value * math.pi;
 
-            // 3D perspective transformation matrix
             final transform = Matrix4.identity()
               ..setEntry(3, 2, 0.0012)
               ..rotateY(angle);
@@ -248,6 +363,9 @@ class _VerticalCardState extends State<VerticalCard>
                         brand: detectedBrand,
                         cardTheme: widget.cardTheme,
                         isFrozen: widget.isFrozen,
+                        bankLogo: widget.bankLogo,
+                        chipWidget: widget.chipWidget,
+                        actionBadge: widget.actionBadge,
                       )
                     else
                       Transform(

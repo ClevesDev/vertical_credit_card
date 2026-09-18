@@ -1,7 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../models/card_theme.dart';
-import '../painters/metallic_painter.dart';
 
 /// The back face layout of the vertical credit card.
 class CardBack extends StatelessWidget {
@@ -172,48 +170,11 @@ class CardBack extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: cardTheme.borderRadius,
-      child: _buildThemedBackground(child: cardBody),
+      child: cardTheme.background.build(
+        context,
+        borderRadius: cardTheme.borderRadius,
+        child: cardBody,
+      ),
     );
-  }
-
-  Widget _buildThemedBackground({required Widget child}) {
-    switch (cardTheme.type) {
-      case VerticalCardThemeType.glass:
-        return BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: cardTheme.blur,
-            sigmaY: cardTheme.blur,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: cardTheme.backgroundColor,
-              borderRadius: cardTheme.borderRadius,
-              border: Border.all(
-                color: (cardTheme.neonColor ?? Colors.cyanAccent).withOpacity(0.65),
-                width: 1.5,
-              ),
-            ),
-            child: child,
-          ),
-        );
-
-      case VerticalCardThemeType.metallic:
-        return CustomPaint(
-          painter: MetallicCardPainter(
-            metalType: cardTheme.metalType ?? MetalType.brushedTitanium,
-          ),
-          child: child,
-        );
-
-      case VerticalCardThemeType.flat:
-        return Container(
-          decoration: BoxDecoration(
-            color: cardTheme.backgroundColor,
-            gradient: cardTheme.gradient,
-            borderRadius: cardTheme.borderRadius,
-          ),
-          child: child,
-        );
-    }
   }
 }

@@ -1,20 +1,56 @@
 import 'package:flutter/material.dart';
+import '../models/card_theme.dart';
 
 /// A realistic, resolution-independent EMV Smart Card Chip drawn with vector paths.
 class EmvChip extends StatelessWidget {
   final double width;
   final double height;
-  final bool isSilver;
+  final ChipColor chipColor;
 
   const EmvChip({
     super.key,
     this.width = 38.0,
     this.height = 30.0,
-    this.isSilver = false,
+    this.chipColor = ChipColor.gold,
   });
 
   @override
   Widget build(BuildContext context) {
+    List<Color> gradientColors;
+    Color trackColor;
+
+    switch (chipColor) {
+      case ChipColor.silver:
+        gradientColors = const [
+          Color(0xFFE2E4E8),
+          Color(0xFFC0C4CB),
+          Color(0xFFA5AAB3),
+          Color(0xFFD4D7DC),
+        ];
+        trackColor = const Color(0xFF7A808C).withOpacity(0.5);
+        break;
+
+      case ChipColor.black:
+        gradientColors = const [
+          Color(0xFF333538),
+          Color(0xFF1E2022),
+          Color(0xFF121314),
+          Color(0xFF282A2D),
+        ];
+        trackColor = Colors.white.withOpacity(0.2);
+        break;
+
+      case ChipColor.gold:
+        gradientColors = const [
+          Color(0xFFFFE082),
+          Color(0xFFFFCA28),
+          Color(0xFFFFA000),
+          Color(0xFFFFD54F),
+        ];
+        trackColor = const Color(0xFF795548).withOpacity(0.4);
+        break;
+    }
+
     return Container(
       width: width,
       height: height,
@@ -23,19 +59,7 @@ class EmvChip extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: isSilver
-              ? [
-                  const Color(0xFFE2E4E8),
-                  const Color(0xFFC0C4CB),
-                  const Color(0xFFA5AAB3),
-                  const Color(0xFFD4D7DC),
-                ]
-              : [
-                  const Color(0xFFFFE082),
-                  const Color(0xFFFFCA28),
-                  const Color(0xFFFFA000),
-                  const Color(0xFFFFD54F),
-                ],
+          colors: gradientColors,
         ),
         boxShadow: [
           BoxShadow(
@@ -46,23 +70,21 @@ class EmvChip extends StatelessWidget {
         ],
       ),
       child: CustomPaint(
-        painter: _ChipLinesPainter(isSilver: isSilver),
+        painter: _ChipLinesPainter(trackColor: trackColor),
       ),
     );
   }
 }
 
 class _ChipLinesPainter extends CustomPainter {
-  final bool isSilver;
+  final Color trackColor;
 
-  _ChipLinesPainter({required this.isSilver});
+  _ChipLinesPainter({required this.trackColor});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = isSilver
-          ? const Color(0xFF7A808C).withOpacity(0.5)
-          : const Color(0xFF795548).withOpacity(0.4)
+      ..color = trackColor
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
@@ -91,7 +113,7 @@ class _ChipLinesPainter extends CustomPainter {
     canvas.drawLine(Offset(w * 0.65, h * 0.35), Offset(w, h * 0.35), paint);
 
     canvas.drawLine(Offset(w * 0.65, h), Offset(w * 0.65, h * 0.65), paint);
-    canvas.drawLine(Offset(w * 0.65, h * 0.65), Offset(w, h * 0.65), paint);
+    canvas.drawLine(Offset(w * 0.65, h * 0.65), Offset(0, h * 0.65), paint);
 
     // Center circular contact
     final centerCircle = Rect.fromCenter(
@@ -103,5 +125,6 @@ class _ChipLinesPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _ChipLinesPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _ChipLinesPainter oldDelegate) =>
+      oldDelegate.trackColor != trackColor;
 }

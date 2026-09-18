@@ -1,8 +1,11 @@
-/// A modern, customizable vertical credit/debit card UI widget for Flutter.
+/// A modern, customizable vertical credit/debit card UI widget for Flutter fintech apps.
 library vertical_credit_card;
 
+export 'src/backgrounds/card_background.dart';
 export 'src/models/card_brand.dart';
 export 'src/models/card_theme.dart';
+export 'src/painters/painterly_globe_painter.dart';
+export 'src/presets/card_presets.dart';
 export 'src/widgets/brand_logo.dart';
 export 'src/widgets/contactless.dart';
 export 'src/widgets/emv_chip.dart';

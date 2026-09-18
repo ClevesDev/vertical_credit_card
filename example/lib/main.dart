@@ -11,10 +11,10 @@ class VerticalCardDemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vertical Credit Card Demo',
+      title: 'Vertical Credit Card Showcase',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF0F1115),
+        scaffoldBackgroundColor: const Color(0xFF0C0E12),
       ),
       home: const CardShowcaseScreen(),
     );
@@ -29,19 +29,28 @@ class CardShowcaseScreen extends StatefulWidget {
 }
 
 class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
-  int _selectedTemplateIndex = 0; // 0: Flat, 1: Metallic, 2: Glass
+  int _selectedPresetIndex = 5; // Default to the brand-new Painterly Globe (Family D)
   bool _isFrozen = false;
   bool _isBackVisible = false;
 
-  final List<String> _templates = ['Flat Neo', 'Metallic Luxury', 'Glass Cyber'];
+  final List<Map<String, dynamic>> _presets = [
+    {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
+    {'name': 'Wise', 'family': 'Neobank', 'theme': CardPresets.wise},
+    {'name': 'Apple Card', 'family': 'Luxury', 'theme': CardPresets.appleTitanium},
+    {'name': 'Amex Black', 'family': 'Luxury', 'theme': CardPresets.amexCenturion},
+    {'name': 'Neon Cyber', 'family': 'Cyber', 'theme': CardPresets.neonCyan},
+    {'name': 'Painterly Globe', 'family': 'Family D', 'theme': CardPresets.painterlyGlobe},
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final activePreset = _presets[_selectedPresetIndex];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Vertical Credit Card',
-          style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 1.2),
+          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 18),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -50,56 +59,72 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 12),
-            // Template Selector Chips
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_templates.length, (index) {
-                final isSelected = _selectedTemplateIndex == index;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ChoiceChip(
-                    label: Text(_templates[index]),
-                    selected: isSelected,
-                    selectedColor: Colors.cyanAccent.withOpacity(0.2),
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.cyanAccent : Colors.white70,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            const SizedBox(height: 8),
+
+            // Category & Preset Selector
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: List.generate(_presets.length, (index) {
+                  final preset = _presets[index];
+                  final isSelected = _selectedPresetIndex == index;
+                  final isFamilyD = preset['family'] == 'Family D';
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ChoiceChip(
+                      avatar: isFamilyD
+                          ? const Icon(Icons.palette_outlined, size: 16, color: Colors.amberAccent)
+                          : null,
+                      label: Text(preset['name'] as String),
+                      selected: isSelected,
+                      selectedColor: isFamilyD
+                          ? Colors.amberAccent.withOpacity(0.2)
+                          : Colors.cyanAccent.withOpacity(0.2),
+                      labelStyle: TextStyle(
+                        color: isSelected
+                            ? (isFamilyD ? Colors.amberAccent : Colors.cyanAccent)
+                            : Colors.white70,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
+                      side: BorderSide(
+                        color: isSelected
+                            ? (isFamilyD ? Colors.amberAccent : Colors.cyanAccent)
+                            : Colors.white12,
+                      ),
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _selectedPresetIndex = index;
+                          });
+                        }
+                      },
                     ),
-                    side: BorderSide(
-                      color: isSelected ? Colors.cyanAccent : Colors.white24,
-                    ),
-                    onSelected: (selected) {
-                      if (selected) {
-                        setState(() {
-                          _selectedTemplateIndex = index;
-                        });
-                      }
-                    },
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
-            // Hint Text
+            // Interaction hint
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.touch_app_outlined,
                   size: 16,
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withOpacity(0.45),
                 ),
                 const SizedBox(width: 6),
                 Text(
                   _isBackVisible
-                      ? 'Tapping will flip to FRONT'
-                      : 'Tap the card to FLIP (3D)',
+                      ? 'Tap card to flip to FRONT'
+                      : 'Tap card to FLIP 3D',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 12.5,
+                    color: Colors.white.withOpacity(0.45),
+                    fontSize: 12.0,
                   ),
                 ),
               ],
@@ -107,42 +132,42 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
 
             const Spacer(),
 
-            // The Vertical Card Widget
-            _buildActiveCard(),
+            // The Active Vertical Card
+            _buildActiveCard(activePreset),
 
             const Spacer(),
 
-            // Bottom Controls (Freeze card toggle)
+            // Bottom Controls
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
-                color: const Color(0xFF191C24),
+                color: const Color(0xFF15181E),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.white.withOpacity(0.08)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Row(
+                  Row(
                     children: [
-                      Icon(Icons.ac_unit_rounded, color: Colors.cyanAccent),
-                      SizedBox(width: 12),
+                      const Icon(Icons.ac_unit_rounded, color: Colors.cyanAccent),
+                      const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Freeze Card',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              fontSize: 14,
                             ),
                           ),
                           Text(
-                            'Lock card with frost overlay',
-                            style: TextStyle(
+                            activePreset['name'] as String,
+                            style: const TextStyle(
                               color: Colors.white54,
-                              fontSize: 12,
+                              fontSize: 11,
                             ),
                           ),
                         ],
@@ -167,47 +192,49 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     );
   }
 
-  Widget _buildActiveCard() {
-    switch (_selectedTemplateIndex) {
-      case 0:
-        // Flat Nubank-style card
-        return VerticalCard.flat(
-          cardNumber: '5412 8888 1024 4321',
-          cardHolder: 'JUAN PÉREZ',
-          expiryDate: '08/29',
-          cvv: '821',
-          bankName: 'NU',
-          backgroundColor: const Color(0xFF820AD1), // Nubank purple
-          isFrozen: _isFrozen,
-          onFlipChange: (isBack) => setState(() => _isBackVisible = isBack),
-        );
+  Widget _buildActiveCard(Map<String, dynamic> preset) {
+    final theme = preset['theme'] as VerticalCardTheme;
+    final isFamilyD = preset['name'] == 'Painterly Globe';
 
-      case 1:
-        // Metallic Luxury Titanium card
-        return VerticalCard.metallic(
-          cardNumber: '3782 822468 005',
-          cardHolder: 'ELENA ROJAS',
-          expiryDate: '11/30',
-          cvv: '342',
-          bankName: 'BLACK VIP',
-          metalType: MetalType.brushedTitanium,
-          isFrozen: _isFrozen,
-          onFlipChange: (isBack) => setState(() => _isBackVisible = isBack),
-        );
+    return VerticalCard(
+      cardNumber: isFamilyD ? '5412 7532 9901 8821' : '5412 8888 1024 4321',
+      cardHolder: isFamilyD ? 'ALEXANDRE DUPONT' : 'JUAN PÉREZ',
+      expiryDate: '09/29',
+      cvv: '719',
+      brand: isFamilyD ? CardBrand.mastercard : null,
+      cardTheme: theme,
+      isFrozen: _isFrozen,
+      onFlipChange: (isBack) => setState(() => _isBackVisible = isBack),
 
-      case 2:
-      default:
-        // Glassmorphic Cyber Neon card
-        return VerticalCard.glass(
-          cardNumber: '4123 4567 8901 2345',
-          cardHolder: 'ALEXANDER WRIGHT',
-          expiryDate: '05/28',
-          cvv: '912',
-          bankName: 'AURORA',
-          neonColor: const Color(0xFF00F0FF),
-          isFrozen: _isFrozen,
-          onFlipChange: (isBack) => setState(() => _isBackVisible = isBack),
-        );
-    }
+      // Slot example: Custom bank logo circle for the Crédit Agricole style
+      bankLogo: isFamilyD
+          ? Container(
+              width: 38,
+              height: 38,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Center(
+                child: Text(
+                  'ca',
+                  style: TextStyle(
+                    color: Color(0xFF074585),
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                    letterSpacing: -1.0,
+                  ),
+                ),
+              ),
+            )
+          : null,
+    );
   }
 }
