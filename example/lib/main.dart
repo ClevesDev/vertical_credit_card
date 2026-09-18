@@ -645,20 +645,20 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Mode Switcher: Canvas Libre vs App Bancaria Real
+          // Mode Switcher: Free Canvas vs Banking App
           Center(
             child: SegmentedButton<bool>(
               segments: const [
                 ButtonSegment<bool>(
                   value: false,
                   icon: Icon(Icons.palette_outlined, size: 18),
-                  label: Text('Canvas Libre',
+                  label: Text('Free Canvas',
                       style: TextStyle(fontWeight: FontWeight.w600)),
                 ),
                 ButtonSegment<bool>(
                   value: true,
                   icon: Icon(Icons.phone_iphone_rounded, size: 18),
-                  label: Text('App Bancaria Real',
+                  label: Text('Banking App',
                       style: TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ],
@@ -874,15 +874,15 @@ VerticalCard(
   // 5. BANKING APP REALISTIC MOCKUP (STUDIO OPTION A)
   // ---------------------------------------------------------------------------
   Widget _buildBankingAppMockup() {
-    final cardMockupWidth = _studioWidth.clamp(190.0, 230.0);
+    final cardMockupWidth = _studioWidth.clamp(190.0, 225.0);
 
     return Center(
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 380),
+        constraints: const BoxConstraints(maxWidth: 360),
         decoration: BoxDecoration(
           color: const Color(0xFF0C0F17),
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(28),
           border: Border.all(
             color: const Color(0xFF232838),
             width: 1.5,
@@ -900,7 +900,7 @@ VerticalCard(
             ),
           ],
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -918,7 +918,7 @@ VerticalCard(
                   ),
                 ),
                 Container(
-                  width: 80,
+                  width: 76,
                   height: 18,
                   decoration: BoxDecoration(
                     color: const Color(0xFF05070A),
@@ -975,7 +975,7 @@ VerticalCard(
               ],
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
             // User Profile Header
             Row(
@@ -983,8 +983,8 @@ VerticalCard(
                 Stack(
                   children: [
                     Container(
-                      width: 40,
-                      height: 40,
+                      width: 38,
+                      height: 38,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: const LinearGradient(
@@ -1005,7 +1005,7 @@ VerticalCard(
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w900,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                         ),
                       ),
@@ -1014,29 +1014,29 @@ VerticalCard(
                       right: 0,
                       bottom: 0,
                       child: Container(
-                        width: 10,
-                        height: 10,
+                        width: 9,
+                        height: 9,
                         decoration: BoxDecoration(
                           color: const Color(0xFF00FFC2),
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: const Color(0xFF0C0F17),
-                            width: 2,
+                            width: 1.5,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Hola, Dimas 👋',
+                        'Hello, Dimas 👋',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14.5,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                         ),
@@ -1062,7 +1062,7 @@ VerticalCard(
                             child: const Text(
                               'BLACK METAL',
                               style: TextStyle(
-                                fontSize: 9,
+                                fontSize: 8.5,
                                 fontWeight: FontWeight.w800,
                                 color: Colors.amberAccent,
                                 letterSpacing: 0.6,
@@ -1070,7 +1070,7 @@ VerticalCard(
                             ),
                           ),
                           const Text(
-                            'Cuenta Nómina',
+                            'Primary Account',
                             style: TextStyle(
                               fontSize: 11,
                               color: Colors.white54,
@@ -1082,8 +1082,8 @@ VerticalCard(
                   ),
                 ),
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 34,
+                  height: 34,
                   decoration: BoxDecoration(
                     color: const Color(0xFF161A26),
                     borderRadius: BorderRadius.circular(10),
@@ -1096,12 +1096,12 @@ VerticalCard(
                     children: [
                       Icon(
                         Icons.notifications_outlined,
-                        size: 19,
+                        size: 18,
                         color: Colors.white.withOpacity(0.8),
                       ),
                       Positioned(
-                        top: 7,
-                        right: 8,
+                        top: 6,
+                        right: 7,
                         child: Container(
                           width: 6,
                           height: 6,
@@ -1117,11 +1117,11 @@ VerticalCard(
               ],
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 14),
 
             // Account Balance Card
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF141926), Color(0xFF0F131E)],
@@ -1140,9 +1140,9 @@ VerticalCard(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'BALANCE TOTAL DISPONIBLE',
+                        'TOTAL AVAILABLE BALANCE',
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.8,
                           color: Colors.white.withOpacity(0.55),
@@ -1173,7 +1173,7 @@ VerticalCard(
                     alignment: WrapAlignment.spaceBetween,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     spacing: 8,
-                    runSpacing: 6,
+                    runSpacing: 4,
                     children: [
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -1202,8 +1202,8 @@ VerticalCard(
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                          horizontal: 7,
+                          vertical: 3.5,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF00FFC2).withOpacity(0.12),
@@ -1223,9 +1223,9 @@ VerticalCard(
                             ),
                             SizedBox(width: 4),
                             Text(
-                              '+3.8%',
+                              '+3.8% this month',
                               style: TextStyle(
-                                fontSize: 10.5,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w800,
                                 color: Color(0xFF00FFC2),
                               ),
@@ -1239,7 +1239,7 @@ VerticalCard(
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 14),
 
             // Live Customized Vertical Card Embedded
             Center(
@@ -1268,7 +1268,7 @@ VerticalCard(
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
             // Card Interactive Action Controls
             Row(
@@ -1278,7 +1278,7 @@ VerticalCard(
                     icon: _studioIsFrozen
                         ? Icons.ac_unit_rounded
                         : Icons.lock_outline_rounded,
-                    label: _studioIsFrozen ? 'Descongelar' : 'Congelar',
+                    label: _studioIsFrozen ? 'Unfreeze' : 'Freeze',
                     isActive: _studioIsFrozen,
                     activeColor: Colors.cyanAccent,
                     onTap: () {
@@ -1292,7 +1292,7 @@ VerticalCard(
                 Expanded(
                   child: _buildActionButton(
                     icon: Icons.contactless_rounded,
-                    label: 'Pagar NFC',
+                    label: _studioPaymentPulse ? 'NFC Active' : 'Tap to Pay',
                     isActive: _studioPaymentPulse,
                     activeColor: const Color(0xFF00FFC2),
                     onTap: () {
@@ -1303,8 +1303,8 @@ VerticalCard(
                         SnackBar(
                           content: Text(
                             _studioPaymentPulse
-                                ? '📡 Radar NFC de pago activado'
-                                : '⏸️ Radar NFC pausado',
+                                ? '📡 Contactless payment radar activated'
+                                : '⏸️ Contactless payment paused',
                           ),
                           backgroundColor: Colors.teal[800],
                           duration: const Duration(milliseconds: 1200),
@@ -1320,7 +1320,7 @@ VerticalCard(
                     icon: _studioPrivacy
                         ? Icons.visibility_off_rounded
                         : Icons.visibility_rounded,
-                    label: _studioPrivacy ? 'Visible' : 'Ocultar',
+                    label: _studioPrivacy ? 'Show' : 'Hide',
                     isActive: _studioPrivacy,
                     activeColor: Colors.amberAccent,
                     onTap: () {
@@ -1333,43 +1333,14 @@ VerticalCard(
               ],
             ),
 
-            const SizedBox(height: 18),
-
-            // Quick App Actions Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildQuickActionCircle(
-                  icon: Icons.arrow_upward_rounded,
-                  label: 'Enviar',
-                  color: Colors.cyanAccent,
-                ),
-                _buildQuickActionCircle(
-                  icon: Icons.arrow_downward_rounded,
-                  label: 'Recibir',
-                  color: const Color(0xFF00FFC2),
-                ),
-                _buildQuickActionCircle(
-                  icon: Icons.pie_chart_outline_rounded,
-                  label: 'Analítica',
-                  color: Colors.purpleAccent,
-                ),
-                _buildQuickActionCircle(
-                  icon: Icons.tune_rounded,
-                  label: 'Límites',
-                  color: Colors.amberAccent,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 22),
+            const SizedBox(height: 16),
 
             // Recent Transactions Section
             Row(
               children: [
                 const Expanded(
                   child: Text(
-                    'Movimientos Recientes',
+                    'Recent Transactions',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
@@ -1378,7 +1349,7 @@ VerticalCard(
                   ),
                 ),
                 Text(
-                  'Ver todos',
+                  'See all',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -1392,50 +1363,50 @@ VerticalCard(
 
             _buildTransactionTile(
               title: 'Apple Store',
-              subtitle: 'iPhone 16 Pro 256GB · Tarjeta',
+              subtitle: 'iPhone 16 Pro 256GB · Card',
               amount: r'-$1,199.00',
-              time: 'Hoy, 14:20',
+              time: 'Today, 2:20 PM',
               isIncome: false,
               icon: Icons.apple_rounded,
               iconBg: const Color(0xFF1E2433),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             _buildTransactionTile(
               title: 'Starbucks Reserve',
               subtitle: 'Caramel Macchiato · Contactless',
               amount: r'-$6.80',
-              time: 'Hoy, 09:15',
+              time: 'Today, 9:15 AM',
               isIncome: false,
               icon: Icons.coffee_rounded,
               iconBg: const Color(0xFF1A2621),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             _buildTransactionTile(
-              title: 'Transferencia Nómina',
-              subtitle: 'Google LLC · Pago Directo',
+              title: 'Payroll Deposit',
+              subtitle: 'Google LLC · Direct Deposit',
               amount: r'+$3,450.00',
-              time: 'Ayer',
+              time: 'Yesterday',
               isIncome: true,
               icon: Icons.work_outline_rounded,
               iconBg: const Color(0xFF172C24),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             _buildTransactionTile(
               title: 'Netflix 4K Ultra',
-              subtitle: 'Suscripción recurrente mensual',
+              subtitle: 'Monthly Subscription',
               amount: r'-$19.99',
-              time: '15 Sep',
+              time: 'Sep 15',
               isIncome: false,
               icon: Icons.movie_outlined,
               iconBg: const Color(0xFF2C1A22),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
             // Home Bar Indicator
             Center(
               child: Container(
-                width: 120,
+                width: 110,
                 height: 4,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
@@ -1494,43 +1465,6 @@ VerticalCard(
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildQuickActionCircle({
-    required IconData icon,
-    required String label,
-    required Color color,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: const Color(0xFF141926),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white.withOpacity(0.08),
-            ),
-          ),
-          child: Icon(
-            icon,
-            size: 20,
-            color: color,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10.5,
-            fontWeight: FontWeight.w600,
-            color: Colors.white.withOpacity(0.75),
-          ),
-        ),
-      ],
     );
   }
 
