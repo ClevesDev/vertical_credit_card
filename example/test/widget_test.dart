@@ -63,12 +63,12 @@ void main() {
     expect(find.text('Copy Dart Code'), findsOneWidget);
     expect(find.text('🌈 Holographic Rainbow Foil'), findsOneWidget);
     expect(find.text('🕹️ 3D Tilt Physics'), findsOneWidget);
-    expect(find.text('Canvas Libre'), findsOneWidget);
-    expect(find.text('App Bancaria Real'), findsOneWidget);
+    expect(find.text('Free Canvas'), findsOneWidget);
+    expect(find.text('Banking App'), findsOneWidget);
   });
 
   testWidgets(
-      'Studio test: toggles to Banking App Real mode and renders dashboard mockup',
+      'Studio test: toggles to Banking App mode and renders dashboard mockup',
       (WidgetTester tester) async {
     await tester.pumpWidget(const VerticalCardDemoApp());
 
@@ -78,27 +78,27 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 
-    // Tap App Bancaria Real
-    await tester.tap(find.text('App Bancaria Real'));
+    // Tap Banking App
+    await tester.tap(find.text('Banking App'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 
     // Verify banking app shell elements
-    expect(find.text('Hola, Dimas 👋'), findsOneWidget);
-    expect(find.text('BALANCE TOTAL DISPONIBLE'), findsOneWidget);
+    expect(find.text('Hello, Dimas 👋'), findsOneWidget);
+    expect(find.text('TOTAL AVAILABLE BALANCE'), findsOneWidget);
     expect(find.text(r'$14,850.50'), findsOneWidget);
-    expect(find.text('Congelar'), findsOneWidget);
-    expect(find.text('Pagar NFC'), findsOneWidget);
+    expect(find.text('Freeze'), findsOneWidget);
+    expect(find.text('NFC Active'), findsOneWidget);
     expect(find.text('Apple Store'), findsOneWidget);
     expect(find.text('Starbucks Reserve'), findsOneWidget);
 
-    // Scroll to and tap Congelar to toggle freeze mode
-    final congelarBtn = find.text('Congelar');
-    await tester.ensureVisible(congelarBtn);
+    // Scroll to and tap Freeze to toggle freeze mode
+    final freezeBtn = find.text('Freeze');
+    await tester.ensureVisible(freezeBtn);
     await tester.pump();
-    await tester.tap(congelarBtn);
+    await tester.tap(freezeBtn);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
-    expect(find.text('Descongelar'), findsOneWidget);
+    expect(find.text('Unfreeze'), findsOneWidget);
   });
 }
