@@ -107,36 +107,40 @@ class CardFront extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
-              child: Row(
+              child: FittedBox(
                 key: ValueKey<bool>(isPrivacyMode),
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    isPrivacyMode
-                        ? _formatMaskedCardNumber(cardNumber)
-                        : _formatCardNumber(cardNumber),
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: isPrivacyMode ? 1.8 : 2.4,
-                      fontFeatures: const [FontFeature.tabularFigures()],
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withOpacity(0.3),
-                          offset: const Offset(0, 1),
-                          blurRadius: 2,
-                        ),
-                      ],
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isPrivacyMode
+                          ? _formatMaskedCardNumber(cardNumber)
+                          : _formatCardNumber(cardNumber),
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: isPrivacyMode ? 1.6 : 2.0,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.3),
+                            offset: const Offset(0, 1),
+                            blurRadius: 2,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8.0),
-                  Icon(
-                    isPrivacyMode ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                    size: 15.0,
-                    color: textColor.withOpacity(0.35),
-                  ),
-                ],
+                    const SizedBox(width: 8.0),
+                    Icon(
+                      isPrivacyMode ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      size: 15.0,
+                      color: textColor.withOpacity(0.35),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -153,28 +157,33 @@ class CardFront extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Expiry Date
-                    Row(
-                      children: [
-                        Text(
-                          'VAL THRU',
-                          style: TextStyle(
-                            color: secTextColor,
-                            fontSize: 8.5,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.8,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'VAL THRU',
+                            style: TextStyle(
+                              color: secTextColor,
+                              fontSize: 8.5,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.8,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 6.0),
-                        Text(
-                          isPrivacyMode ? '••/••' : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.2,
+                          const SizedBox(width: 6.0),
+                          Text(
+                            isPrivacyMode ? '••/••' : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 8.0),
                     // Cardholder Name
