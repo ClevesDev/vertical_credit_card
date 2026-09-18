@@ -50,6 +50,11 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
   - **Family B (Luxury & Heavy Metals):** `appleTitanium`, `amexCenturion`, `goldPrestige`
   - **Family C (Cyberpunk & Web3):** `neonCyan`, `matrixGreen`, `revolutChromatic`
   - **Family D (Abstract Art & Textures):** `painterlyGlobe`, `topographicGold`, `carbonStealth`
+  - **Family E (Regional Fintech Flagships):** `nequi` (CO), `bancolombia` (CO), `mercadoPago` (MX/LatAm), `heyBanco` (MX), `nubankUltravioleta` (BR), `bancoInter` (BR), `lemonCash` (AR), `uala` (AR), `n26` (ES/EU), `yape` (PE), `tenpo` (CL), `monzoHotCoral` (UK), `robinhoodGold` (US), `cashApp` (US)
+  - **Family F (Exotic Physical Materials):** `skeletonNfc` (Nothing Phone style transparent with copper coil), `bambooEco` (organic wood grain), `damascusSteel` (forged wavy folds), `whiteCeramic` (pure pearl ceramic)
+  - **Family G (Gamer & Esports RGB):** `razerChroma` (360° dynamic RGB chroma edge glow), `cyberPcb` (printed circuit board traces & vias)
+  - **Family H (Crypto & Hardware Wallets):** `ledgerObsidian`, `solanaAurora`
+- 🔢 **Dynamic Rolling Digit Component (`RollingDigitText`):** Vertical odometer/slot-machine rolling animation for live CVV security rotation, card regeneration, and balance updates.
 - 🧩 **Slot Injection Architecture:** Fully customizable without touching core code. Inject your own widgets into `chipSlot`, `logoSlot`, `badgeSlot`, or `customOverlay`.
 - 🛡️ **Zero External Dependencies:** Pure Flutter SDK. Vector EMV chip, NFC contactless waves, security hologram, and card network logos (Visa, Mastercard, Amex, Discover) are drawn with pure `CustomPainter`. No SVG loaders, no asset bundling issues.
 
@@ -91,6 +96,21 @@ VerticalCard.preset(
 ```
 
 Available presets include:
+- `CardPresets.skeletonNfc` (Transparent Nothing-style with copper antenna coils)
+- `CardPresets.bambooEco` (Organic natural bamboo wood grain)
+- `CardPresets.damascusSteel` (Forged wavy Damascus steel layers)
+- `CardPresets.whiteCeramic` (Pure polished pearl white ceramic)
+- `CardPresets.razerChroma` (Gamer chassis with 360° animated dynamic RGB Chroma glow)
+- `CardPresets.cyberPcb` (High-tech printed circuit board traces)
+- `CardPresets.ledgerObsidian` (Crypto hardware cold wallet)
+- `CardPresets.solanaAurora` (Web3 purple-to-emerald gradient)
+- `CardPresets.yape` (Perú royal purple & cyan neon)
+- `CardPresets.tenpo` (Chile petrol & electric teal)
+- `CardPresets.monzoHotCoral` (UK fluorescent hot coral salmon)
+- `CardPresets.robinhoodGold` (USA luxury matte gold)
+- `CardPresets.cashApp` (USA stealth black & neon emerald)
+- `CardPresets.nequi` (Colombia plum magenta & fuchsia neon)
+- `CardPresets.bancolombia` (Colombia obsidian black & gold foil)
 - `CardPresets.nubank` (Vibrant purple neo-bank)
 - `CardPresets.wise` (Forest green with lime accents)
 - `CardPresets.appleTitanium` (Minimalist brushed titanium)

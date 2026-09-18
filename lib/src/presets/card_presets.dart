@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import '../backgrounds/card_background.dart';
 import '../models/card_theme.dart';
 import '../painters/carbon_fiber_painter.dart';
+import '../painters/damascus_steel_painter.dart';
+import '../painters/nfc_antenna_painter.dart';
 import '../painters/painterly_globe_painter.dart';
+import '../painters/pcb_circuit_painter.dart';
 import '../painters/topographic_painter.dart';
+import '../painters/wood_grain_painter.dart';
 
 /// Curated library of ready-to-use, professional vertical credit card themes.
 class CardPresets {
@@ -319,6 +323,209 @@ class CardPresets {
         textColor: Colors.white,
         secondaryTextColor: const Color(0xAA00D4B2),
         textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Vibrant royal purple with bright cyan accents inspired by Yape (Peru).
+  static VerticalCardTheme get yape => VerticalCardTheme.flat(
+        backgroundColor: const Color(0xFF742284),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF862799),
+            Color(0xFF631872),
+          ],
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFF00D1C4),
+        chipColor: ChipColor.silver,
+      ).copyWith(
+        enablePaymentPulse: true,
+      );
+
+  /// Electric teal and dark petrol gradient inspired by Tenpo (Chile).
+  static VerticalCardTheme get tenpo => VerticalCardTheme.flat(
+        backgroundColor: const Color(0xFF003840),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF00C9A7),
+            Color(0xFF005952),
+            Color(0xFF002930),
+          ],
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFF88FFD8),
+        chipColor: ChipColor.silver,
+      ).copyWith(
+        enablePaymentPulse: true,
+      );
+
+  /// Iconic vibrant hot coral neon salmon inspired by Monzo (UK).
+  static VerticalCardTheme get monzoHotCoral => VerticalCardTheme.flat(
+        backgroundColor: const Color(0xFFFF483B),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFF594C),
+            Color(0xFFFF3024),
+          ],
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFFFF0ED),
+        chipColor: ChipColor.black,
+      ).copyWith(
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFFFF7A70),
+        enablePaymentPulse: true,
+      );
+
+  /// Ultra-luxurious champagne gold with specular sheen inspired by Robinhood Gold (USA).
+  static VerticalCardTheme get robinhoodGold => VerticalCardTheme.metallic(
+        metalType: MetalType.gold,
+        textColor: const Color(0xFF1B1811),
+        chipColor: ChipColor.gold,
+      ).copyWith(
+        secondaryTextColor: const Color(0xFF5E4E28),
+        textFinish: CardTextFinish.goldFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Minimalist stealth matte black with signature emerald green accents inspired by Cash App (USA).
+  static VerticalCardTheme get cashApp => VerticalCardTheme.metallic(
+        metalType: MetalType.obsidian,
+        textColor: Colors.white,
+        chipColor: ChipColor.black,
+      ).copyWith(
+        secondaryTextColor: const Color(0xFF00D632),
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  // ---------------------------------------------------------------------------
+  // FAMILIA F: EXOTIC MATERIALS & LUXURY ATELIERS
+  // ---------------------------------------------------------------------------
+
+  /// Translucent skeleton card revealing concentric copper NFC antenna coils and solder pads.
+  static VerticalCardTheme get skeletonNfc => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(NfcAntennaPainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFFFB070),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Natural organic bamboo wood grain with warm golden tan and toasted fibers.
+  static VerticalCardTheme get bambooEco => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(WoodGrainPainter()),
+        textColor: const Color(0xFF382310),
+        secondaryTextColor: const Color(0xFF6B4724),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.embossed,
+        enablePaymentPulse: true,
+      );
+
+  /// Forged Damascus steel with distinctive wavy water-pattern metal folds and silver foil lettering.
+  static VerticalCardTheme get damascusSteel => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(DamascusSteelPainter()),
+        textColor: const Color(0xFFF0F3F8),
+        secondaryTextColor: const Color(0xFFA5B0C2),
+        chipColor: ChipColor.black,
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Immaculate pure polished white ceramic with silver foil typography and subtle specular sheen.
+  static VerticalCardTheme get whiteCeramic => VerticalCardTheme.flat(
+        backgroundColor: const Color(0xFFF9FAFB),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFFFFF),
+            Color(0xFFF2F4F8),
+            Color(0xFFE5E9F0),
+          ],
+        ),
+        textColor: const Color(0xFF1E293B),
+        secondaryTextColor: const Color(0xFF64748B),
+        chipColor: ChipColor.silver,
+      ).copyWith(
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  // ---------------------------------------------------------------------------
+  // FAMILIA G: GAMER, ESPORTS & RGB CHROMA
+  // ---------------------------------------------------------------------------
+
+  /// High-tech cyber printed circuit board with 45-degree traces, solder pads, and microchips.
+  static VerticalCardTheme get cyberPcb => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(PcbCircuitPainter()),
+        textColor: const Color(0xFF00E5FF),
+        secondaryTextColor: const Color(0xFF00FF88),
+        chipColor: ChipColor.gold,
+        textFinish: CardTextFinish.flat,
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFF00E5FF),
+        enablePaymentPulse: true,
+      );
+
+  /// Stealth esports matte black chassis with animated 360-degree dynamic RGB Chroma edge glow.
+  static VerticalCardTheme get razerChroma => VerticalCardTheme.metallic(
+        metalType: MetalType.obsidian,
+        textColor: Colors.white,
+        chipColor: ChipColor.black,
+      ).copyWith(
+        secondaryTextColor: const Color(0xFF00FF00),
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFF00FF00),
+        isRgbChroma: true,
+        enablePaymentPulse: true,
+      );
+
+  // ---------------------------------------------------------------------------
+  // FAMILIA H: CRYPTO & WEB3 HARDWARE
+  // ---------------------------------------------------------------------------
+
+  /// Cryptographic hardware cold storage aesthetic in brushed matte obsidian with monospace accents.
+  static VerticalCardTheme get ledgerObsidian => VerticalCardTheme.metallic(
+        metalType: MetalType.obsidian,
+        textColor: const Color(0xFFE2E8F0),
+        chipColor: ChipColor.silver,
+      ).copyWith(
+        secondaryTextColor: const Color(0xFF94A3B8),
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Web3 gradient inspired by Solana purple-to-emerald aurora with iridescent holographic sheen.
+  static VerticalCardTheme get solanaAurora => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.gradient(
+          LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF9945FF),
+              Color(0xFF14F195),
+              Color(0xFF00C2FF),
+            ],
+          ),
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xFFE0FFFA),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        isHolographic: true,
         enablePaymentPulse: true,
       );
 }

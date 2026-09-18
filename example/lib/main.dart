@@ -43,11 +43,18 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
 
   static const List<Map<String, String>> _showcaseCategories = [
     {'id': 'Regional', 'label': '🌐 Regional', 'desc': 'Fintech & Neobanks'},
+    {
+      'id': 'Materials',
+      'label': '💎 Materials',
+      'desc': 'Bamboo, Steel & Ceramic'
+    },
+    {'id': 'Gamer', 'label': '🎮 Gamer RGB', 'desc': 'Chroma & Cyber PCB'},
+    {'id': 'Crypto', 'label': '🪙 Crypto Web3', 'desc': 'Ledger & Solana'},
     {'id': 'Neobank', 'label': '🏦 Neobanks', 'desc': 'Global Digital Banks'},
-    {'id': 'Luxury', 'label': '💎 Luxury Metal', 'desc': 'Apple & Amex'},
+    {'id': 'Luxury', 'label': '👑 Luxury Metal', 'desc': 'Apple & Amex'},
     {'id': 'Cyber', 'label': '⚡ Cyberpunk', 'desc': 'Neon & Glowing'},
     {'id': 'Artistic', 'label': '🎨 Artistic 3D', 'desc': 'Holo & Topographic'},
-    {'id': 'All', 'label': '✨ All', 'desc': 'All 22 Presets'},
+    {'id': 'All', 'label': '✨ All', 'desc': 'All 34 Presets'},
   ];
   String _selectedShowcaseCategory = 'Regional';
 
@@ -91,6 +98,14 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   bool _studioPrivacy = false;
   bool _hideBankingBalance = false;
   String _studioCountryCode = 'GLOBAL';
+  String _dynamicCvv = '842';
+
+  void _regenerateDynamicCvv() {
+    setState(() {
+      final randomNum = 100 + (DateTime.now().microsecondsSinceEpoch % 900);
+      _dynamicCvv = randomNum.toString();
+    });
+  }
 
   final List<Map<String, dynamic>> _presets = [
     {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
@@ -186,6 +201,74 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'name': '🇪🇸 N26 Glass',
       'family': 'Regional',
       'theme': CardPresets.n26,
+    },
+    {
+      'name': '🇵🇪 Yape',
+      'family': 'Regional',
+      'theme': CardPresets.yape,
+    },
+    {
+      'name': '🇨🇱 Tenpo',
+      'family': 'Regional',
+      'theme': CardPresets.tenpo,
+    },
+    {
+      'name': '🇬🇧 Monzo Hot Coral',
+      'family': 'Regional',
+      'theme': CardPresets.monzoHotCoral,
+    },
+    {
+      'name': '🇺🇸 Robinhood Gold',
+      'family': 'Regional',
+      'theme': CardPresets.robinhoodGold,
+    },
+    {
+      'name': '🇺🇸 Cash App',
+      'family': 'Regional',
+      'theme': CardPresets.cashApp,
+    },
+    // Exotic Physical Materials
+    {
+      'name': 'Skeleton NFC',
+      'family': 'Materials',
+      'theme': CardPresets.skeletonNfc,
+    },
+    {
+      'name': 'Bamboo Eco',
+      'family': 'Materials',
+      'theme': CardPresets.bambooEco,
+    },
+    {
+      'name': 'Damascus Steel',
+      'family': 'Materials',
+      'theme': CardPresets.damascusSteel,
+    },
+    {
+      'name': 'White Ceramic',
+      'family': 'Materials',
+      'theme': CardPresets.whiteCeramic,
+    },
+    // Gamer & Esports RGB
+    {
+      'name': 'Razer Chroma RGB',
+      'family': 'Gamer',
+      'theme': CardPresets.razerChroma,
+    },
+    {
+      'name': 'Cyber PCB',
+      'family': 'Gamer',
+      'theme': CardPresets.cyberPcb,
+    },
+    // Crypto & Web3 Hardware
+    {
+      'name': 'Ledger Obsidian',
+      'family': 'Crypto',
+      'theme': CardPresets.ledgerObsidian,
+    },
+    {
+      'name': 'Solana Aurora',
+      'family': 'Crypto',
+      'theme': CardPresets.solanaAurora,
     },
   ];
 
@@ -1112,6 +1195,42 @@ VerticalCard(
         'card': 'N26 Frosted Glass',
         'color': const Color(0xFF00D4B2),
       },
+      {
+        'code': 'PE',
+        'country': 'Perú',
+        'currency': 'PEN',
+        'flag': '🇵🇪',
+        'account': 'Yape BCP Digital',
+        'card': 'Yape Royal Purple',
+        'color': const Color(0xFF862799),
+      },
+      {
+        'code': 'CL',
+        'country': 'Chile',
+        'currency': 'CLP',
+        'flag': '🇨🇱',
+        'account': 'Cuenta Prepago Tenpo',
+        'card': 'Tenpo Petrol & Teal',
+        'color': const Color(0xFF00C9A7),
+      },
+      {
+        'code': 'UK',
+        'country': 'United Kingdom',
+        'currency': 'GBP',
+        'flag': '🇬🇧',
+        'account': 'Monzo Current Account',
+        'card': 'Monzo Hot Coral',
+        'color': const Color(0xFFFF483B),
+      },
+      {
+        'code': 'US',
+        'country': 'United States',
+        'currency': 'USD',
+        'flag': '🇺🇸',
+        'account': 'Robinhood Gold Cash',
+        'card': 'Robinhood Gold Metal',
+        'color': const Color(0xFFD4AF37),
+      },
     ];
 
     showModalBottomSheet<void>(
@@ -1268,6 +1387,10 @@ VerticalCard(
       {'code': 'BR', 'label': 'Brasil', 'flag': '🇧🇷'},
       {'code': 'AR', 'label': 'Argentina', 'flag': '🇦🇷'},
       {'code': 'ES', 'label': 'España', 'flag': '🇪🇸'},
+      {'code': 'PE', 'label': 'Perú', 'flag': '🇵🇪'},
+      {'code': 'CL', 'label': 'Chile', 'flag': '🇨🇱'},
+      {'code': 'UK', 'label': 'UK', 'flag': '🇬🇧'},
+      {'code': 'US', 'label': 'USA', 'flag': '🇺🇸'},
     ];
 
     return SingleChildScrollView(
@@ -1615,6 +1738,218 @@ VerticalCard(
             'isIncome': false,
             'icon': Icons.delivery_dining_rounded,
             'iconBg': const Color(0xFF2B2519),
+          },
+        ];
+        break;
+
+      case 'PE':
+        currency = 'PEN';
+        balance = r'S/. 4,280.50';
+        trend = '+5.8% este mes';
+        accountTag = 'PERÚ FINTECH';
+        accountTagColor = const Color(0xFF862799);
+        accountType = 'Yape Cuenta Digital BCP';
+        bankName = 'YAPE BCP';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4218 9032 1145 7820';
+        activeCardTheme = CardPresets.yape.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Bembos Gourmet',
+            'subtitle': 'Combo La Clásica · Delivery Yape',
+            'amount': r'-S/. 38.50',
+            'time': 'Hoy, 2:10 PM',
+            'isIncome': false,
+            'icon': Icons.fastfood_rounded,
+            'iconBg': const Color(0xFF2E1A2B),
+          },
+          {
+            'title': 'Metro Cencosud',
+            'subtitle': 'Supermercado · Pago QR',
+            'amount': r'-S/. 142.00',
+            'time': 'Hoy, 10:45 AM',
+            'isIncome': false,
+            'icon': Icons.shopping_basket_outlined,
+            'iconBg': const Color(0xFF1E2829),
+          },
+          {
+            'title': 'Transferencia Yape Directa',
+            'subtitle': 'De: Carlos M. · Celular Yape',
+            'amount': r'+S/. 350.00',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.bolt_rounded,
+            'iconBg': const Color(0xFF192B28),
+          },
+          {
+            'title': 'Cineplanet Prime',
+            'subtitle': 'Entradas San Miguel · Tarjeta',
+            'amount': r'-S/. 45.00',
+            'time': '16 Sep',
+            'isIncome': false,
+            'icon': Icons.movie_creation_outlined,
+            'iconBg': const Color(0xFF28192A),
+          },
+        ];
+        break;
+
+      case 'CL':
+        currency = 'CLP';
+        balance = r'$840.000';
+        trend = '+7.2% este mes';
+        accountTag = 'CHILE FINTECH';
+        accountTagColor = const Color(0xFF00C9A7);
+        accountType = 'Cuenta Prepago Tenpo';
+        bankName = 'TENPO';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '5109 2384 9012 3456';
+        activeCardTheme = CardPresets.tenpo.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Jumbo La Dehesa',
+            'subtitle': 'Supermercado · Contactless',
+            'amount': r'-$64.990',
+            'time': 'Hoy, 12:40 PM',
+            'isIncome': false,
+            'icon': Icons.local_grocery_store_outlined,
+            'iconBg': const Color(0xFF162B28),
+          },
+          {
+            'title': 'Uber Eats Santiago',
+            'subtitle': 'Sushi Roll · Tenpo Mastercard',
+            'amount': r'-$14.500',
+            'time': 'Hoy, 1:15 PM',
+            'isIncome': false,
+            'icon': Icons.delivery_dining_rounded,
+            'iconBg': const Color(0xFF2B221A),
+          },
+          {
+            'title': 'Transferencia TEF Recibida',
+            'subtitle': 'Fintech Chile SpA · TEF',
+            'amount': r'+$450.000',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.account_balance_rounded,
+            'iconBg': const Color(0xFF142922),
+          },
+          {
+            'title': 'Copec Pronto',
+            'subtitle': 'Combustible 95 · Pago App',
+            'amount': r'-$25.000',
+            'time': '15 Sep',
+            'isIncome': false,
+            'icon': Icons.local_gas_station_rounded,
+            'iconBg': const Color(0xFF2A1F18),
+          },
+        ];
+        break;
+
+      case 'UK':
+        currency = 'GBP';
+        balance = r'£3,420.80';
+        trend = '+3.4% this month';
+        accountTag = 'UK NEOBANK';
+        accountTagColor = const Color(0xFFFF483B);
+        accountType = 'Monzo Current Account';
+        bankName = 'MONZO';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '5355 2201 9845 6712';
+        activeCardTheme = CardPresets.monzoHotCoral.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Pret A Manger London',
+            'subtitle': 'Organic Flat White & Sandwich',
+            'amount': r'-£6.45',
+            'time': 'Today, 1:05 PM',
+            'isIncome': false,
+            'icon': Icons.coffee_rounded,
+            'iconBg': const Color(0xFF2B1919),
+          },
+          {
+            'title': 'Sainsbury’s Local',
+            'subtitle': 'Groceries · Apple Pay',
+            'amount': r'-£24.80',
+            'time': 'Today, 11:15 AM',
+            'isIncome': false,
+            'icon': Icons.shopping_bag_outlined,
+            'iconBg': const Color(0xFF2A2016),
+          },
+          {
+            'title': 'Faster Payments Salary',
+            'subtitle': 'Monzo Labs UK · Direct Credit',
+            'amount': r'+£2,850.00',
+            'time': 'Yesterday',
+            'isIncome': true,
+            'icon': Icons.account_balance_rounded,
+            'iconBg': const Color(0xFF162A22),
+          },
+          {
+            'title': 'Transport for London (TfL)',
+            'subtitle': 'Contactless Tube / Underground',
+            'amount': r'-£3.40',
+            'time': '16 Sep',
+            'isIncome': false,
+            'icon': Icons.train_rounded,
+            'iconBg': const Color(0xFF1B232E),
+          },
+        ];
+        break;
+
+      case 'US':
+        currency = 'USD';
+        balance = r'$9,250.00';
+        trend = '+8.1% this month';
+        accountTag = 'USA WEALTH & CASH';
+        accountTagColor = const Color(0xFFD4AF37);
+        accountType = 'Robinhood Gold Cash Account';
+        bankName = 'ROBINHOOD';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4929 1845 0092 3819';
+        activeCardTheme = CardPresets.robinhoodGold.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Whole Foods Market',
+            'subtitle': 'Organic Groceries · Gold Card',
+            'amount': r'-$78.20',
+            'time': 'Today, 2:40 PM',
+            'isIncome': false,
+            'icon': Icons.shopping_basket_outlined,
+            'iconBg': const Color(0xFF262615),
+          },
+          {
+            'title': 'Blue Bottle Coffee',
+            'subtitle': 'Hayes Valley Espresso',
+            'amount': r'-$7.50',
+            'time': 'Today, 9:20 AM',
+            'isIncome': false,
+            'icon': Icons.coffee_rounded,
+            'iconBg': const Color(0xFF1A232D),
+          },
+          {
+            'title': 'High-Yield Cash Interest',
+            'subtitle': '5.0% APY Monthly Sweep',
+            'amount': r'+$38.50',
+            'time': 'Yesterday',
+            'isIncome': true,
+            'icon': Icons.trending_up_rounded,
+            'iconBg': const Color(0xFF162B1D),
+          },
+          {
+            'title': 'Target Superstore',
+            'subtitle': 'Electronics & Home Goods',
+            'amount': r'-$42.10',
+            'time': '15 Sep',
+            'isIncome': false,
+            'icon': Icons.storefront_rounded,
+            'iconBg': const Color(0xFF2C1818),
           },
         ];
         break;
@@ -2082,7 +2417,7 @@ VerticalCard(
                 cardNumber: cardNumber,
                 cardHolder: cardHolder,
                 expiryDate: '12/30',
-                cvv: '888',
+                cvv: _dynamicCvv,
                 bankName: bankName,
                 width: cardMockupWidth,
                 isFrozen: _studioIsFrozen,
@@ -2099,7 +2434,87 @@ VerticalCard(
               ),
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
+
+            // Dynamic Security CVV Odometer Banner
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: const Color(0xFF141926),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.cyanAccent.withOpacity(0.25),
+                  width: 0.8,
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.shield_outlined,
+                    size: 14,
+                    color: Colors.cyanAccent,
+                  ),
+                  const SizedBox(width: 5),
+                  const Text(
+                    'CVV: ',
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  RollingDigitText(
+                    text: _dynamicCvv,
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.cyanAccent,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(6),
+                    onTap: _regenerateDynamicCvv,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.cyanAccent.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: Colors.cyanAccent.withOpacity(0.4),
+                          width: 0.8,
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.refresh_rounded,
+                            size: 12,
+                            color: Colors.cyanAccent,
+                          ),
+                          SizedBox(width: 3),
+                          Text(
+                            'Rotate CVV',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.cyanAccent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
 
             // Card Interactive Action Controls
             Row(

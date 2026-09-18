@@ -277,5 +277,107 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('DIMAS CLEVES'), findsNWidgets(2));
     });
+
+    test('Initializes expanded global fintechs (PE, CL, UK, US)', () {
+      // Peru & Chile
+      expect(CardPresets.yape.enablePaymentPulse, isTrue);
+      expect(CardPresets.tenpo.enablePaymentPulse, isTrue);
+      // UK
+      expect(CardPresets.monzoHotCoral.enableEdgeGlow, isTrue);
+      expect(CardPresets.monzoHotCoral.chipColor, ChipColor.black);
+      // USA
+      expect(CardPresets.robinhoodGold.textFinish, CardTextFinish.goldFoil);
+      expect(CardPresets.cashApp.chipColor, ChipColor.black);
+    });
+
+    test(
+        'Initializes exotic physical materials (Skeleton, Bamboo, Damascus, Ceramic)',
+        () {
+      expect(CardPresets.skeletonNfc.type, VerticalCardThemeType.artistic);
+      expect(CardPresets.bambooEco.textFinish, CardTextFinish.embossed);
+      expect(CardPresets.damascusSteel.type, VerticalCardThemeType.artistic);
+      expect(CardPresets.whiteCeramic.textFinish, CardTextFinish.silverFoil);
+    });
+
+    test('Initializes gamer RGB and crypto Web3 presets', () {
+      // Gamer & RGB
+      expect(CardPresets.cyberPcb.enableEdgeGlow, isTrue);
+      expect(CardPresets.razerChroma.isRgbChroma, isTrue);
+      expect(CardPresets.razerChroma.enableEdgeGlow, isTrue);
+      // Crypto Web3
+      expect(CardPresets.ledgerObsidian.textFinish, CardTextFinish.silverFoil);
+      expect(CardPresets.solanaAurora.isHolographic, isTrue);
+    });
+
+    testWidgets('RollingDigitText displays text and updates smoothly',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: RollingDigitText(text: '842'),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(RollingDigitText), findsOneWidget);
+      expect(find.text('8'), findsWidgets);
+      expect(find.text('4'), findsWidgets);
+      expect(find.text('2'), findsWidgets);
+
+      // Update text to trigger roll
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: RollingDigitText(text: '953'),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.pump(const Duration(milliseconds: 700));
+
+      expect(find.text('9'), findsWidgets);
+      expect(find.text('5'), findsWidgets);
+      expect(find.text('3'), findsWidgets);
+    });
+
+    testWidgets('Renders Damascus Steel and Razer Chroma cards properly',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  VerticalCard.preset(
+                    preset: CardPresets.damascusSteel,
+                    cardNumber: '4111 2222 3333 4444',
+                    cardHolder: 'SATOSHI NAKAMOTO',
+                    expiryDate: '10/32',
+                    cvv: '999',
+                  ),
+                  VerticalCard.preset(
+                    preset: CardPresets.razerChroma,
+                    cardNumber: '5555 4444 3333 2222',
+                    cardHolder: 'PRO GAMER',
+                    expiryDate: '01/29',
+                    cvv: '777',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('SATOSHI NAKAMOTO'), findsOneWidget);
+      expect(find.text('PRO GAMER'), findsOneWidget);
+    });
   });
 }

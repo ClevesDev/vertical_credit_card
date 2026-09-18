@@ -12,7 +12,9 @@ void main() {
     expect(find.text('🇨🇴 Nequi'), findsOneWidget);
 
     // Switch to Artistic 3D category
-    await tester.tap(find.text('🎨 Artistic 3D'));
+    final artisticCategory = find.text('🎨 Artistic 3D');
+    await tester.ensureVisible(artisticCategory);
+    await tester.tap(artisticCategory);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('Holo Infinite'), findsOneWidget);
@@ -193,5 +195,72 @@ void main() {
     expect(find.text(r'$4.850.000'), findsOneWidget);
     expect(find.text('NEQUI'), findsOneWidget);
     expect(find.text('Rappi Prime'), findsOneWidget);
+  });
+
+  testWidgets('Showcase: filters by Materials, Gamer RGB, and Crypto Web3',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const VerticalCardDemoApp());
+
+    // Filter by Materials
+    final materialsFilter = find.text('💎 Materials');
+    await tester.ensureVisible(materialsFilter);
+    await tester.tap(materialsFilter);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Skeleton NFC'), findsOneWidget);
+
+    // Filter by Gamer RGB
+    final gamerFilter = find.text('🎮 Gamer RGB');
+    await tester.ensureVisible(gamerFilter);
+    await tester.tap(gamerFilter);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Razer Chroma RGB'), findsOneWidget);
+
+    // Filter by Crypto Web3
+    final cryptoFilter = find.text('🪙 Crypto Web3');
+    await tester.ensureVisible(cryptoFilter);
+    await tester.tap(cryptoFilter);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Ledger Obsidian'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Studio Banking App: switches to UK Monzo and triggers Rotate CVV',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const VerticalCardDemoApp());
+
+    // Navigate to Studio tab
+    await tester.tap(find.text('Studio'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap Banking App mode
+    await tester.tap(find.text('Banking App'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap UK in country selector
+    final ukChip = find.text('UK');
+    await tester.ensureVisible(ukChip);
+    await tester.tap(ukChip);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify UK Monzo elements
+    expect(find.text('GBP'), findsOneWidget);
+    expect(find.text(r'£3,420.80'), findsOneWidget);
+    expect(find.text('MONZO'), findsOneWidget);
+    expect(find.text('Pret A Manger London'), findsOneWidget);
+
+    // Verify Rotate CVV button is visible and tap it
+    final rotateCvvBtn = find.text('Rotate CVV');
+    await tester.ensureVisible(rotateCvvBtn);
+    expect(rotateCvvBtn, findsOneWidget);
+    await tester.tap(rotateCvvBtn, warnIfMissed: false);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('CVV: '), findsOneWidget);
   });
 }
