@@ -34,6 +34,24 @@ enum MetalType {
   roseGold,
 }
 
+/// The tactile and material surface finish applied to card typography.
+enum CardTextFinish {
+  /// Standard flat printed ink.
+  flat,
+
+  /// Reflective metallic hot gold foil stamping with directional highlights.
+  goldFoil,
+
+  /// Reflective metallic chrome silver foil stamping with directional highlights.
+  silverFoil,
+
+  /// Warm metallic rose gold foil stamping.
+  roseGoldFoil,
+
+  /// Classic physical letterpress embossed relief with bevel highlights and shadows.
+  embossed,
+}
+
 /// The EMV chip color finish.
 enum ChipColor {
   /// Traditional gold contact pads.
@@ -83,6 +101,21 @@ class VerticalCardTheme {
   /// Whether an iridescent rainbow holographic foil sheen is applied.
   final bool isHolographic;
 
+  /// The tactile and material surface finish applied to card typography.
+  final CardTextFinish textFinish;
+
+  /// Whether an animated neon perimeter beam traces the rounded edge of the card.
+  final bool enableEdgeGlow;
+
+  /// Accent color for the perimeter edge glow beam.
+  final Color? edgeGlowColor;
+
+  /// Whether subtle diamond dust / micro-glitter sparkles twinkle on the card surface.
+  final bool enableDiamondDust;
+
+  /// Whether tapping the card triggers an expanding contactless sonar payment pulse.
+  final bool enablePaymentPulse;
+
   const VerticalCardTheme({
     this.type = VerticalCardThemeType.flat,
     required this.background,
@@ -95,7 +128,51 @@ class VerticalCardTheme {
     this.blur = 12.0,
     this.metalType,
     this.isHolographic = false,
+    this.textFinish = CardTextFinish.flat,
+    this.enableEdgeGlow = false,
+    this.edgeGlowColor,
+    this.enableDiamondDust = false,
+    this.enablePaymentPulse = false,
   });
+
+  /// Creates a copy of this theme with the given fields replaced with new values.
+  VerticalCardTheme copyWith({
+    VerticalCardThemeType? type,
+    CardBackground? background,
+    Color? textColor,
+    Color? secondaryTextColor,
+    ChipColor? chipColor,
+    BorderRadius? borderRadius,
+    List<BoxShadow>? shadows,
+    Color? neonColor,
+    double? blur,
+    MetalType? metalType,
+    bool? isHolographic,
+    CardTextFinish? textFinish,
+    bool? enableEdgeGlow,
+    Color? edgeGlowColor,
+    bool? enableDiamondDust,
+    bool? enablePaymentPulse,
+  }) {
+    return VerticalCardTheme(
+      type: type ?? this.type,
+      background: background ?? this.background,
+      textColor: textColor ?? this.textColor,
+      secondaryTextColor: secondaryTextColor ?? this.secondaryTextColor,
+      chipColor: chipColor ?? this.chipColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      shadows: shadows ?? this.shadows,
+      neonColor: neonColor ?? this.neonColor,
+      blur: blur ?? this.blur,
+      metalType: metalType ?? this.metalType,
+      isHolographic: isHolographic ?? this.isHolographic,
+      textFinish: textFinish ?? this.textFinish,
+      enableEdgeGlow: enableEdgeGlow ?? this.enableEdgeGlow,
+      edgeGlowColor: edgeGlowColor ?? this.edgeGlowColor,
+      enableDiamondDust: enableDiamondDust ?? this.enableDiamondDust,
+      enablePaymentPulse: enablePaymentPulse ?? this.enablePaymentPulse,
+    );
+  }
 
   /// Factory for clean, flat or gradient modern neo-bank cards (Nubank, BBVA, Wise style).
   factory VerticalCardTheme.flat({

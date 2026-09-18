@@ -34,6 +34,12 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
 - 📱 **100% Native Vertical Orientation:** Designed specifically for portrait mobile screens following the modern ID-1 portrait format (Nubank, Revolut, BBVA, Apple Card).
 - 🕹️ **Interactive 3D Tilt & Specular Reflection:** Reacts to finger dragging and mouse hovering with perspective transformations and a specular light sweep that dynamically moves across the card, snapping back with spring physics.
 - 🔄 **Fluid 3D Flip Animation:** Smooth 180° hardware-accelerated flip to inspect the magnetic stripe, signature strip, and CVV on the back.
+- 🌟 **Hot Foil 3D Stamping & Embossing (`CardTextFinish`):** Physical typography relief with realistic **Gold Foil**, **Silver Foil**, **Rose Gold Foil**, and **Embossed Letterpress** reflecting directional light as the card rotates.
+- ⚡ **Cyber Edge Glow (Perimeter Beam):** An animated neon cometary beam that runs continuously along the curved border of the card.
+- 📡 **Contactless NFC Payment Pulse:** Interactive expanding radar/sonar wave radiating outward from the NFC symbol on tap or payment confirmation.
+- ✨ **Diamond Dust / Micro-Glitter Sparkles:** Realistic micro-particles that twinkle with 4-point starburst flares based on the card's 3D tilt angle.
+- 🌊 **Chromatic Fluid Mesh Background (`CardBackground.fluid`):** Organic, morphing liquid mesh gradients with smooth harmonic motion (Revolut Metal & Apple Card style).
+- 🧊 **Dynamic Defrost Transition:** Smooth ice-melting animation when transitioning from `isFrozen: true` to `false`.
 - 💳 **Synchronized Checkout Form (`VerticalCardInputForm`):** Real-time auto-formatting (`4444 4444...`, `MM/YY`, `CVV`), card brand detection, and **automatic 3D card flip to the back when the user focuses the CVV field**.
 - 🪪 **Security Hologram Sticker:** Realistic metallic rainbow diffraction security sticker with embossed globe & security wave patterns on the card back.
 - 🔒 **Privacy Mode (Tap-to-Reveal):** Automatically masks card numbers (`•••• •••• •••• 4321`) with an interactive eye icon or card tap to reveal sensitive details.
@@ -42,7 +48,7 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
 - 🎨 **Curated Presets Across 4 Design Families (`CardPresets`):**
   - **Family A (Neobank Modern):** `nubank`, `wise`
   - **Family B (Luxury & Heavy Metals):** `appleTitanium`, `amexCenturion`, `goldPrestige`
-  - **Family C (Cyberpunk & Web3):** `neonCyan`, `matrixGreen`
+  - **Family C (Cyberpunk & Web3):** `neonCyan`, `matrixGreen`, `revolutChromatic`
   - **Family D (Abstract Art & Textures):** `painterlyGlobe`, `topographicGold`, `carbonStealth`
 - 🧩 **Slot Injection Architecture:** Fully customizable without touching core code. Inject your own widgets into `chipSlot`, `logoSlot`, `badgeSlot`, or `customOverlay`.
 - 🛡️ **Zero External Dependencies:** Pure Flutter SDK. Vector EMV chip, NFC contactless waves, security hologram, and card network logos (Visa, Mastercard, Amex, Discover) are drawn with pure `CustomPainter`. No SVG loaders, no asset bundling issues.
@@ -280,6 +286,11 @@ Column(
 | `isPrivacyActive` | `bool` | `false` | Current state of privacy masking. |
 | `isFrozen` | `bool` | `false` | Freezes the card with ice crystal overlay and lock icon. |
 | `isExpired` | `bool` | `false` | Desaturates the card to B&W and stamps "EXPIRED". |
+| `textFinish` | `CardTextFinish?` | `flat` | Typography finish (`flat`, `goldFoil`, `silverFoil`, `roseGoldFoil`, `embossed`). |
+| `enableEdgeGlow` | `bool?` | `false` | Enables animated neon perimeter beam tracing the border. |
+| `edgeGlowColor` | `Color?` | `null` | Color of the neon perimeter beam. |
+| `enableDiamondDust` | `bool?` | `false` | Enables twinkling micro-glitter / diamond dust starbursts. |
+| `enablePaymentPulse` | `bool?` | `false` | Emits an expanding radar sonar wave on tap or payment. |
 | `chipSlot` | `Widget?` | `null` | Slot to override the default EMV microchip. |
 | `logoSlot` | `Widget?` | `null` | Slot to override the top-right brand logo. |
 | `badgeSlot` | `Widget?` | `null` | Slot to render a custom status badge or tier label. |

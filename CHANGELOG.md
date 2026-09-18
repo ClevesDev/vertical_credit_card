@@ -20,6 +20,12 @@
 * **Synchronized Checkout Form (`VerticalCardInputForm`):** Auto-formatting inputs (`4444 4444...`, `MM/YY`, `CVV`), real-time brand detection, and automatic 3D flip to back on CVV focus.
 * **Security Hologram Sticker (`SecurityHologramPainter`):** Realistic metallic rainbow diffraction security foil with vector globe & wave patterns.
 * **Live Card Customizer Studio:** Interactive sandbox in example app with live sliders for card parameters, material presets, and one-tap "Copy Dart Code".
+* **Hot Foil 3D Stamping & Embossing (`CardTextFinish`):** Physical typography relief with realistic Gold Foil, Silver Foil, Rose Gold Foil, and Embossed letterpress with directional highlights.
+* **Cyber Edge Glow (`CyberEdgeGlowPainter`):** Continuous animated neon perimeter beam tracing the card's rounded border in a smooth loop.
+* **Contactless NFC Payment Pulse (`PaymentPulsePainter`):** Interactive expanding radar/sonar wave radiating outward across the card surface on tap or payment.
+* **Diamond Dust / Micro-Glitter Sparkles (`DiamondDustPainter`):** Realistic micro-particles that twinkle with 4-point starburst flares based on the 3D tilt coordinates.
+* **Chromatic Fluid Mesh Background (`CardBackground.fluid`):** Organic, morphing liquid mesh gradients with smooth harmonic motion (Revolut Metal & Apple Card style).
+* **Defrost Melt Transition:** Smooth ice-melting animation when transitioning from `isFrozen: true` to `false`.
 * **Open-Closed Slot Injection:** Custom widgets for `bankLogo`, `chipWidget`, and `actionBadge`.
 * **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, security hologram, and brand badges (Visa, Mastercard, Amex, Discover).
 
