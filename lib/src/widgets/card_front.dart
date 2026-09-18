@@ -5,7 +5,7 @@ import 'brand_logo.dart';
 import 'contactless.dart';
 import 'emv_chip.dart';
 
-/// The front face layout of the vertical credit card with slot injection support.
+/// The front face layout of the vertical credit card with slot injection and privacy support.
 class CardFront extends StatelessWidget {
   final String cardNumber;
   final String cardHolder;
@@ -14,6 +14,8 @@ class CardFront extends StatelessWidget {
   final CardBrand brand;
   final VerticalCardTheme cardTheme;
   final bool isFrozen;
+  final bool isPrivacyMode;
+  final VoidCallback? onPrivacyToggle;
   final Widget? bankLogo;
   final Widget? chipWidget;
   final Widget? actionBadge;
@@ -27,6 +29,8 @@ class CardFront extends StatelessWidget {
     required this.cardTheme,
     this.bankName,
     this.isFrozen = false,
+    this.isPrivacyMode = false,
+    this.onPrivacyToggle,
     this.bankLogo,
     this.chipWidget,
     this.actionBadge,
@@ -97,22 +101,43 @@ class CardFront extends StatelessWidget {
 
           const Spacer(),
 
-          // Card Number formatted with modern spacing
-          Text(
-            _formatCardNumber(cardNumber),
-            style: TextStyle(
-              color: textColor,
-              fontSize: 17.0,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2.4,
-              fontFeatures: const [FontFeature.tabularFigures()],
-              shadows: [
-                Shadow(
-                  color: Colors.black.withOpacity(0.3),
-                  offset: const Offset(0, 1),
-                  blurRadius: 2,
-                ),
-              ],
+          // Card Number with Privacy Mode support
+          GestureDetector(
+            onTap: onPrivacyToggle,
+            behavior: HitTestBehavior.opaque,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: Row(
+                key: ValueKey<bool>(isPrivacyMode),
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isPrivacyMode
+                        ? _formatMaskedCardNumber(cardNumber)
+                        : _formatCardNumber(cardNumber),
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: isPrivacyMode ? 1.8 : 2.4,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(0, 1),
+                          blurRadius: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Icon(
+                    isPrivacyMode ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    size: 15.0,
+                    color: textColor.withOpacity(0.35),
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -141,7 +166,7 @@ class CardFront extends StatelessWidget {
                         ),
                         const SizedBox(width: 6.0),
                         Text(
-                          expiryDate.isEmpty ? 'MM/YY' : expiryDate,
+                          isPrivacyMode ? '••/••' : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
                           style: TextStyle(
                             color: textColor,
                             fontSize: 12.5,
@@ -206,5 +231,12 @@ class CardFront extends StatelessWidget {
       buffer.write(clean[i]);
     }
     return buffer.toString();
+  }
+
+  String _formatMaskedCardNumber(String number) {
+    final clean = number.replaceAll(' ', '');
+    if (clean.length <= 4) return '••••  ••••  ••••  $clean';
+    final lastFour = clean.substring(clean.length - 4);
+    return '••••  ••••  ••••  $lastFour';
   }
 }

@@ -1,14 +1,16 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/card_brand.dart';
 import '../models/card_theme.dart';
 import '../painters/frost_painter.dart';
+import '../painters/specular_glare_painter.dart';
 import '../presets/card_presets.dart';
 import 'card_back.dart';
 import 'card_front.dart';
 
 /// A modern, customizable vertical credit/debit card widget with 3D flip animation,
-/// luxury metallic textures, glassmorphism, artistic patterns, and frozen card states.
+/// interactive 3D tilt with specular glare, privacy mode, and multiple fintech states.
 class VerticalCard extends StatefulWidget {
   final String cardNumber;
   final String cardHolder;
@@ -18,10 +20,17 @@ class VerticalCard extends StatefulWidget {
   final CardBrand? brand;
   final VerticalCardTheme cardTheme;
   final bool isFrozen;
+  final bool isExpired;
+  final bool isPrivacyMode;
+  final bool enablePrivacyToggle;
   final bool enableFlip;
+  final bool enable3DTilt;
+  final bool enableSpecularGlare;
+  final double maxTiltAngle;
   final double width;
   final VoidCallback? onTap;
   final ValueChanged<bool>? onFlipChange;
+  final ValueChanged<bool>? onPrivacyChange;
 
   // Customization Slots (Open-Closed Principle)
   final Widget? bankLogo;
@@ -39,10 +48,17 @@ class VerticalCard extends StatefulWidget {
     this.bankName,
     this.brand,
     this.isFrozen = false,
+    this.isExpired = false,
+    this.isPrivacyMode = false,
+    this.enablePrivacyToggle = true,
     this.enableFlip = true,
+    this.enable3DTilt = true,
+    this.enableSpecularGlare = true,
+    this.maxTiltAngle = 0.24, // ~14 degrees
     this.width = 240.0,
     this.onTap,
     this.onFlipChange,
+    this.onPrivacyChange,
     this.bankLogo,
     this.chipWidget,
     this.actionBadge,
@@ -59,10 +75,16 @@ class VerticalCard extends StatefulWidget {
     String? bankName,
     CardBrand? brand,
     bool isFrozen = false,
+    bool isExpired = false,
+    bool isPrivacyMode = false,
+    bool enablePrivacyToggle = true,
     bool enableFlip = true,
+    bool enable3DTilt = true,
+    bool enableSpecularGlare = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
+    ValueChanged<bool>? onPrivacyChange,
     Widget? bankLogo,
     Widget? chipWidget,
     Widget? actionBadge,
@@ -77,10 +99,16 @@ class VerticalCard extends StatefulWidget {
       brand: brand,
       cardTheme: preset,
       isFrozen: isFrozen,
+      isExpired: isExpired,
+      isPrivacyMode: isPrivacyMode,
+      enablePrivacyToggle: enablePrivacyToggle,
       enableFlip: enableFlip,
+      enable3DTilt: enable3DTilt,
+      enableSpecularGlare: enableSpecularGlare,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
+      onPrivacyChange: onPrivacyChange,
       bankLogo: bankLogo,
       chipWidget: chipWidget,
       actionBadge: actionBadge,
@@ -101,7 +129,10 @@ class VerticalCard extends StatefulWidget {
     Color textColor = Colors.white,
     ChipColor chipColor = ChipColor.gold,
     bool isFrozen = false,
+    bool isExpired = false,
+    bool isPrivacyMode = false,
     bool enableFlip = true,
+    bool enable3DTilt = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
@@ -124,7 +155,10 @@ class VerticalCard extends StatefulWidget {
         chipColor: chipColor,
       ),
       isFrozen: isFrozen,
+      isExpired: isExpired,
+      isPrivacyMode: isPrivacyMode,
       enableFlip: enableFlip,
+      enable3DTilt: enable3DTilt,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
@@ -147,7 +181,10 @@ class VerticalCard extends StatefulWidget {
     Color? textColor,
     ChipColor? chipColor,
     bool isFrozen = false,
+    bool isExpired = false,
+    bool isPrivacyMode = false,
     bool enableFlip = true,
+    bool enable3DTilt = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
@@ -169,7 +206,10 @@ class VerticalCard extends StatefulWidget {
         chipColor: chipColor,
       ),
       isFrozen: isFrozen,
+      isExpired: isExpired,
+      isPrivacyMode: isPrivacyMode,
       enableFlip: enableFlip,
+      enable3DTilt: enable3DTilt,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
@@ -193,7 +233,10 @@ class VerticalCard extends StatefulWidget {
     Color textColor = Colors.white,
     ChipColor chipColor = ChipColor.silver,
     bool isFrozen = false,
+    bool isExpired = false,
+    bool isPrivacyMode = false,
     bool enableFlip = true,
+    bool enable3DTilt = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
@@ -216,7 +259,10 @@ class VerticalCard extends StatefulWidget {
         chipColor: chipColor,
       ),
       isFrozen: isFrozen,
+      isExpired: isExpired,
+      isPrivacyMode: isPrivacyMode,
       enableFlip: enableFlip,
+      enable3DTilt: enable3DTilt,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
@@ -239,7 +285,10 @@ class VerticalCard extends StatefulWidget {
     Color textColor = Colors.white,
     ChipColor chipColor = ChipColor.gold,
     bool isFrozen = false,
+    bool isExpired = false,
+    bool isPrivacyMode = false,
     bool enableFlip = true,
+    bool enable3DTilt = true,
     double width = 240.0,
     VoidCallback? onTap,
     ValueChanged<bool>? onFlipChange,
@@ -261,7 +310,10 @@ class VerticalCard extends StatefulWidget {
         chipColor: chipColor,
       ),
       isFrozen: isFrozen,
+      isExpired: isExpired,
+      isPrivacyMode: isPrivacyMode,
       enableFlip: enableFlip,
+      enable3DTilt: enable3DTilt,
       width: width,
       onTap: onTap,
       onFlipChange: onFlipChange,
@@ -276,14 +328,25 @@ class VerticalCard extends StatefulWidget {
 }
 
 class _VerticalCardState extends State<VerticalCard>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
+
+  // 3D Tilt controllers & state
+  late AnimationController _tiltResetController;
+  Animation<Offset>? _tiltResetAnimation;
+  double _tiltX = 0.0;
+  double _tiltY = 0.0;
+
   bool _showBack = false;
+  late bool _isPrivate;
 
   @override
   void initState() {
     super.initState();
+    _isPrivate = widget.isPrivacyMode;
+
+    // Flip animation controller
     _flipController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 550),
@@ -299,15 +362,33 @@ class _VerticalCardState extends State<VerticalCard>
           });
         }
       });
+
+    // Tilt spring reset controller
+    _tiltResetController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant VerticalCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isPrivacyMode != oldWidget.isPrivacyMode) {
+      setState(() {
+        _isPrivate = widget.isPrivacyMode;
+      });
+    }
   }
 
   @override
   void dispose() {
     _flipController.dispose();
+    _tiltResetController.dispose();
     super.dispose();
   }
 
   void _handleTap() {
+    HapticFeedback.selectionClick();
     widget.onTap?.call();
 
     if (widget.enableFlip) {
@@ -321,24 +402,111 @@ class _VerticalCardState extends State<VerticalCard>
     }
   }
 
+  void _handlePanUpdate(DragUpdateDetails details, double cardHeight) {
+    if (!widget.enable3DTilt) return;
+
+    _tiltResetController.stop();
+
+    setState(() {
+      // Calculate normalized tilt delta
+      final dx = (details.localPosition.dx - widget.width / 2) / (widget.width / 2);
+      final dy = (details.localPosition.dy - cardHeight / 2) / (cardHeight / 2);
+
+      _tiltX = (dx * widget.maxTiltAngle).clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
+      _tiltY = (dy * widget.maxTiltAngle).clamp(-widget.maxTiltAngle, widget.maxTiltAngle);
+    });
+  }
+
+  void _handlePanEnd(DragEndDetails details) {
+    if (!widget.enable3DTilt) return;
+
+    _tiltResetAnimation = Tween<Offset>(
+      begin: Offset(_tiltX, _tiltY),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _tiltResetController,
+        curve: Curves.easeOutBack,
+      ),
+    )..addListener(() {
+        setState(() {
+          _tiltX = _tiltResetAnimation!.value.dx;
+          _tiltY = _tiltResetAnimation!.value.dy;
+        });
+      });
+
+    _tiltResetController.forward(from: 0.0);
+  }
+
+  void _togglePrivacy() {
+    if (!widget.enablePrivacyToggle) return;
+    HapticFeedback.lightImpact();
+    setState(() {
+      _isPrivate = !_isPrivate;
+    });
+    widget.onPrivacyChange?.call(_isPrivate);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Standard ISO/IEC 7810 ID-1 card aspect ratio (85.60 mm / 53.98 mm ≈ 1.586)
     final height = widget.width * 1.586;
     final detectedBrand = widget.brand ?? CardBrand.detect(widget.cardNumber);
 
     return Center(
       child: GestureDetector(
         onTap: _handleTap,
+        onPanUpdate: (d) => _handlePanUpdate(d, height),
+        onPanEnd: _handlePanEnd,
         behavior: HitTestBehavior.opaque,
         child: AnimatedBuilder(
           animation: _flipAnimation,
           builder: (context, child) {
-            final angle = _flipAnimation.value * math.pi;
+            final flipAngle = _flipAnimation.value * math.pi;
 
+            // Matrix4 combining 3D Flip + 3D Tilt perspective
             final transform = Matrix4.identity()
               ..setEntry(3, 2, 0.0012)
-              ..rotateY(angle);
+              ..rotateX(-_tiltY)
+              ..rotateY(flipAngle + _tiltX);
+
+            Widget cardFace = !_showBack
+                ? CardFront(
+                    cardNumber: widget.cardNumber,
+                    cardHolder: widget.cardHolder,
+                    expiryDate: widget.expiryDate,
+                    bankName: widget.bankName,
+                    brand: detectedBrand,
+                    cardTheme: widget.cardTheme,
+                    isFrozen: widget.isFrozen,
+                    isPrivacyMode: _isPrivate,
+                    onPrivacyToggle: _togglePrivacy,
+                    bankLogo: widget.bankLogo,
+                    chipWidget: widget.chipWidget,
+                    actionBadge: widget.actionBadge,
+                  )
+                : Transform(
+                    transform: Matrix4.rotationY(math.pi),
+                    alignment: Alignment.center,
+                    child: CardBack(
+                      cvv: widget.cvv,
+                      cardTheme: widget.cardTheme,
+                      bankName: widget.bankName,
+                      isPrivacyMode: _isPrivate,
+                    ),
+                  );
+
+            // Expired grayscale filter
+            if (widget.isExpired) {
+              cardFace = ColorFiltered(
+                colorFilter: const ColorFilter.matrix(<double>[
+                  0.2126, 0.7152, 0.0722, 0, 0,
+                  0.2126, 0.7152, 0.0722, 0, 0,
+                  0.2126, 0.7152, 0.0722, 0, 0,
+                  0,      0,      0,      1, 0,
+                ]),
+                child: cardFace,
+              );
+            }
 
             return Transform(
               transform: transform,
@@ -353,28 +521,22 @@ class _VerticalCardState extends State<VerticalCard>
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    // Face Widget (Front or Back)
-                    if (!_showBack)
-                      CardFront(
-                        cardNumber: widget.cardNumber,
-                        cardHolder: widget.cardHolder,
-                        expiryDate: widget.expiryDate,
-                        bankName: widget.bankName,
-                        brand: detectedBrand,
-                        cardTheme: widget.cardTheme,
-                        isFrozen: widget.isFrozen,
-                        bankLogo: widget.bankLogo,
-                        chipWidget: widget.chipWidget,
-                        actionBadge: widget.actionBadge,
-                      )
-                    else
-                      Transform(
-                        transform: Matrix4.rotationY(math.pi),
-                        alignment: Alignment.center,
-                        child: CardBack(
-                          cvv: widget.cvv,
-                          cardTheme: widget.cardTheme,
-                          bankName: widget.bankName,
+                    // Face Content (Front or Back)
+                    cardFace,
+
+                    // Specular light reflection gliding across the surface
+                    if (widget.enableSpecularGlare && !widget.isFrozen)
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: widget.cardTheme.borderRadius,
+                          child: IgnorePointer(
+                            child: CustomPaint(
+                              painter: SpecularGlarePainter(
+                                tiltX: _tiltX,
+                                tiltY: _tiltY,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
 
@@ -432,6 +594,34 @@ class _VerticalCardState extends State<VerticalCard>
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+
+                    // Expired Diagonal Rubber Stamp
+                    if (widget.isExpired)
+                      Center(
+                        child: Transform.rotate(
+                          angle: -math.pi / 6,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: const Color(0xFFE53935),
+                                width: 3.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                              color: const Color(0x33E53935),
+                            ),
+                            child: const Text(
+                              'EXPIRED',
+                              style: TextStyle(
+                                color: Color(0xFFE53935),
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 4.0,
+                              ),
+                            ),
                           ),
                         ),
                       ),

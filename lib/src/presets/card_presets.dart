@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../backgrounds/card_background.dart';
 import '../models/card_theme.dart';
+import '../painters/carbon_fiber_painter.dart';
 import '../painters/painterly_globe_painter.dart';
+import '../painters/topographic_painter.dart';
 
 /// Curated library of ready-to-use, professional vertical credit card themes.
 class CardPresets {
@@ -93,5 +95,23 @@ class CardPresets {
         textColor: Colors.white,
         secondaryTextColor: const Color(0xCCFFFFFF),
         chipColor: ChipColor.gold,
+      );
+
+  /// Elegant golden contour elevation lines over obsidian black.
+  static VerticalCardTheme get topographicGold => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(TopographicPainter()),
+        textColor: const Color(0xFFF7E7B4),
+        secondaryTextColor: const Color(0xAAD4AF37),
+        chipColor: ChipColor.gold,
+      );
+
+  /// Stealth dark twill-weave carbon fiber with metallic accents.
+  static VerticalCardTheme get carbonStealth => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.painter(CarbonFiberPainter()),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xAAFFFFFF),
+        chipColor: ChipColor.silver,
       );
 }

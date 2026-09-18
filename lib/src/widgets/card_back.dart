@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import '../models/card_theme.dart';
 
-/// The back face layout of the vertical credit card.
+/// The back face layout of the vertical credit card with privacy support.
 class CardBack extends StatelessWidget {
   final String cvv;
   final VerticalCardTheme cardTheme;
   final String? bankName;
+  final bool isPrivacyMode;
 
   const CardBack({
     super.key,
     required this.cvv,
     required this.cardTheme,
     this.bankName,
+    this.isPrivacyMode = false,
   });
 
   @override
@@ -82,7 +84,7 @@ class CardBack extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8.0),
-                  // CVV security code box
+                  // CVV security code box with privacy support
                   Expanded(
                     flex: 3,
                     child: Container(
@@ -93,14 +95,18 @@ class CardBack extends StatelessWidget {
                         border: Border.all(color: const Color(0xFFB0B5C0)),
                       ),
                       alignment: Alignment.center,
-                      child: Text(
-                        cvv.isEmpty ? '•••' : cvv,
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13.5,
-                          letterSpacing: 1.5,
-                          fontStyle: FontStyle.italic,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: Text(
+                          isPrivacyMode ? '•••' : (cvv.isEmpty ? '•••' : cvv),
+                          key: ValueKey<bool>(isPrivacyMode),
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 13.5,
+                            letterSpacing: 1.5,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ),
                     ),
