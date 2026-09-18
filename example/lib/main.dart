@@ -69,6 +69,10 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   bool _studioHolo = false;
   bool _studioTilt = true;
   bool _studioGlare = true;
+  bool _studioBankingView = false;
+  bool _studioIsFrozen = false;
+  bool _studioPrivacy = false;
+  bool _hideBankingBalance = false;
 
   final List<Map<String, dynamic>> _presets = [
     {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
@@ -641,30 +645,61 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Live customized preview
+          // Mode Switcher: Canvas Libre vs App Bancaria Real
           Center(
-            child: VerticalCard(
-              cardNumber: '4000 1234 5678 9010',
-              cardHolder: 'DIMAS CLEVES',
-              expiryDate: '12/30',
-              cvv: '888',
-              bankName: 'CUSTOM CARD',
-              width: _studioWidth,
-              enable3DTilt: _studioTilt,
-              enableSpecularGlare: _studioGlare,
-              enableHolographicFoil: _studioHolo,
-              maxTiltAngle: _studioMaxTiltAngle,
-              textFinish: _studioTextFinish,
-              enableEdgeGlow: _studioEdgeGlow,
-              enableDiamondDust: _studioDiamondDust,
-              enablePaymentPulse: _studioPaymentPulse,
-              cardTheme: VerticalCardTheme.metallic(
-                metalType: _studioMetal,
-                chipColor: _studioChip,
-                borderRadius: BorderRadius.circular(_studioBorderRadius),
-              ),
+            child: SegmentedButton<bool>(
+              segments: const [
+                ButtonSegment<bool>(
+                  value: false,
+                  icon: Icon(Icons.palette_outlined, size: 18),
+                  label: Text('Canvas Libre',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+                ButtonSegment<bool>(
+                  value: true,
+                  icon: Icon(Icons.phone_iphone_rounded, size: 18),
+                  label: Text('App Bancaria Real',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ],
+              selected: {_studioBankingView},
+              onSelectionChanged: (newSelection) {
+                setState(() {
+                  _studioBankingView = newSelection.first;
+                });
+              },
             ),
           ),
+
+          const SizedBox(height: 20),
+
+          // Live customized preview (Canvas vs Banking App Mockup)
+          if (!_studioBankingView)
+            Center(
+              child: VerticalCard(
+                cardNumber: '4000 1234 5678 9010',
+                cardHolder: 'DIMAS CLEVES',
+                expiryDate: '12/30',
+                cvv: '888',
+                bankName: 'CUSTOM CARD',
+                width: _studioWidth,
+                enable3DTilt: _studioTilt,
+                enableSpecularGlare: _studioGlare,
+                enableHolographicFoil: _studioHolo,
+                maxTiltAngle: _studioMaxTiltAngle,
+                textFinish: _studioTextFinish,
+                enableEdgeGlow: _studioEdgeGlow,
+                enableDiamondDust: _studioDiamondDust,
+                enablePaymentPulse: _studioPaymentPulse,
+                cardTheme: VerticalCardTheme.metallic(
+                  metalType: _studioMetal,
+                  chipColor: _studioChip,
+                  borderRadius: BorderRadius.circular(_studioBorderRadius),
+                ),
+              ),
+            )
+          else
+            _buildBankingAppMockup(),
 
           const SizedBox(height: 24),
 
@@ -830,6 +865,755 @@ VerticalCard(
             ),
           ),
           const SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // 5. BANKING APP REALISTIC MOCKUP (STUDIO OPTION A)
+  // ---------------------------------------------------------------------------
+  Widget _buildBankingAppMockup() {
+    final cardMockupWidth = _studioWidth.clamp(190.0, 230.0);
+
+    return Center(
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(maxWidth: 380),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0C0F17),
+          borderRadius: BorderRadius.circular(32),
+          border: Border.all(
+            color: const Color(0xFF232838),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.55),
+              blurRadius: 28,
+              offset: const Offset(0, 12),
+            ),
+            BoxShadow(
+              color: Colors.cyanAccent.withOpacity(0.04),
+              blurRadius: 20,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Status Bar & Dynamic Island
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  '9:41',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: Colors.white,
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  height: 18,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF05070A),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.08),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF00FFC2),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.signal_cellular_alt_rounded,
+                      size: 13,
+                      color: Colors.white.withOpacity(0.85),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.wifi_rounded,
+                      size: 13,
+                      color: Colors.white.withOpacity(0.85),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.battery_5_bar_rounded,
+                      size: 15,
+                      color: Color(0xFF00FFC2),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // User Profile Header
+            Row(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF00E5FF), Color(0xFF7C4DFF)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.cyanAccent.withOpacity(0.3),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'DC',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00FFC2),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFF0C0F17),
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Hola, Dimas 👋',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 6,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 1.5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.amberAccent.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: Colors.amberAccent.withOpacity(0.4),
+                                width: 0.6,
+                              ),
+                            ),
+                            child: const Text(
+                              'BLACK METAL',
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.amberAccent,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                          ),
+                          const Text(
+                            'Cuenta Nómina',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF161A26),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.08),
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Icons.notifications_outlined,
+                        size: 19,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                      Positioned(
+                        top: 7,
+                        right: 8,
+                        child: Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: Colors.redAccent,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 18),
+
+            // Account Balance Card
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF141926), Color(0xFF0F131E)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.08),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'BALANCE TOTAL DISPONIBLE',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.8,
+                          color: Colors.white.withOpacity(0.55),
+                        ),
+                      ),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () {
+                          setState(() {
+                            _hideBankingBalance = !_hideBankingBalance;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            _hideBankingBalance
+                                ? Icons.visibility_off_rounded
+                                : Icons.visibility_rounded,
+                            size: 16,
+                            color: Colors.cyanAccent.withOpacity(0.8),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            _hideBankingBalance ? '••••••••' : r'$14,850.50',
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: -0.5,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'USD',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.cyanAccent,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00FFC2).withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: const Color(0xFF00FFC2).withOpacity(0.35),
+                            width: 0.8,
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.trending_up_rounded,
+                              size: 13,
+                              color: Color(0xFF00FFC2),
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '+3.8%',
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFF00FFC2),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            // Live Customized Vertical Card Embedded
+            Center(
+              child: VerticalCard(
+                cardNumber: '4000 1234 5678 9010',
+                cardHolder: 'DIMAS CLEVES',
+                expiryDate: '12/30',
+                cvv: '888',
+                bankName: 'NEXUS BLACK',
+                width: cardMockupWidth,
+                isFrozen: _studioIsFrozen,
+                isPrivacyMode: _studioPrivacy,
+                enable3DTilt: _studioTilt,
+                enableSpecularGlare: _studioGlare,
+                enableHolographicFoil: _studioHolo,
+                maxTiltAngle: _studioMaxTiltAngle,
+                textFinish: _studioTextFinish,
+                enableEdgeGlow: _studioEdgeGlow,
+                enableDiamondDust: _studioDiamondDust,
+                enablePaymentPulse: _studioPaymentPulse,
+                cardTheme: VerticalCardTheme.metallic(
+                  metalType: _studioMetal,
+                  chipColor: _studioChip,
+                  borderRadius: BorderRadius.circular(_studioBorderRadius),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Card Interactive Action Controls
+            Row(
+              children: [
+                Expanded(
+                  child: _buildActionButton(
+                    icon: _studioIsFrozen
+                        ? Icons.ac_unit_rounded
+                        : Icons.lock_outline_rounded,
+                    label: _studioIsFrozen ? 'Descongelar' : 'Congelar',
+                    isActive: _studioIsFrozen,
+                    activeColor: Colors.cyanAccent,
+                    onTap: () {
+                      setState(() {
+                        _studioIsFrozen = !_studioIsFrozen;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildActionButton(
+                    icon: Icons.contactless_rounded,
+                    label: 'Pagar NFC',
+                    isActive: _studioPaymentPulse,
+                    activeColor: const Color(0xFF00FFC2),
+                    onTap: () {
+                      setState(() {
+                        _studioPaymentPulse = !_studioPaymentPulse;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            _studioPaymentPulse
+                                ? '📡 Radar NFC de pago activado'
+                                : '⏸️ Radar NFC pausado',
+                          ),
+                          backgroundColor: Colors.teal[800],
+                          duration: const Duration(milliseconds: 1200),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildActionButton(
+                    icon: _studioPrivacy
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
+                    label: _studioPrivacy ? 'Visible' : 'Ocultar',
+                    isActive: _studioPrivacy,
+                    activeColor: Colors.amberAccent,
+                    onTap: () {
+                      setState(() {
+                        _studioPrivacy = !_studioPrivacy;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 18),
+
+            // Quick App Actions Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildQuickActionCircle(
+                  icon: Icons.arrow_upward_rounded,
+                  label: 'Enviar',
+                  color: Colors.cyanAccent,
+                ),
+                _buildQuickActionCircle(
+                  icon: Icons.arrow_downward_rounded,
+                  label: 'Recibir',
+                  color: const Color(0xFF00FFC2),
+                ),
+                _buildQuickActionCircle(
+                  icon: Icons.pie_chart_outline_rounded,
+                  label: 'Analítica',
+                  color: Colors.purpleAccent,
+                ),
+                _buildQuickActionCircle(
+                  icon: Icons.tune_rounded,
+                  label: 'Límites',
+                  color: Colors.amberAccent,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 22),
+
+            // Recent Transactions Section
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Movimientos Recientes',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Ver todos',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.cyanAccent.withOpacity(0.8),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            _buildTransactionTile(
+              title: 'Apple Store',
+              subtitle: 'iPhone 16 Pro 256GB · Tarjeta',
+              amount: r'-$1,199.00',
+              time: 'Hoy, 14:20',
+              isIncome: false,
+              icon: Icons.apple_rounded,
+              iconBg: const Color(0xFF1E2433),
+            ),
+            const SizedBox(height: 8),
+            _buildTransactionTile(
+              title: 'Starbucks Reserve',
+              subtitle: 'Caramel Macchiato · Contactless',
+              amount: r'-$6.80',
+              time: 'Hoy, 09:15',
+              isIncome: false,
+              icon: Icons.coffee_rounded,
+              iconBg: const Color(0xFF1A2621),
+            ),
+            const SizedBox(height: 8),
+            _buildTransactionTile(
+              title: 'Transferencia Nómina',
+              subtitle: 'Google LLC · Pago Directo',
+              amount: r'+$3,450.00',
+              time: 'Ayer',
+              isIncome: true,
+              icon: Icons.work_outline_rounded,
+              iconBg: const Color(0xFF172C24),
+            ),
+            const SizedBox(height: 8),
+            _buildTransactionTile(
+              title: 'Netflix 4K Ultra',
+              subtitle: 'Suscripción recurrente mensual',
+              amount: r'-$19.99',
+              time: '15 Sep',
+              isIncome: false,
+              icon: Icons.movie_outlined,
+              iconBg: const Color(0xFF2C1A22),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Home Bar Indicator
+            Center(
+              child: Container(
+                width: 120,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required bool isActive,
+    required Color activeColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: isActive
+              ? activeColor.withOpacity(0.18)
+              : const Color(0xFF161A26),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isActive
+                ? activeColor.withOpacity(0.6)
+                : Colors.white.withOpacity(0.08),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 17,
+              color: isActive ? activeColor : Colors.white70,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                color: isActive ? activeColor : Colors.white70,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickActionCircle({
+    required IconData icon,
+    required String label,
+    required Color color,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: const Color(0xFF141926),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white.withOpacity(0.08),
+            ),
+          ),
+          child: Icon(
+            icon,
+            size: 20,
+            color: color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w600,
+            color: Colors.white.withOpacity(0.75),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTransactionTile({
+    required String title,
+    required String subtitle,
+    required String amount,
+    required String time,
+    required bool isIncome,
+    required IconData icon,
+    required Color iconBg,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFF121622),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.05),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: iconBg,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              size: 18,
+              color: isIncome ? const Color(0xFF00FFC2) : Colors.white70,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.white.withOpacity(0.45),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                amount,
+                style: TextStyle(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w800,
+                  color: isIncome ? const Color(0xFF00FFC2) : Colors.white,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                time,
+                style: TextStyle(
+                  fontSize: 9.5,
+                  color: Colors.white.withOpacity(0.4),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

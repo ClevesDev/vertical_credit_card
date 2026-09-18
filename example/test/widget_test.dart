@@ -63,5 +63,42 @@ void main() {
     expect(find.text('Copy Dart Code'), findsOneWidget);
     expect(find.text('🌈 Holographic Rainbow Foil'), findsOneWidget);
     expect(find.text('🕹️ 3D Tilt Physics'), findsOneWidget);
+    expect(find.text('Canvas Libre'), findsOneWidget);
+    expect(find.text('App Bancaria Real'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Studio test: toggles to Banking App Real mode and renders dashboard mockup',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const VerticalCardDemoApp());
+
+    // Tap Studio tab in NavigationBar
+    final studioTab = find.text('Studio');
+    await tester.tap(studioTab);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Tap App Bancaria Real
+    await tester.tap(find.text('App Bancaria Real'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify banking app shell elements
+    expect(find.text('Hola, Dimas 👋'), findsOneWidget);
+    expect(find.text('BALANCE TOTAL DISPONIBLE'), findsOneWidget);
+    expect(find.text(r'$14,850.50'), findsOneWidget);
+    expect(find.text('Congelar'), findsOneWidget);
+    expect(find.text('Pagar NFC'), findsOneWidget);
+    expect(find.text('Apple Store'), findsOneWidget);
+    expect(find.text('Starbucks Reserve'), findsOneWidget);
+
+    // Scroll to and tap Congelar to toggle freeze mode
+    final congelarBtn = find.text('Congelar');
+    await tester.ensureVisible(congelarBtn);
+    await tester.pump();
+    await tester.tap(congelarBtn);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('Descongelar'), findsOneWidget);
   });
 }
