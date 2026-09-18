@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vertical_credit_card/vertical_credit_card.dart';
 
 void main() {
@@ -13,8 +14,15 @@ class VerticalCardDemoApp extends StatelessWidget {
     return MaterialApp(
       title: 'Vertical Credit Card Showcase',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF0C0E12),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0A0C10),
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.cyanAccent,
+          secondary: Colors.amberAccent,
+          surface: Color(0xFF141722),
+        ),
+        useMaterial3: true,
       ),
       home: const CardShowcaseScreen(),
     );
@@ -29,13 +37,34 @@ class CardShowcaseScreen extends StatefulWidget {
 }
 
 class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
-  int _selectedPresetIndex = 5; // Default to Painterly Globe
+  int _selectedNavIndex =
+      0; // 0: 3D Showcase, 1: Apple Wallet, 2: Checkout Form, 3: Studio
+  int _selectedPresetIndex = 5; // Default to Holo Infinite
+
+  // 3D Showcase state
   bool _isFrozen = false;
   bool _isExpired = false;
   bool _isPrivacyMode = false;
   bool _enable3DTilt = true;
   bool _isBackVisible = false;
-  bool _isWalletMode = false;
+
+  // Checkout Form state
+  String _formCardNumber = '';
+  String _formCardHolder = '';
+  String _formExpiry = '';
+  String _formCvv = '';
+  CardBrand _formBrand = CardBrand.generic;
+  bool _isCheckoutFlipped = false;
+
+  // Studio state
+  double _studioWidth = 240.0;
+  double _studioBorderRadius = 16.0;
+  double _studioMaxTiltAngle = 0.24;
+  MetalType _studioMetal = MetalType.brushedTitanium;
+  ChipColor _studioChip = ChipColor.silver;
+  bool _studioHolo = false;
+  bool _studioTilt = true;
+  bool _studioGlare = true;
 
   final List<Map<String, dynamic>> _presets = [
     {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
@@ -75,8 +104,6 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final activePreset = _presets[_selectedPresetIndex];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -88,209 +115,235 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          IconButton(
-            tooltip:
-                _isWalletMode ? 'Single Card 3D Mode' : 'Apple Wallet Mode',
-            icon: Icon(
-              _isWalletMode
-                  ? Icons.view_carousel_rounded
-                  : Icons.wallet_rounded,
-              color: _isWalletMode ? Colors.cyanAccent : Colors.white70,
+          if (_selectedNavIndex == 0)
+            IconButton(
+              tooltip: _isPrivacyMode
+                  ? 'Disable Privacy Mode'
+                  : 'Enable Privacy Mode',
+              icon: Icon(
+                _isPrivacyMode
+                    ? Icons.visibility_off_rounded
+                    : Icons.visibility_rounded,
+                color: _isPrivacyMode ? Colors.amberAccent : Colors.white70,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPrivacyMode = !_isPrivacyMode;
+                });
+              },
             ),
-            onPressed: () {
-              setState(() {
-                _isWalletMode = !_isWalletMode;
-              });
-            },
-          ),
-          IconButton(
-            tooltip:
-                _isPrivacyMode ? 'Disable Privacy Mode' : 'Enable Privacy Mode',
-            icon: Icon(
-              _isPrivacyMode
-                  ? Icons.visibility_off_rounded
-                  : Icons.visibility_rounded,
-              color: _isPrivacyMode ? Colors.amberAccent : Colors.white70,
-            ),
-            onPressed: () {
-              setState(() {
-                _isPrivacyMode = !_isPrivacyMode;
-              });
-            },
-          ),
         ],
       ),
       body: SafeArea(
-        child: _isWalletMode
-            ? _buildWalletMode()
-            : LayoutBuilder(
-                builder: (context, constraints) {
-                  return SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints(minHeight: constraints.maxHeight),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 6),
+        child: IndexedStack(
+          index: _selectedNavIndex,
+          children: [
+            _buildShowcaseView(),
+            _buildWalletView(),
+            _buildCheckoutFormView(),
+            _buildStudioView(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedNavIndex,
+        onDestinationSelected: (index) =>
+            setState(() => _selectedNavIndex = index),
+        backgroundColor: const Color(0xFF0F1118),
+        indicatorColor: Colors.cyanAccent.withOpacity(0.18),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.threed_rotation_rounded),
+            label: 'Showcase',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.wallet_rounded),
+            label: 'Wallet',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.payment_rounded),
+            label: 'Checkout',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.tune_rounded),
+            label: 'Studio',
+          ),
+        ],
+      ),
+    );
+  }
 
-                            // Horizontal Presets Carousel
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children:
-                                    List.generate(_presets.length, (index) {
-                                  final preset = _presets[index];
-                                  final isSelected =
-                                      _selectedPresetIndex == index;
-                                  final isFamilyD =
-                                      preset['family'] == 'Family D';
+  // ---------------------------------------------------------------------------
+  // 1. 3D SHOWCASE VIEW
+  // ---------------------------------------------------------------------------
+  Widget _buildShowcaseView() {
+    final activePreset = _presets[_selectedPresetIndex];
 
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4.0),
-                                    child: ChoiceChip(
-                                      avatar: isFamilyD
-                                          ? const Icon(Icons.palette_outlined,
-                                              size: 16,
-                                              color: Colors.amberAccent)
-                                          : null,
-                                      label: Text(preset['name'] as String),
-                                      selected: isSelected,
-                                      selectedColor: isFamilyD
-                                          ? Colors.amberAccent.withOpacity(0.22)
-                                          : Colors.cyanAccent.withOpacity(0.22),
-                                      labelStyle: TextStyle(
-                                        color: isSelected
-                                            ? (isFamilyD
-                                                ? Colors.amberAccent
-                                                : Colors.cyanAccent)
-                                            : Colors.white70,
-                                        fontWeight: isSelected
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                      side: BorderSide(
-                                        color: isSelected
-                                            ? (isFamilyD
-                                                ? Colors.amberAccent
-                                                : Colors.cyanAccent)
-                                            : Colors.white12,
-                                      ),
-                                      onSelected: (selected) {
-                                        if (selected) {
-                                          setState(() {
-                                            _selectedPresetIndex = index;
-                                          });
-                                        }
-                                      },
-                                    ),
-                                  );
-                                }),
-                              ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  const SizedBox(height: 6),
+
+                  // Horizontal Presets Carousel
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: List.generate(_presets.length, (index) {
+                        final preset = _presets[index];
+                        final isSelected = _selectedPresetIndex == index;
+                        final isFamilyD = preset['family'] == 'Family D';
+                        final isHolo = preset['family'] == 'Holographic';
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: ChoiceChip(
+                            avatar: isHolo
+                                ? const Icon(Icons.auto_awesome_rounded,
+                                    size: 16, color: Colors.purpleAccent)
+                                : (isFamilyD
+                                    ? const Icon(Icons.palette_outlined,
+                                        size: 16, color: Colors.amberAccent)
+                                    : null),
+                            label: Text(preset['name'] as String),
+                            selected: isSelected,
+                            selectedColor: isHolo
+                                ? Colors.purpleAccent.withOpacity(0.22)
+                                : (isFamilyD
+                                    ? Colors.amberAccent.withOpacity(0.22)
+                                    : Colors.cyanAccent.withOpacity(0.22)),
+                            labelStyle: TextStyle(
+                              color: isSelected
+                                  ? (isHolo
+                                      ? Colors.purpleAccent
+                                      : (isFamilyD
+                                          ? Colors.amberAccent
+                                          : Colors.cyanAccent))
+                                  : Colors.white70,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
-
-                            const SizedBox(height: 10),
-
-                            // Gesture Instruction Banner
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.swipe_outlined,
-                                  size: 15,
-                                  color: Colors.white.withOpacity(0.45),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  _isBackVisible
-                                      ? 'Tap to flip FRONT  •  Drag to TILT in 3D'
-                                      : 'Tap to FLIP 3D  •  Drag to TILT with light reflection',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.45),
-                                    fontSize: 11.5,
-                                  ),
-                                ),
-                              ],
+                            side: BorderSide(
+                              color: isSelected
+                                  ? (isHolo
+                                      ? Colors.purpleAccent
+                                      : (isFamilyD
+                                          ? Colors.amberAccent
+                                          : Colors.cyanAccent))
+                                  : Colors.white12,
                             ),
+                            onSelected: (selected) {
+                              if (selected) {
+                                setState(() {
+                                  _selectedPresetIndex = index;
+                                });
+                              }
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
 
-                            const Spacer(),
+                  const SizedBox(height: 10),
 
-                            // The Active Vertical Card
-                            _buildActiveCard(activePreset),
-
-                            const Spacer(),
-
-                            // Interactive Bottom Controls Panel
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 18, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF14171E),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                    color: Colors.white.withOpacity(0.07)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  // 3D Tilt toggle button
-                                  _buildControlItem(
-                                    icon: Icons.threed_rotation_rounded,
-                                    label: '3D Tilt',
-                                    isActive: _enable3DTilt,
-                                    activeColor: Colors.purpleAccent,
-                                    onTap: () => setState(
-                                        () => _enable3DTilt = !_enable3DTilt),
-                                  ),
-
-                                  // Privacy mode toggle
-                                  _buildControlItem(
-                                    icon: _isPrivacyMode
-                                        ? Icons.visibility_off_rounded
-                                        : Icons.visibility_rounded,
-                                    label: 'Privacy',
-                                    isActive: _isPrivacyMode,
-                                    activeColor: Colors.amberAccent,
-                                    onTap: () => setState(
-                                        () => _isPrivacyMode = !_isPrivacyMode),
-                                  ),
-
-                                  // Freeze card toggle
-                                  _buildControlItem(
-                                    icon: Icons.ac_unit_rounded,
-                                    label: 'Freeze',
-                                    isActive: _isFrozen,
-                                    activeColor: Colors.cyanAccent,
-                                    onTap: () =>
-                                        setState(() => _isFrozen = !_isFrozen),
-                                  ),
-
-                                  // Expire card toggle
-                                  _buildControlItem(
-                                    icon: Icons.block_rounded,
-                                    label: 'Expired',
-                                    isActive: _isExpired,
-                                    activeColor: const Color(0xFFE53935),
-                                    onTap: () => setState(
-                                        () => _isExpired = !_isExpired),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                  // Gesture Instruction Banner
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.swipe_outlined,
+                        size: 15,
+                        color: Colors.white.withOpacity(0.45),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _isBackVisible
+                            ? 'Tap to flip FRONT  •  Drag to TILT in 3D'
+                            : 'Tap to FLIP 3D  •  Drag to TILT with light reflection',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.45),
+                          fontSize: 11.5,
                         ),
                       ),
+                    ],
+                  ),
+
+                  const Spacer(),
+
+                  // The Active Vertical Card
+                  _buildActiveCard(activePreset),
+
+                  const Spacer(),
+
+                  // Interactive Bottom Controls Panel
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF14171E),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.white.withOpacity(0.07)),
                     ),
-                  );
-                },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        // 3D Tilt toggle button
+                        _buildControlItem(
+                          icon: Icons.threed_rotation_rounded,
+                          label: '3D Tilt',
+                          isActive: _enable3DTilt,
+                          activeColor: Colors.purpleAccent,
+                          onTap: () =>
+                              setState(() => _enable3DTilt = !_enable3DTilt),
+                        ),
+
+                        // Privacy mode toggle
+                        _buildControlItem(
+                          icon: _isPrivacyMode
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          label: 'Privacy',
+                          isActive: _isPrivacyMode,
+                          activeColor: Colors.amberAccent,
+                          onTap: () =>
+                              setState(() => _isPrivacyMode = !_isPrivacyMode),
+                        ),
+
+                        // Freeze card button
+                        _buildControlItem(
+                          icon: Icons.ac_unit_rounded,
+                          label: 'Freeze',
+                          isActive: _isFrozen,
+                          activeColor: Colors.cyanAccent,
+                          onTap: () => setState(() => _isFrozen = !_isFrozen),
+                        ),
+
+                        // Expire card button
+                        _buildControlItem(
+                          icon: Icons.timer_off_outlined,
+                          label: 'Expired',
+                          isActive: _isExpired,
+                          activeColor: Colors.redAccent,
+                          onTap: () => setState(() => _isExpired = !_isExpired),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -331,9 +384,9 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
             Text(
               label,
               style: TextStyle(
-                fontSize: 11,
-                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
                 color: isActive ? activeColor : Colors.white54,
+                fontSize: 10.5,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),
             ),
           ],
@@ -346,26 +399,19 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     final theme = preset['theme'] as VerticalCardTheme;
     final name = preset['name'] as String;
 
-    String bankName = 'NU';
-    Widget? bankLogo;
+    String? bankName;
     CardBrand? brand;
+    Widget? bankLogo;
 
     if (name == 'Painterly Globe') {
-      bankName = '';
+      bankName = 'CREDIT AGRICOLE';
       brand = CardBrand.mastercard;
       bankLogo = Container(
-        width: 38,
-        height: 38,
+        width: 32,
+        height: 32,
         decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x33000000),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
         ),
         child: const Center(
           child: Text(
@@ -419,7 +465,10 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     );
   }
 
-  Widget _buildWalletMode() {
+  // ---------------------------------------------------------------------------
+  // 2. APPLE WALLET CASCADE VIEW
+  // ---------------------------------------------------------------------------
+  Widget _buildWalletView() {
     final walletCards = [
       VerticalCard.preset(
         preset: CardPresets.holoInfinite,
@@ -487,6 +536,234 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               cardHeight: 380.0,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3. SYNCHRONIZED CHECKOUT FORM (WITH CVV AUTO-FLIP)
+  // ---------------------------------------------------------------------------
+  Widget _buildCheckoutFormView() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Column(
+        children: [
+          // Live synchronized card preview
+          Center(
+            child: VerticalCard.preset(
+              preset: CardPresets.holoInfinite,
+              cardNumber: _formCardNumber.isEmpty
+                  ? '0000 0000 0000 0000'
+                  : _formCardNumber,
+              cardHolder:
+                  _formCardHolder.isEmpty ? 'YOUR NAME' : _formCardHolder,
+              expiryDate: _formExpiry.isEmpty ? 'MM/YY' : _formExpiry,
+              cvv: _formCvv.isEmpty ? '•••' : _formCvv,
+              brand: _formBrand == CardBrand.generic ? null : _formBrand,
+              bankName: 'NEXUS BANK',
+              isFlipped: _isCheckoutFlipped,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Instruction badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.cyanAccent.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.cyanAccent.withOpacity(0.3)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.auto_awesome,
+                    size: 16, color: Colors.cyanAccent),
+                const SizedBox(width: 8),
+                Text(
+                  'Focus CVV field to watch the 3D auto-flip!',
+                  style: TextStyle(
+                    color: Colors.cyanAccent.withOpacity(0.9),
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // The interactive form widget
+          VerticalCardInputForm(
+            onCardNumberChanged: (val) => setState(() => _formCardNumber = val),
+            onCardHolderChanged: (val) => setState(() => _formCardHolder = val),
+            onExpiryChanged: (val) => setState(() => _formExpiry = val),
+            onCvvChanged: (val) => setState(() => _formCvv = val),
+            onBrandChanged: (val) => setState(() => _formBrand = val),
+            onCvvFocusChanged: (hasFocus) {
+              setState(() => _isCheckoutFlipped = hasFocus);
+            },
+          ),
+          const SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // 4. LIVE CARD CUSTOMIZER STUDIO
+  // ---------------------------------------------------------------------------
+  Widget _buildStudioView() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Live customized preview
+          Center(
+            child: VerticalCard(
+              cardNumber: '4000 1234 5678 9010',
+              cardHolder: 'DIMAS CLEVES',
+              expiryDate: '12/30',
+              cvv: '888',
+              bankName: 'CUSTOM CARD',
+              width: _studioWidth,
+              enable3DTilt: _studioTilt,
+              enableSpecularGlare: _studioGlare,
+              enableHolographicFoil: _studioHolo,
+              maxTiltAngle: _studioMaxTiltAngle,
+              cardTheme: VerticalCardTheme.metallic(
+                metalType: _studioMetal,
+                chipColor: _studioChip,
+                borderRadius: BorderRadius.circular(_studioBorderRadius),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Sliders & Controls
+          Text(
+            'Card Width: ${_studioWidth.toInt()} px',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          ),
+          Slider(
+            value: _studioWidth,
+            min: 200,
+            max: 280,
+            activeColor: Colors.cyanAccent,
+            onChanged: (val) => setState(() => _studioWidth = val),
+          ),
+
+          Text(
+            'Border Radius: ${_studioBorderRadius.toInt()} px',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          ),
+          Slider(
+            value: _studioBorderRadius,
+            min: 8,
+            max: 28,
+            activeColor: Colors.cyanAccent,
+            onChanged: (val) => setState(() => _studioBorderRadius = val),
+          ),
+
+          Text(
+            'Max Tilt Angle: ${(_studioMaxTiltAngle * 180 / 3.14159).toStringAsFixed(1)}°',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          ),
+          Slider(
+            value: _studioMaxTiltAngle,
+            min: 0.10,
+            max: 0.45,
+            activeColor: Colors.cyanAccent,
+            onChanged: (val) => setState(() => _studioMaxTiltAngle = val),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Metal Type selector
+          const Text('Metal Finish:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: MetalType.values.map((metal) {
+              final isSelected = _studioMetal == metal;
+              return ChoiceChip(
+                label: Text(metal.name),
+                selected: isSelected,
+                selectedColor: Colors.cyanAccent.withOpacity(0.25),
+                onSelected: (sel) {
+                  if (sel) setState(() => _studioMetal = metal);
+                },
+              );
+            }).toList(),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Toggles
+          SwitchListTile(
+            title: const Text('Holographic Rainbow Foil'),
+            value: _studioHolo,
+            activeColor: Colors.purpleAccent,
+            onChanged: (val) => setState(() => _studioHolo = val),
+          ),
+          SwitchListTile(
+            title: const Text('3D Tilt Physics'),
+            value: _studioTilt,
+            activeColor: Colors.cyanAccent,
+            onChanged: (val) => setState(() => _studioTilt = val),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Copy Dart Code button
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.cyanAccent,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+              icon: const Icon(Icons.copy_rounded, size: 18),
+              label: const Text('Copy Dart Code',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                final code = '''
+VerticalCard(
+  cardNumber: '4000 1234 5678 9010',
+  cardHolder: 'DIMAS CLEVES',
+  expiryDate: '12/30',
+  cvv: '888',
+  width: $_studioWidth,
+  enable3DTilt: $_studioTilt,
+  enableSpecularGlare: $_studioGlare,
+  enableHolographicFoil: $_studioHolo,
+  cardTheme: VerticalCardTheme.metallic(
+    metalType: MetalType.${_studioMetal.name},
+    chipColor: ChipColor.${_studioChip.name},
+    borderRadius: BorderRadius.circular($_studioBorderRadius),
+  ),
+)''';
+                Clipboard.setData(ClipboardData(text: code));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('✅ Dart code copied to clipboard!'),
+                    backgroundColor: Colors.teal[800],
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 30),
         ],
       ),
     );

@@ -34,6 +34,8 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
 - 📱 **100% Native Vertical Orientation:** Designed specifically for portrait mobile screens following the modern ID-1 portrait format (Nubank, Revolut, BBVA, Apple Card).
 - 🕹️ **Interactive 3D Tilt & Specular Reflection:** Reacts to finger dragging and mouse hovering with perspective transformations and a specular light sweep that dynamically moves across the card, snapping back with spring physics.
 - 🔄 **Fluid 3D Flip Animation:** Smooth 180° hardware-accelerated flip to inspect the magnetic stripe, signature strip, and CVV on the back.
+- 💳 **Synchronized Checkout Form (`VerticalCardInputForm`):** Real-time auto-formatting (`4444 4444...`, `MM/YY`, `CVV`), card brand detection, and **automatic 3D card flip to the back when the user focuses the CVV field**.
+- 🪪 **Security Hologram Sticker:** Realistic metallic rainbow diffraction security sticker with embossed globe & security wave patterns on the card back.
 - 🔒 **Privacy Mode (Tap-to-Reveal):** Automatically masks card numbers (`•••• •••• •••• 4321`) with an interactive eye icon or card tap to reveal sensitive details.
 - 🧊 **"Frozen / Locked" State:** Instant visual feedback for blocked cards featuring crystalline frost textures, desaturation, and a glowing padlock.
 - ⚠️ **"Expired" State:** Renders expired cards in stark black & white with an official red "EXPIRED" stamp.
@@ -43,7 +45,7 @@ Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
   - **Family C (Cyberpunk & Web3):** `neonCyan`, `matrixGreen`
   - **Family D (Abstract Art & Textures):** `painterlyGlobe`, `topographicGold`, `carbonStealth`
 - 🧩 **Slot Injection Architecture:** Fully customizable without touching core code. Inject your own widgets into `chipSlot`, `logoSlot`, `badgeSlot`, or `customOverlay`.
-- 🛡️ **Zero External Dependencies:** Pure Flutter SDK. Vector EMV chip, NFC contactless waves, and card network logos (Visa, Mastercard, Amex, Discover) are drawn with pure `CustomPainter`. No SVG loaders, no asset bundling issues.
+- 🛡️ **Zero External Dependencies:** Pure Flutter SDK. Vector EMV chip, NFC contactless waves, security hologram, and card network logos (Visa, Mastercard, Amex, Discover) are drawn with pure `CustomPainter`. No SVG loaders, no asset bundling issues.
 
 ---
 
@@ -220,6 +222,41 @@ VerticalCard(
   ),
 )
 ```
+
+---
+
+### 7. Synchronized Checkout Form with Auto-Flip
+
+Use `VerticalCardInputForm` to automatically format user input and trigger an auto-flip to the card back when the user taps on CVV:
+
+```dart
+bool _isFlipped = false;
+
+Column(
+  children: [
+    VerticalCard.preset(
+      cardNumber: _number,
+      cardHolder: _holder,
+      expiryDate: _expiry,
+      cvv: _cvv,
+      isFlipped: _isFlipped,
+      preset: CardPresets.holoInfinite,
+    ),
+    const SizedBox(height: 24),
+    VerticalCardInputForm(
+      onCardNumberChanged: (val) => setState(() => _number = val),
+      onCardHolderChanged: (val) => setState(() => _holder = val),
+      onExpiryChanged: (val) => setState(() => _expiry = val),
+      onCvvChanged: (val) => setState(() => _cvv = val),
+      onCvvFocusChanged: (isFocused) {
+        // Automatically flip card to back when focusing CVV
+        setState(() => _isFlipped = isFocused);
+      },
+    ),
+  ],
+)
+```
+
 
 ---
 
