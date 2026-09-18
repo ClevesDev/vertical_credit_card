@@ -19,6 +19,8 @@ class CardFront extends StatelessWidget {
   final Widget? bankLogo;
   final Widget? chipWidget;
   final Widget? actionBadge;
+  final double tiltX;
+  final double tiltY;
 
   const CardFront({
     super.key,
@@ -34,6 +36,8 @@ class CardFront extends StatelessWidget {
     this.bankLogo,
     this.chipWidget,
     this.actionBadge,
+    this.tiltX = 0.0,
+    this.tiltY = 0.0,
   });
 
   @override
@@ -121,23 +125,23 @@ class CardFront extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      isPrivacyMode
-                          ? _formatMaskedCardNumber(cardNumber)
-                          : _formatCardNumber(cardNumber),
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: isPrivacyMode ? 1.6 : 2.0,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withOpacity(0.3),
-                            offset: const Offset(0, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
+                    _FoilTextWrapper(
+                      finish: cardTheme.textFinish,
+                      tiltX: tiltX,
+                      tiltY: tiltY,
+                      child: Text(
+                        isPrivacyMode
+                            ? _formatMaskedCardNumber(cardNumber)
+                            : _formatCardNumber(cardNumber),
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: isPrivacyMode ? 1.6 : 2.0,
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                          shadows:
+                              _getTextShadows(cardTheme.textFinish, textColor),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8.0),
@@ -182,15 +186,22 @@ class CardFront extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 6.0),
-                          Text(
-                            isPrivacyMode
-                                ? '••/••'
-                                : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.2,
+                          _FoilTextWrapper(
+                            finish: cardTheme.textFinish,
+                            tiltX: tiltX,
+                            tiltY: tiltY,
+                            child: Text(
+                              isPrivacyMode
+                                  ? '••/••'
+                                  : (expiryDate.isEmpty ? 'MM/YY' : expiryDate),
+                              style: TextStyle(
+                                color: textColor,
+                                fontSize: 12.5,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.2,
+                                shadows: _getTextShadows(
+                                    cardTheme.textFinish, textColor),
+                              ),
                             ),
                           ),
                         ],
@@ -198,24 +209,24 @@ class CardFront extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     // Cardholder Name
-                    Text(
-                      cardHolder.isEmpty
-                          ? 'CARDHOLDER NAME'
-                          : cardHolder.toUpperCase(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.5,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withOpacity(0.25),
-                            offset: const Offset(0, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
+                    _FoilTextWrapper(
+                      finish: cardTheme.textFinish,
+                      tiltX: tiltX,
+                      tiltY: tiltY,
+                      child: Text(
+                        cardHolder.isEmpty
+                            ? 'CARDHOLDER NAME'
+                            : cardHolder.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                          shadows:
+                              _getTextShadows(cardTheme.textFinish, textColor),
+                        ),
                       ),
                     ),
                   ],
@@ -260,5 +271,112 @@ class CardFront extends StatelessWidget {
     if (clean.length <= 4) return '••••  ••••  ••••  $clean';
     final lastFour = clean.substring(clean.length - 4);
     return '••••  ••••  ••••  $lastFour';
+  }
+}
+
+List<Shadow> _getTextShadows(CardTextFinish finish, Color baseTextColor) {
+  switch (finish) {
+    case CardTextFinish.embossed:
+      return [
+        Shadow(
+          color: Colors.white.withOpacity(0.55),
+          offset: const Offset(-1, -1),
+          blurRadius: 1,
+        ),
+        Shadow(
+          color: Colors.black.withOpacity(0.7),
+          offset: const Offset(1.2, 1.5),
+          blurRadius: 2,
+        ),
+      ];
+    case CardTextFinish.goldFoil:
+    case CardTextFinish.silverFoil:
+    case CardTextFinish.roseGoldFoil:
+      return [
+        Shadow(
+          color: Colors.black.withOpacity(0.4),
+          offset: const Offset(0, 1.5),
+          blurRadius: 2,
+        ),
+      ];
+    case CardTextFinish.flat:
+      return [
+        Shadow(
+          color: Colors.black.withOpacity(0.3),
+          offset: const Offset(0, 1),
+          blurRadius: 2,
+        ),
+      ];
+  }
+}
+
+class _FoilTextWrapper extends StatelessWidget {
+  final Widget child;
+  final CardTextFinish finish;
+  final double tiltX;
+  final double tiltY;
+
+  const _FoilTextWrapper({
+    required this.child,
+    required this.finish,
+    this.tiltX = 0.0,
+    this.tiltY = 0.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (finish == CardTextFinish.flat || finish == CardTextFinish.embossed) {
+      return child;
+    }
+
+    List<Color> colors;
+    switch (finish) {
+      case CardTextFinish.goldFoil:
+        colors = const [
+          Color(0xFFFFDF73),
+          Color(0xFFC9982E),
+          Color(0xFFFFF4B8),
+          Color(0xFFA5761A),
+          Color(0xFFFFE680),
+        ];
+        break;
+      case CardTextFinish.silverFoil:
+        colors = const [
+          Color(0xFFF0F3F6),
+          Color(0xFFA0AAB4),
+          Color(0xFFFFFFFF),
+          Color(0xFF7B8590),
+          Color(0xFFE4E9ED),
+        ];
+        break;
+      case CardTextFinish.roseGoldFoil:
+        colors = const [
+          Color(0xFFFFD4C2),
+          Color(0xFFC7846E),
+          Color(0xFFFFE8DC),
+          Color(0xFFA25945),
+          Color(0xFFFFCEBA),
+        ];
+        break;
+      case CardTextFinish.flat:
+      case CardTextFinish.embossed:
+        return child;
+    }
+
+    // Shift foil specular highlight smoothly based on tilt coordinates
+    final shift = (tiltX * 0.4).clamp(-0.4, 0.4);
+
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) {
+        return LinearGradient(
+          begin: Alignment(-1.0 + shift, -1.0),
+          end: Alignment(1.0 + shift, 1.0),
+          colors: colors,
+          stops: const [0.0, 0.3, 0.5, 0.75, 1.0],
+        ).createShader(bounds);
+      },
+      child: child,
+    );
   }
 }

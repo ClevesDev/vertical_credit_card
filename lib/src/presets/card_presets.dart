@@ -47,6 +47,8 @@ class CardPresets {
         metalType: MetalType.brushedTitanium,
         textColor: const Color(0xFFF0F0F2),
         chipColor: ChipColor.silver,
+      ).copyWith(
+        textFinish: CardTextFinish.embossed,
       );
 
   /// Stealth matte obsidian black inspired by Amex Centurion.
@@ -54,33 +56,64 @@ class CardPresets {
         metalType: MetalType.obsidian,
         textColor: Colors.white,
         chipColor: ChipColor.black,
+      ).copyWith(
+        textFinish: CardTextFinish.silverFoil,
       );
 
-  /// 24k brushed gold prestige card.
+  /// 24k brushed gold prestige card with gold foil text and subtle diamond dust.
   static VerticalCardTheme get goldPrestige => VerticalCardTheme.metallic(
         metalType: MetalType.gold,
         textColor: const Color(0xFF241C0A),
         chipColor: ChipColor.gold,
+      ).copyWith(
+        textFinish: CardTextFinish.goldFoil,
+        enableDiamondDust: true,
       );
 
   // ---------------------------------------------------------------------------
   // FAMILIA C: CYBERPUNK & WEB3
   // ---------------------------------------------------------------------------
 
-  /// Translucent frosted glass with electric cyan neon border.
+  /// Translucent frosted glass with electric cyan neon border and animated perimeter glow.
   static VerticalCardTheme get neonCyan => VerticalCardTheme.glass(
         neonColor: const Color(0xFF00F0FF),
         blur: 14.0,
         chipColor: ChipColor.silver,
+      ).copyWith(
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFF00F0FF),
+        enablePaymentPulse: true,
       );
 
-  /// Deep terminal black with matrix phosphor-green glow.
+  /// Deep terminal black with matrix phosphor-green glow and animated edge beam.
   static VerticalCardTheme get matrixGreen => VerticalCardTheme.glass(
         neonColor: const Color(0xFF00FF66),
         blur: 12.0,
         textColor: const Color(0xFF00FF66),
         secondaryTextColor: const Color(0xAA00FF66),
         chipColor: ChipColor.silver,
+      ).copyWith(
+        enableEdgeGlow: true,
+        edgeGlowColor: const Color(0xFF00FF66),
+        enablePaymentPulse: true,
+      );
+
+  /// Chromatic fluid liquid mesh gradient with vibrant shifting orbs (Revolut Metal & Apple Card style).
+  static VerticalCardTheme get revolutChromatic => VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: const CardBackground.fluid(
+          colors: [
+            Color(0xFF7928CA), // Electric Purple
+            Color(0xFF0070F3), // Neon Blue
+            Color(0xFFFF0080), // Hot Pink
+            Color(0xFF00DFD8), // Turquoise
+          ],
+        ),
+        textColor: Colors.white,
+        secondaryTextColor: const Color(0xCCFFFFFF),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
       );
 
   // ---------------------------------------------------------------------------

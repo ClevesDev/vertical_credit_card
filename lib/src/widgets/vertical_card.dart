@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/card_brand.dart';
 import '../models/card_theme.dart';
+import '../painters/cyber_edge_glow_painter.dart';
+import '../painters/diamond_dust_painter.dart';
 import '../painters/frost_painter.dart';
 import '../painters/holographic_painter.dart';
+import '../painters/payment_pulse_painter.dart';
 import '../painters/specular_glare_painter.dart';
 import '../presets/card_presets.dart';
 import 'card_back.dart';
@@ -89,6 +92,26 @@ class VerticalCard extends StatefulWidget {
   /// Slot allowing injection of custom status badge (e.g. "DEBIT", "VIP").
   final Widget? actionBadge;
 
+  /// The tactile and material surface finish applied to card typography (e.g. gold foil, embossed).
+  /// If null, falls back to [cardTheme.textFinish].
+  final CardTextFinish? textFinish;
+
+  /// Whether an animated neon perimeter beam traces the rounded edge of the card.
+  /// If null, falls back to [cardTheme.enableEdgeGlow].
+  final bool? enableEdgeGlow;
+
+  /// Custom glow color for the perimeter beam.
+  /// If null, falls back to [cardTheme.edgeGlowColor].
+  final Color? edgeGlowColor;
+
+  /// Whether subtle diamond dust / micro-glitter sparkles twinkle on the card surface.
+  /// If null, falls back to [cardTheme.enableDiamondDust].
+  final bool? enableDiamondDust;
+
+  /// Whether tapping the card triggers an expanding contactless sonar payment pulse.
+  /// If null, falls back to [cardTheme.enablePaymentPulse].
+  final bool? enablePaymentPulse;
+
   /// Default constructor accepting a custom or preset [VerticalCardTheme].
   const VerticalCard({
     super.key,
@@ -116,6 +139,11 @@ class VerticalCard extends StatefulWidget {
     this.bankLogo,
     this.chipWidget,
     this.actionBadge,
+    this.textFinish,
+    this.enableEdgeGlow,
+    this.edgeGlowColor,
+    this.enableDiamondDust,
+    this.enablePaymentPulse,
   });
 
   /// Convenient factory to instantiate a card directly using a preset from [CardPresets].
@@ -144,6 +172,11 @@ class VerticalCard extends StatefulWidget {
     Widget? bankLogo,
     Widget? chipWidget,
     Widget? actionBadge,
+    CardTextFinish? textFinish,
+    bool? enableEdgeGlow,
+    Color? edgeGlowColor,
+    bool? enableDiamondDust,
+    bool? enablePaymentPulse,
   }) {
     return VerticalCard(
       key: key,
@@ -170,6 +203,11 @@ class VerticalCard extends StatefulWidget {
       bankLogo: bankLogo,
       chipWidget: chipWidget,
       actionBadge: actionBadge,
+      textFinish: textFinish,
+      enableEdgeGlow: enableEdgeGlow,
+      edgeGlowColor: edgeGlowColor,
+      enableDiamondDust: enableDiamondDust,
+      enablePaymentPulse: enablePaymentPulse,
     );
   }
 
@@ -396,8 +434,34 @@ class _VerticalCardState extends State<VerticalCard>
   double _tiltX = 0.0;
   double _tiltY = 0.0;
 
+  // Visual Effects Controllers
+  late AnimationController _edgeGlowController;
+  late AnimationController _paymentPulseController;
+  late AnimationController _defrostController;
+
   bool _showBack = false;
   late bool _isPrivate;
+
+  bool get _effectiveEnableEdgeGlow =>
+      widget.enableEdgeGlow ?? widget.cardTheme.enableEdgeGlow;
+
+  bool _wasEdgeGlowEnabled(VerticalCard old) =>
+      old.enableEdgeGlow ?? old.cardTheme.enableEdgeGlow;
+
+  bool get _effectiveEnableDiamondDust =>
+      widget.enableDiamondDust ?? widget.cardTheme.enableDiamondDust;
+
+  bool get _effectiveEnablePaymentPulse =>
+      widget.enablePaymentPulse ?? widget.cardTheme.enablePaymentPulse;
+
+  CardTextFinish get _effectiveTextFinish =>
+      widget.textFinish ?? widget.cardTheme.textFinish;
+
+  Color get _effectiveEdgeGlowColor =>
+      widget.edgeGlowColor ??
+      widget.cardTheme.edgeGlowColor ??
+      widget.cardTheme.neonColor ??
+      const Color(0xFF00F0FF);
 
   @override
   void initState() {
@@ -427,6 +491,27 @@ class _VerticalCardState extends State<VerticalCard>
       duration: const Duration(milliseconds: 400),
     );
 
+    // Cyber edge glow perimeter running comet controller
+    _edgeGlowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    );
+    if (_effectiveEnableEdgeGlow) {
+      _edgeGlowController.repeat();
+    }
+
+    // Contactless payment pulse wave controller
+    _paymentPulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    // Defrost melt transition controller
+    _defrostController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 750),
+    );
+
     if (widget.isFlipped == true) {
       _flipController.value = 1.0;
       _showBack = true;
@@ -448,17 +533,33 @@ class _VerticalCardState extends State<VerticalCard>
         _flipController.reverse();
       }
     }
+    if (_effectiveEnableEdgeGlow != _wasEdgeGlowEnabled(oldWidget)) {
+      if (_effectiveEnableEdgeGlow) {
+        _edgeGlowController.repeat();
+      } else {
+        _edgeGlowController.stop();
+      }
+    }
+    if (oldWidget.isFrozen && !widget.isFrozen) {
+      _defrostController.forward(from: 0.0);
+    }
   }
 
   @override
   void dispose() {
     _flipController.dispose();
     _tiltResetController.dispose();
+    _edgeGlowController.dispose();
+    _paymentPulseController.dispose();
+    _defrostController.dispose();
     super.dispose();
   }
 
   void _handleTap() {
     HapticFeedback.selectionClick();
+    if (_effectiveEnablePaymentPulse) {
+      _paymentPulseController.forward(from: 0.0);
+    }
     widget.onTap?.call();
 
     if (widget.enableFlip) {
@@ -542,6 +643,14 @@ class _VerticalCardState extends State<VerticalCard>
               ..rotateX(-_tiltY)
               ..rotateY(flipAngle + _tiltX);
 
+            final effectiveTheme = widget.cardTheme.copyWith(
+              textFinish: _effectiveTextFinish,
+              enableEdgeGlow: _effectiveEnableEdgeGlow,
+              edgeGlowColor: _effectiveEdgeGlowColor,
+              enableDiamondDust: _effectiveEnableDiamondDust,
+              enablePaymentPulse: _effectiveEnablePaymentPulse,
+            );
+
             Widget cardFace = !_showBack
                 ? CardFront(
                     cardNumber: widget.cardNumber,
@@ -549,20 +658,22 @@ class _VerticalCardState extends State<VerticalCard>
                     expiryDate: widget.expiryDate,
                     bankName: widget.bankName,
                     brand: detectedBrand,
-                    cardTheme: widget.cardTheme,
+                    cardTheme: effectiveTheme,
                     isFrozen: widget.isFrozen,
                     isPrivacyMode: _isPrivate,
                     onPrivacyToggle: _togglePrivacy,
                     bankLogo: widget.bankLogo,
                     chipWidget: widget.chipWidget,
                     actionBadge: widget.actionBadge,
+                    tiltX: _tiltX,
+                    tiltY: _tiltY,
                   )
                 : Transform(
                     transform: Matrix4.rotationY(math.pi),
                     alignment: Alignment.center,
                     child: CardBack(
                       cvv: widget.cvv,
-                      cardTheme: widget.cardTheme,
+                      cardTheme: effectiveTheme,
                       bankName: widget.bankName,
                       isPrivacyMode: _isPrivate,
                     ),
@@ -648,7 +759,63 @@ class _VerticalCardState extends State<VerticalCard>
                         ),
                       ),
 
-                    // Frozen Overlay Layer
+                    // Diamond Dust / Micro-Glitter Sparkles
+                    if (_effectiveEnableDiamondDust && !widget.isFrozen)
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: widget.cardTheme.borderRadius,
+                          child: IgnorePointer(
+                            child: CustomPaint(
+                              painter: DiamondDustPainter(
+                                tiltX: _tiltX,
+                                tiltY: _tiltY,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    // Contactless Payment Pulse Radar Wave
+                    AnimatedBuilder(
+                      animation: _paymentPulseController,
+                      builder: (context, _) {
+                        if (!_paymentPulseController.isAnimating) {
+                          return const SizedBox.shrink();
+                        }
+                        return Positioned.fill(
+                          child: ClipRRect(
+                            borderRadius: widget.cardTheme.borderRadius,
+                            child: IgnorePointer(
+                              child: CustomPaint(
+                                painter: PaymentPulsePainter(
+                                  progress: _paymentPulseController.value,
+                                  pulseColor: _effectiveEdgeGlowColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    // Cyber Edge Glow Perimeter Beam
+                    if (_effectiveEnableEdgeGlow)
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: AnimatedBuilder(
+                            animation: _edgeGlowController,
+                            builder: (context, _) => CustomPaint(
+                              painter: CyberEdgeGlowPainter(
+                                progress: _edgeGlowController.value,
+                                glowColor: _effectiveEdgeGlowColor,
+                                borderRadius: widget.cardTheme.borderRadius,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    // Frozen Overlay Layer & Defrost Melt Transition
                     if (widget.isFrozen)
                       Positioned.fill(
                         child: ClipRRect(
@@ -705,6 +872,31 @@ class _VerticalCardState extends State<VerticalCard>
                             ],
                           ),
                         ),
+                      )
+                    else
+                      AnimatedBuilder(
+                        animation: _defrostController,
+                        builder: (context, _) {
+                          if (!_defrostController.isAnimating) {
+                            return const SizedBox.shrink();
+                          }
+                          final fade =
+                              (1.0 - _defrostController.value).clamp(0.0, 1.0);
+                          return Positioned.fill(
+                            child: IgnorePointer(
+                              child: Opacity(
+                                opacity: fade,
+                                child: ClipRRect(
+                                  borderRadius: widget.cardTheme.borderRadius,
+                                  child: CustomPaint(
+                                    size: Size(widget.width, height),
+                                    painter: FrostOverlayPainter(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
 
                     // Expired Diagonal Rubber Stamp

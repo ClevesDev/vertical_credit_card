@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../models/card_theme.dart';
+import '../painters/fluid_mesh_painter.dart';
 import '../painters/metallic_painter.dart';
 
 /// Defines the background visual appearance of a vertical credit card.
@@ -32,6 +33,13 @@ abstract class CardBackground {
   /// Custom painter background (ideal for artistic textures, waves, and patterns).
   const factory CardBackground.painter(CustomPainter painter,
       {Color backgroundColor}) = _PainterCardBackground;
+
+  /// Chromatic animated fluid mesh gradient background (Revolut Metal & Apple Card style).
+  const factory CardBackground.fluid({
+    List<Color>? colors,
+    Color backgroundColor,
+    double speed,
+  }) = _FluidCardBackground;
 
   /// Completely custom builder for maximum flexibility.
   const factory CardBackground.custom(
@@ -149,5 +157,94 @@ class _CustomCardBackground extends CardBackground {
   Widget build(BuildContext context,
       {required BorderRadius borderRadius, required Widget child}) {
     return builder(context, child);
+  }
+}
+
+class _FluidCardBackground extends CardBackground {
+  final List<Color>? colors;
+  final Color backgroundColor;
+  final double speed;
+
+  const _FluidCardBackground({
+    this.colors,
+    this.backgroundColor = const Color(0xFF0A0A16),
+    this.speed = 1.0,
+  });
+
+  @override
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
+    return _FluidAnimatedBackgroundWidget(
+      colors: colors,
+      backgroundColor: backgroundColor,
+      speed: speed,
+      borderRadius: borderRadius,
+      child: child,
+    );
+  }
+}
+
+class _FluidAnimatedBackgroundWidget extends StatefulWidget {
+  final List<Color>? colors;
+  final Color backgroundColor;
+  final double speed;
+  final BorderRadius borderRadius;
+  final Widget child;
+
+  const _FluidAnimatedBackgroundWidget({
+    this.colors,
+    required this.backgroundColor,
+    required this.speed,
+    required this.borderRadius,
+    required this.child,
+  });
+
+  @override
+  State<_FluidAnimatedBackgroundWidget> createState() =>
+      _FluidAnimatedBackgroundWidgetState();
+}
+
+class _FluidAnimatedBackgroundWidgetState
+    extends State<_FluidAnimatedBackgroundWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: (12000 / widget.speed).round()),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return CustomPaint(
+          painter: FluidMeshPainter(
+            time: _controller.value * 2 * 3.141592653589793,
+            colors: widget.colors ??
+                const [
+                  Color(0xFF6C11D9),
+                  Color(0xFF00E5FF),
+                  Color(0xFFFF007A),
+                  Color(0xFF4A00E0),
+                ],
+            backgroundColor: widget.backgroundColor,
+          ),
+          child: child,
+        );
+      },
+      child: widget.child,
+    );
   }
 }

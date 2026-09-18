@@ -21,7 +21,8 @@ void main() {
     final walletTab = find.text('Wallet');
     expect(walletTab, findsOneWidget);
     await tester.tap(walletTab);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
 
     // Verify stack message and widget are displayed
     expect(find.text('Tap any card to expand / focus wallet'), findsOneWidget);
@@ -36,7 +37,8 @@ void main() {
     final checkoutTab = find.text('Checkout');
     expect(checkoutTab, findsOneWidget);
     await tester.tap(checkoutTab);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
 
     // Verify input form is present
     expect(find.byType(VerticalCardInputForm), findsOneWidget);
@@ -54,11 +56,12 @@ void main() {
     final studioTab = find.text('Studio');
     expect(studioTab, findsOneWidget);
     await tester.tap(studioTab);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
 
     // Verify Studio sliders and Copy button
     expect(find.text('Copy Dart Code'), findsOneWidget);
-    expect(find.text('Holographic Rainbow Foil'), findsOneWidget);
-    expect(find.text('3D Tilt Physics'), findsOneWidget);
+    expect(find.text('🌈 Holographic Rainbow Foil'), findsOneWidget);
+    expect(find.text('🕹️ 3D Tilt Physics'), findsOneWidget);
   });
 }

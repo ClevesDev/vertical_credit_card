@@ -60,8 +60,12 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   double _studioWidth = 240.0;
   double _studioBorderRadius = 16.0;
   double _studioMaxTiltAngle = 0.24;
-  MetalType _studioMetal = MetalType.brushedTitanium;
-  ChipColor _studioChip = ChipColor.silver;
+  MetalType _studioMetal = MetalType.gold;
+  ChipColor _studioChip = ChipColor.gold;
+  CardTextFinish _studioTextFinish = CardTextFinish.goldFoil;
+  bool _studioEdgeGlow = false;
+  bool _studioDiamondDust = true;
+  bool _studioPaymentPulse = true;
   bool _studioHolo = false;
   bool _studioTilt = true;
   bool _studioGlare = true;
@@ -72,33 +76,48 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     {
       'name': 'Apple Card',
       'family': 'Luxury',
-      'theme': CardPresets.appleTitanium
+      'theme': CardPresets.appleTitanium,
     },
     {
       'name': 'Amex Black',
       'family': 'Luxury',
-      'theme': CardPresets.amexCenturion
+      'theme': CardPresets.amexCenturion,
+    },
+    {
+      'name': 'Gold Prestige',
+      'family': 'Luxury',
+      'theme': CardPresets.goldPrestige,
     },
     {'name': 'Neon Cyber', 'family': 'Cyber', 'theme': CardPresets.neonCyan},
     {
+      'name': 'Matrix Green',
+      'family': 'Cyber',
+      'theme': CardPresets.matrixGreen,
+    },
+    {
+      'name': 'Revolut Fluid',
+      'family': 'Chromatic',
+      'theme': CardPresets.revolutChromatic,
+    },
+    {
       'name': 'Holo Infinite',
       'family': 'Holographic',
-      'theme': CardPresets.holoInfinite
+      'theme': CardPresets.holoInfinite,
     },
     {
       'name': 'Painterly Globe',
       'family': 'Family D',
-      'theme': CardPresets.painterlyGlobe
+      'theme': CardPresets.painterlyGlobe,
     },
     {
       'name': 'Topographic Gold',
       'family': 'Family D',
-      'theme': CardPresets.topographicGold
+      'theme': CardPresets.topographicGold,
     },
     {
       'name': 'Carbon Stealth',
       'family': 'Family D',
-      'theme': CardPresets.carbonStealth
+      'theme': CardPresets.carbonStealth,
     },
   ];
 
@@ -635,6 +654,10 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               enableSpecularGlare: _studioGlare,
               enableHolographicFoil: _studioHolo,
               maxTiltAngle: _studioMaxTiltAngle,
+              textFinish: _studioTextFinish,
+              enableEdgeGlow: _studioEdgeGlow,
+              enableDiamondDust: _studioDiamondDust,
+              enablePaymentPulse: _studioPaymentPulse,
               cardTheme: VerticalCardTheme.metallic(
                 metalType: _studioMetal,
                 chipColor: _studioChip,
@@ -684,6 +707,27 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
 
           const SizedBox(height: 12),
 
+          // Typography Finish selector
+          const Text('Typography 3D Finish:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: CardTextFinish.values.map((finish) {
+              final isSelected = _studioTextFinish == finish;
+              return ChoiceChip(
+                label: Text(finish.name),
+                selected: isSelected,
+                selectedColor: Colors.amberAccent.withOpacity(0.3),
+                onSelected: (sel) {
+                  if (sel) setState(() => _studioTextFinish = finish);
+                },
+              );
+            }).toList(),
+          ),
+
+          const SizedBox(height: 14),
+
           // Metal Type selector
           const Text('Metal Finish:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
@@ -707,13 +751,31 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
 
           // Toggles
           SwitchListTile(
-            title: const Text('Holographic Rainbow Foil'),
+            title: const Text('✨ Diamond Dust / Micro-Glitter'),
+            value: _studioDiamondDust,
+            activeColor: Colors.amberAccent,
+            onChanged: (val) => setState(() => _studioDiamondDust = val),
+          ),
+          SwitchListTile(
+            title: const Text('⚡ Cyber Edge Glow (Perimeter Beam)'),
+            value: _studioEdgeGlow,
+            activeColor: Colors.cyanAccent,
+            onChanged: (val) => setState(() => _studioEdgeGlow = val),
+          ),
+          SwitchListTile(
+            title: const Text('📡 NFC Contactless Tap Pulse'),
+            value: _studioPaymentPulse,
+            activeColor: const Color(0xFF00FFC2),
+            onChanged: (val) => setState(() => _studioPaymentPulse = val),
+          ),
+          SwitchListTile(
+            title: const Text('🌈 Holographic Rainbow Foil'),
             value: _studioHolo,
             activeColor: Colors.purpleAccent,
             onChanged: (val) => setState(() => _studioHolo = val),
           ),
           SwitchListTile(
-            title: const Text('3D Tilt Physics'),
+            title: const Text('🕹️ 3D Tilt Physics'),
             value: _studioTilt,
             activeColor: Colors.cyanAccent,
             onChanged: (val) => setState(() => _studioTilt = val),
@@ -746,6 +808,10 @@ VerticalCard(
   enable3DTilt: $_studioTilt,
   enableSpecularGlare: $_studioGlare,
   enableHolographicFoil: $_studioHolo,
+  textFinish: CardTextFinish.${_studioTextFinish.name},
+  enableEdgeGlow: $_studioEdgeGlow,
+  enableDiamondDust: $_studioDiamondDust,
+  enablePaymentPulse: $_studioPaymentPulse,
   cardTheme: VerticalCardTheme.metallic(
     metalType: MetalType.${_studioMetal.name},
     chipColor: ChipColor.${_studioChip.name},

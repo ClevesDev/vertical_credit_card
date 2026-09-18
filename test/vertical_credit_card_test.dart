@@ -57,6 +57,99 @@ void main() {
     });
   });
 
+  group('Visual Effects Suite Tests', () {
+    test('CardTextFinish covers all options', () {
+      expect(CardTextFinish.values, contains(CardTextFinish.flat));
+      expect(CardTextFinish.values, contains(CardTextFinish.goldFoil));
+      expect(CardTextFinish.values, contains(CardTextFinish.silverFoil));
+      expect(CardTextFinish.values, contains(CardTextFinish.roseGoldFoil));
+      expect(CardTextFinish.values, contains(CardTextFinish.embossed));
+    });
+
+    test('CardPresets.revolutChromatic initializes with fluid background', () {
+      final theme = CardPresets.revolutChromatic;
+      expect(theme.type, VerticalCardThemeType.artistic);
+      expect(theme.textFinish, CardTextFinish.silverFoil);
+      expect(theme.enablePaymentPulse, isTrue);
+    });
+
+    testWidgets(
+        'Renders VerticalCard with foil text, edge glow, and diamond dust',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: VerticalCard(
+                cardNumber: '4111 2222 3333 4444',
+                cardHolder: 'ELENA ROJAS',
+                expiryDate: '12/28',
+                cvv: '888',
+                textFinish: CardTextFinish.goldFoil,
+                enableEdgeGlow: true,
+                enableDiamondDust: true,
+                enablePaymentPulse: true,
+                cardTheme: CardPresets.goldPrestige,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('4111  2222  3333  4444'), findsOneWidget);
+      expect(find.text('ELENA ROJAS'), findsOneWidget);
+
+      // Tap card to trigger payment pulse wave
+      await tester.tap(find.byType(VerticalCard));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(tester.hasRunningAnimations, isTrue);
+    });
+
+    testWidgets('Renders and animates defrost transition',
+        (WidgetTester tester) async {
+      bool isFrozen = true;
+
+      await tester.pumpWidget(
+        StatefulBuilder(
+          builder: (context, setState) {
+            return MaterialApp(
+              home: Scaffold(
+                body: Column(
+                  children: [
+                    ElevatedButton(
+                      key: const Key('unfreeze_btn'),
+                      onPressed: () => setState(() => isFrozen = false),
+                      child: const Text('Unfreeze'),
+                    ),
+                    VerticalCard(
+                      cardNumber: '4111 2222 3333 4444',
+                      cardHolder: 'ELENA ROJAS',
+                      expiryDate: '12/28',
+                      cvv: '888',
+                      isFrozen: isFrozen,
+                      cardTheme: CardPresets.neonCyan,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
+
+      expect(find.text('FROZEN'), findsOneWidget);
+
+      // Unfreeze via button
+      await tester.tap(find.byKey(const Key('unfreeze_btn')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      // Frozen badge is gone, defrost transition is running
+      expect(find.text('FROZEN'), findsNothing);
+      await tester.pump(const Duration(milliseconds: 800));
+    });
+  });
+
   group('VerticalCard Widget Tests', () {
     testWidgets('Renders VerticalCard with front content by default',
         (WidgetTester tester) async {
