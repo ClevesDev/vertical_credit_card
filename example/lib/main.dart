@@ -76,9 +76,15 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 6),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 6),
 
             // Horizontal Presets Carousel
             SingleChildScrollView(
@@ -209,8 +215,13 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+},
+),
+),
+);
+}
 
   Widget _buildControlItem({
     required IconData icon,
