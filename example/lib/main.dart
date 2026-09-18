@@ -73,6 +73,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   bool _studioIsFrozen = false;
   bool _studioPrivacy = false;
   bool _hideBankingBalance = false;
+  String _studioCountryCode = 'GLOBAL';
 
   final List<Map<String, dynamic>> _presets = [
     {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
@@ -122,6 +123,52 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'name': 'Carbon Stealth',
       'family': 'Family D',
       'theme': CardPresets.carbonStealth,
+    },
+    // Regional & Global Fintech Flagships
+    {
+      'name': '🇨🇴 Nequi',
+      'family': 'Regional',
+      'theme': CardPresets.nequi,
+    },
+    {
+      'name': '🇨🇴 Bancolombia',
+      'family': 'Regional',
+      'theme': CardPresets.bancolombia,
+    },
+    {
+      'name': '🇲🇽 Mercado Pago',
+      'family': 'Regional',
+      'theme': CardPresets.mercadoPago,
+    },
+    {
+      'name': '🇲🇽 Hey Banco',
+      'family': 'Regional',
+      'theme': CardPresets.heyBanco,
+    },
+    {
+      'name': '🇧🇷 Nu Ultravioleta',
+      'family': 'Regional',
+      'theme': CardPresets.nubankUltravioleta,
+    },
+    {
+      'name': '🇧🇷 Banco Inter',
+      'family': 'Regional',
+      'theme': CardPresets.bancoInter,
+    },
+    {
+      'name': '🇦🇷 Lemon Cash',
+      'family': 'Regional',
+      'theme': CardPresets.lemonCash,
+    },
+    {
+      'name': '🇦🇷 Ualá',
+      'family': 'Regional',
+      'theme': CardPresets.uala,
+    },
+    {
+      'name': '🇪🇸 N26 Glass',
+      'family': 'Regional',
+      'theme': CardPresets.n26,
     },
   ];
 
@@ -871,10 +918,423 @@ VerticalCard(
   }
 
   // ---------------------------------------------------------------------------
-  // 5. BANKING APP REALISTIC MOCKUP (STUDIO OPTION A)
+  // 5. REGIONAL FINTECH SELECTOR & BANKING APP MOCKUP
   // ---------------------------------------------------------------------------
+  Widget _buildCountrySelector() {
+    final countries = [
+      {'code': 'GLOBAL', 'label': 'Global', 'flag': '🌎'},
+      {'code': 'CO', 'label': 'Colombia', 'flag': '🇨🇴'},
+      {'code': 'MX', 'label': 'México', 'flag': '🇲🇽'},
+      {'code': 'BR', 'label': 'Brasil', 'flag': '🇧🇷'},
+      {'code': 'AR', 'label': 'Argentina', 'flag': '🇦🇷'},
+      {'code': 'ES', 'label': 'España', 'flag': '🇪🇸'},
+    ];
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        children: countries.map((country) {
+          final isSelected = _studioCountryCode == country['code'];
+          return Padding(
+            padding: const EdgeInsets.only(right: 6.0),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                setState(() {
+                  _studioCountryCode = country['code']!;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutCubic,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? Colors.cyanAccent.withOpacity(0.18)
+                      : const Color(0xFF141824),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.cyanAccent
+                        : Colors.white.withOpacity(0.08),
+                    width: isSelected ? 1.2 : 0.8,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: Colors.cyanAccent.withOpacity(0.25),
+                            blurRadius: 8,
+                            spreadRadius: 0.5,
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      country['flag']!,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      country['label']!,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight:
+                            isSelected ? FontWeight.w800 : FontWeight.w600,
+                        color: isSelected ? Colors.cyanAccent : Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   Widget _buildBankingAppMockup() {
     final cardMockupWidth = _studioWidth.clamp(190.0, 225.0);
+
+    final String currency;
+    final String balance;
+    final String trend;
+    final String accountType;
+    final String accountTag;
+    final Color accountTagColor;
+    final String bankName;
+    final String cardHolder;
+    final String cardNumber;
+    final VerticalCardTheme activeCardTheme;
+    final List<Map<String, dynamic>> transactions;
+
+    switch (_studioCountryCode) {
+      case 'CO':
+        currency = 'COP';
+        balance = r'$4.850.000';
+        trend = '+5.2% este mes';
+        accountTag = 'COLOMBIA FINTECH';
+        accountTagColor = const Color(0xFFFF007A);
+        accountType = 'Cuenta Nequi Ahorros';
+        bankName = 'NEQUI';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4512 8839 0192 4812';
+        activeCardTheme = CardPresets.nequi.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Rappi Prime',
+            'subtitle': 'Domicilio Gourmet · Nequi',
+            'amount': r'-$34.900',
+            'time': 'Hoy, 1:45 PM',
+            'isIncome': false,
+            'icon': Icons.delivery_dining_rounded,
+            'iconBg': const Color(0xFF2C1A24),
+          },
+          {
+            'title': 'Éxito Wow Poblado',
+            'subtitle': 'Supermercado · Contactless',
+            'amount': r'-$185.400',
+            'time': 'Hoy, 11:20 AM',
+            'isIncome': false,
+            'icon': Icons.shopping_bag_outlined,
+            'iconBg': const Color(0xFF2B2818),
+          },
+          {
+            'title': 'Bancolombia Nómina',
+            'subtitle': 'Transferencia directa recibida',
+            'amount': r'+$1.200.000',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.account_balance_rounded,
+            'iconBg': const Color(0xFF162529),
+          },
+          {
+            'title': 'Spotify Premium',
+            'subtitle': 'Suscripción mensual',
+            'amount': r'-$16.900',
+            'time': '15 Sep',
+            'isIncome': false,
+            'icon': Icons.music_note_rounded,
+            'iconBg': const Color(0xFF172B1E),
+          },
+        ];
+        break;
+
+      case 'MX':
+        currency = 'MXN';
+        balance = r'$28,500.00';
+        trend = '+4.1% este mes';
+        accountTag = 'MÉXICO FINTECH';
+        accountTagColor = const Color(0xFF009EE3);
+        accountType = 'Débito Digital SPEI';
+        bankName = 'MERCADO PAGO';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '5256 7102 9940 1834';
+        activeCardTheme = CardPresets.mercadoPago.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Mercado Libre',
+            'subtitle': 'Auriculares Sony WH-1000XM5',
+            'amount': r'-$1,499.00',
+            'time': 'Hoy, 3:15 PM',
+            'isIncome': false,
+            'icon': Icons.shopping_cart_outlined,
+            'iconBg': const Color(0xFF162535),
+          },
+          {
+            'title': 'OXXO Gas',
+            'subtitle': 'Gasolina Premium · Contactless',
+            'amount': r'-$650.00',
+            'time': 'Hoy, 9:30 AM',
+            'isIncome': false,
+            'icon': Icons.local_gas_station_rounded,
+            'iconBg': const Color(0xFF2C1919),
+          },
+          {
+            'title': 'SPEI Nómina Directa',
+            'subtitle': 'Fintech Hub SA · SPEI',
+            'amount': r'+$14,250.00',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.account_balance_rounded,
+            'iconBg': const Color(0xFF162A20),
+          },
+          {
+            'title': 'Cinépolis VIP',
+            'subtitle': 'Entradas y combos · Cine',
+            'amount': r'-$320.00',
+            'time': '14 Sep',
+            'isIncome': false,
+            'icon': Icons.movie_creation_outlined,
+            'iconBg': const Color(0xFF1E212E),
+          },
+        ];
+        break;
+
+      case 'BR':
+        currency = 'BRL';
+        balance = r'R$ 8.450,00';
+        trend = '+6.5% este mês';
+        accountTag = 'BRASIL FINTECH';
+        accountTagColor = const Color(0xFFC084FC);
+        accountType = 'Nu Ultravioleta Black';
+        bankName = 'NUBANK BR';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '5409 3321 8765 4019';
+        activeCardTheme = CardPresets.nubankUltravioleta.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'iFood Delivery',
+            'subtitle': 'Restaurante Fogo de Chão',
+            'amount': r'-R$ 74,90',
+            'time': 'Hoje, 13:10',
+            'isIncome': false,
+            'icon': Icons.fastfood_rounded,
+            'iconBg': const Color(0xFF2C1A1D),
+          },
+          {
+            'title': 'Mercado Livre Brasil',
+            'subtitle': 'Eletrônicos & Casa',
+            'amount': r'-R$ 289,00',
+            'time': 'Hoje, 10:04',
+            'isIncome': false,
+            'icon': Icons.shopping_bag_outlined,
+            'iconBg': const Color(0xFF2B2818),
+          },
+          {
+            'title': 'Transferência PIX Recebida',
+            'subtitle': 'De: Lucas Santos · PIX chave',
+            'amount': r'+R$ 2.500,00',
+            'time': 'Ontem',
+            'isIncome': true,
+            'icon': Icons.bolt_rounded,
+            'iconBg': const Color(0xFF162C24),
+          },
+          {
+            'title': 'Uber Viagens',
+            'subtitle': 'Corrida São Paulo · Apple Pay',
+            'amount': r'-R$ 32,50',
+            'time': '16 Set',
+            'isIncome': false,
+            'icon': Icons.directions_car_rounded,
+            'iconBg': const Color(0xFF20232B),
+          },
+        ];
+        break;
+
+      case 'AR':
+        currency = 'ARS';
+        balance = r'$1.250.000';
+        trend = '+12.4% este mes';
+        accountTag = 'ARGENTINA CRYPTO';
+        accountTagColor = const Color(0xFF00FF7F);
+        accountType = 'Lemon Crypto & Pesos';
+        bankName = 'LEMON CASH';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4123 9087 6543 2100';
+        activeCardTheme = CardPresets.lemonCash.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'PedidosYa Gourmet',
+            'subtitle': 'Almuerzo Hamburguesería',
+            'amount': r'-$14.500',
+            'time': 'Hoy, 13:50',
+            'isIncome': false,
+            'icon': Icons.moped_rounded,
+            'iconBg': const Color(0xFF2C191E),
+          },
+          {
+            'title': 'Coto Digital',
+            'subtitle': 'Supermercado semanal · QR',
+            'amount': r'-$68.200',
+            'time': 'Hoy, 10:15',
+            'isIncome': false,
+            'icon': Icons.local_grocery_store_outlined,
+            'iconBg': const Color(0xFF1B262C),
+          },
+          {
+            'title': 'Lemon Earn Cashback',
+            'subtitle': 'Cashback 2% en Bitcoin (BTC)',
+            'amount': r'+$12.350',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.currency_bitcoin_rounded,
+            'iconBg': const Color(0xFF252B14),
+          },
+          {
+            'title': 'Steam Games LatAm',
+            'subtitle': 'Videojuegos PC · Digital',
+            'amount': r'-$9.800',
+            'time': '15 Sep',
+            'isIncome': false,
+            'icon': Icons.sports_esports_outlined,
+            'iconBg': const Color(0xFF1B202D),
+          },
+        ];
+        break;
+
+      case 'ES':
+        currency = 'EUR';
+        balance = r'€12.350,00';
+        trend = '+2.9% this month';
+        accountTag = 'EUROPE BANK';
+        accountTagColor = const Color(0xFF00D4B2);
+        accountType = 'N26 Metal IBAN';
+        bankName = 'N26';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4921 5432 1098 7654';
+        activeCardTheme = CardPresets.n26.copyWith(
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'El Corte Inglés',
+            'subtitle': 'Moda y Accesorios · Contactless',
+            'amount': r'-€129,50',
+            'time': 'Hoy, 16:30',
+            'isIncome': false,
+            'icon': Icons.storefront_rounded,
+            'iconBg': const Color(0xFF1C2B22),
+          },
+          {
+            'title': 'Mercadona',
+            'subtitle': 'Alimentación · Pago móvil',
+            'amount': r'-€64,20',
+            'time': 'Hoy, 12:10',
+            'isIncome': false,
+            'icon': Icons.shopping_cart_outlined,
+            'iconBg': const Color(0xFF1B2827),
+          },
+          {
+            'title': 'SEPA Payroll Transfer',
+            'subtitle': 'Empresa Tecnológica SL',
+            'amount': r'+€2.850,00',
+            'time': 'Ayer',
+            'isIncome': true,
+            'icon': Icons.account_balance_outlined,
+            'iconBg': const Color(0xFF16252A),
+          },
+          {
+            'title': 'Glovo Prime',
+            'subtitle': 'Envío express farmacia',
+            'amount': r'-€18,90',
+            'time': '16 Sep',
+            'isIncome': false,
+            'icon': Icons.delivery_dining_rounded,
+            'iconBg': const Color(0xFF2B2519),
+          },
+        ];
+        break;
+
+      case 'GLOBAL':
+      default:
+        currency = 'USD';
+        balance = r'$14,850.50';
+        trend = '+3.8% this month';
+        accountTag = 'BLACK METAL';
+        accountTagColor = Colors.amberAccent;
+        accountType = 'Primary Global Account';
+        bankName = 'NEXUS BLACK';
+        cardHolder = 'DIMAS CLEVES';
+        cardNumber = '4000 1234 5678 9010';
+        activeCardTheme = VerticalCardTheme.metallic(
+          metalType: _studioMetal,
+          chipColor: _studioChip,
+          borderRadius: BorderRadius.circular(_studioBorderRadius),
+        );
+        transactions = [
+          {
+            'title': 'Apple Store',
+            'subtitle': 'iPhone 16 Pro 256GB · Card',
+            'amount': r'-$1,199.00',
+            'time': 'Today, 2:20 PM',
+            'isIncome': false,
+            'icon': Icons.apple_rounded,
+            'iconBg': const Color(0xFF1E2433),
+          },
+          {
+            'title': 'Starbucks Reserve',
+            'subtitle': 'Caramel Macchiato · Contactless',
+            'amount': r'-$6.80',
+            'time': 'Today, 9:15 AM',
+            'isIncome': false,
+            'icon': Icons.coffee_rounded,
+            'iconBg': const Color(0xFF1A2621),
+          },
+          {
+            'title': 'Payroll Deposit',
+            'subtitle': 'Google LLC · Direct Deposit',
+            'amount': r'+$3,450.00',
+            'time': 'Yesterday',
+            'isIncome': true,
+            'icon': Icons.work_outline_rounded,
+            'iconBg': const Color(0xFF172C24),
+          },
+          {
+            'title': 'Netflix 4K Ultra',
+            'subtitle': 'Monthly Subscription',
+            'amount': r'-$19.99',
+            'time': 'Sep 15',
+            'isIncome': false,
+            'icon': Icons.movie_outlined,
+            'iconBg': const Color(0xFF2C1A22),
+          },
+        ];
+        break;
+    }
 
     return Center(
       child: Container(
@@ -975,7 +1435,12 @@ VerticalCard(
               ],
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 12),
+
+            // Regional Fintech & Currency Selector
+            _buildCountrySelector(),
+
+            const SizedBox(height: 12),
 
             // User Profile Header
             Row(
@@ -1052,26 +1517,26 @@ VerticalCard(
                               vertical: 1.5,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.amberAccent.withOpacity(0.15),
+                              color: accountTagColor.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: Colors.amberAccent.withOpacity(0.4),
+                                color: accountTagColor.withOpacity(0.4),
                                 width: 0.6,
                               ),
                             ),
-                            child: const Text(
-                              'BLACK METAL',
+                            child: Text(
+                              accountTag,
                               style: TextStyle(
                                 fontSize: 8.5,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.amberAccent,
+                                color: accountTagColor,
                                 letterSpacing: 0.6,
                               ),
                             ),
                           ),
-                          const Text(
-                            'Primary Account',
-                            style: TextStyle(
+                          Text(
+                            accountType,
+                            style: const TextStyle(
                               fontSize: 11,
                               color: Colors.white54,
                             ),
@@ -1181,7 +1646,7 @@ VerticalCard(
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            _hideBankingBalance ? '••••••••' : r'$14,850.50',
+                            _hideBankingBalance ? '••••••••' : balance,
                             style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
@@ -1190,9 +1655,9 @@ VerticalCard(
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const Text(
-                            'USD',
-                            style: TextStyle(
+                          Text(
+                            currency,
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: Colors.cyanAccent,
@@ -1213,18 +1678,18 @@ VerticalCard(
                             width: 0.8,
                           ),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.trending_up_rounded,
                               size: 13,
                               color: Color(0xFF00FFC2),
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
-                              '+3.8% this month',
-                              style: TextStyle(
+                              trend,
+                              style: const TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
                                 color: Color(0xFF00FFC2),
@@ -1244,11 +1709,11 @@ VerticalCard(
             // Live Customized Vertical Card Embedded
             Center(
               child: VerticalCard(
-                cardNumber: '4000 1234 5678 9010',
-                cardHolder: 'DIMAS CLEVES',
+                cardNumber: cardNumber,
+                cardHolder: cardHolder,
                 expiryDate: '12/30',
                 cvv: '888',
-                bankName: 'NEXUS BLACK',
+                bankName: bankName,
                 width: cardMockupWidth,
                 isFrozen: _studioIsFrozen,
                 isPrivacyMode: _studioPrivacy,
@@ -1260,11 +1725,7 @@ VerticalCard(
                 enableEdgeGlow: _studioEdgeGlow,
                 enableDiamondDust: _studioDiamondDust,
                 enablePaymentPulse: _studioPaymentPulse,
-                cardTheme: VerticalCardTheme.metallic(
-                  metalType: _studioMetal,
-                  chipColor: _studioChip,
-                  borderRadius: BorderRadius.circular(_studioBorderRadius),
-                ),
+                cardTheme: activeCardTheme,
               ),
             ),
 
@@ -1361,44 +1822,19 @@ VerticalCard(
 
             const SizedBox(height: 10),
 
-            _buildTransactionTile(
-              title: 'Apple Store',
-              subtitle: 'iPhone 16 Pro 256GB · Card',
-              amount: r'-$1,199.00',
-              time: 'Today, 2:20 PM',
-              isIncome: false,
-              icon: Icons.apple_rounded,
-              iconBg: const Color(0xFF1E2433),
-            ),
-            const SizedBox(height: 6),
-            _buildTransactionTile(
-              title: 'Starbucks Reserve',
-              subtitle: 'Caramel Macchiato · Contactless',
-              amount: r'-$6.80',
-              time: 'Today, 9:15 AM',
-              isIncome: false,
-              icon: Icons.coffee_rounded,
-              iconBg: const Color(0xFF1A2621),
-            ),
-            const SizedBox(height: 6),
-            _buildTransactionTile(
-              title: 'Payroll Deposit',
-              subtitle: 'Google LLC · Direct Deposit',
-              amount: r'+$3,450.00',
-              time: 'Yesterday',
-              isIncome: true,
-              icon: Icons.work_outline_rounded,
-              iconBg: const Color(0xFF172C24),
-            ),
-            const SizedBox(height: 6),
-            _buildTransactionTile(
-              title: 'Netflix 4K Ultra',
-              subtitle: 'Monthly Subscription',
-              amount: r'-$19.99',
-              time: 'Sep 15',
-              isIncome: false,
-              icon: Icons.movie_outlined,
-              iconBg: const Color(0xFF2C1A22),
+            ...transactions.map(
+              (tx) => Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: _buildTransactionTile(
+                  title: tx['title'] as String,
+                  subtitle: tx['subtitle'] as String,
+                  amount: tx['amount'] as String,
+                  time: tx['time'] as String,
+                  isIncome: tx['isIncome'] as bool,
+                  icon: tx['icon'] as IconData,
+                  iconBg: tx['iconBg'] as Color,
+                ),
+              ),
             ),
 
             const SizedBox(height: 14),

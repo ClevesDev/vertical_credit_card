@@ -226,4 +226,56 @@ void main() {
       expect(enteredName, 'JOHN DOE');
     });
   });
+
+  group('Regional Fintech Presets Tests', () {
+    test('Initializes all regional presets properly', () {
+      // Colombia
+      expect(CardPresets.nequi.enableEdgeGlow, isTrue);
+      expect(CardPresets.bancolombia.textFinish, CardTextFinish.goldFoil);
+      // Mexico
+      expect(CardPresets.mercadoPago.enablePaymentPulse, isTrue);
+      expect(CardPresets.heyBanco.textFinish, CardTextFinish.silverFoil);
+      // Brazil
+      expect(CardPresets.nubankUltravioleta.isHolographic, isTrue);
+      expect(CardPresets.bancoInter.enablePaymentPulse, isTrue);
+      // Argentina
+      expect(CardPresets.lemonCash.enableEdgeGlow, isTrue);
+      expect(CardPresets.uala.enablePaymentPulse, isTrue);
+      // Europe
+      expect(CardPresets.n26.type, VerticalCardThemeType.glass);
+    });
+
+    testWidgets('Renders Nequi and Nubank Ultravioleta cards in widget tree',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  VerticalCard.preset(
+                    preset: CardPresets.nequi,
+                    cardNumber: '4000 1234 5678 9010',
+                    cardHolder: 'DIMAS CLEVES',
+                    expiryDate: '12/30',
+                    cvv: '888',
+                  ),
+                  VerticalCard.preset(
+                    preset: CardPresets.nubankUltravioleta,
+                    cardNumber: '5100 1234 5678 9010',
+                    cardHolder: 'DIMAS CLEVES',
+                    expiryDate: '12/30',
+                    cvv: '888',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('DIMAS CLEVES'), findsNWidgets(2));
+    });
+  });
 }
