@@ -27,5 +27,26 @@
 * **Chromatic Fluid Mesh Background (`CardBackground.fluid`):** Organic, morphing liquid mesh gradients with smooth harmonic motion (Revolut Metal & Apple Card style).
 * **Defrost Melt Transition:** Smooth ice-melting animation when transitioning from `isFrozen: true` to `false`.
 * **Open-Closed Slot Injection:** Custom widgets for `bankLogo`, `chipWidget`, and `actionBadge`.
+* **Exotic Physical Materials & Textures:**
+  * `skeletonNfc` (`NfcAntennaPainter`): Transparent skeleton card with concentric copper NFC antenna coils, traces, and micro solder pads (Nothing Phone & Revolut Ultra style).
+  * `bambooEco` (`WoodGrainPainter`): Organic natural bamboo wood grain with warm golden tones and sustainable botanical accents.
+  * `damascusSteel` (`DamascusSteelPainter`): Forged Damascus steel with distinctive wavy water-pattern metal folds and silver foil lettering.
+  * `whiteCeramic`: Apple Watch Edition inspired immaculate pure polished white ceramic with silver foil typography.
+* **Gamer & Esports / RGB Chroma:**
+  * `razerChroma`: Stealth matte chassis with animated 360-degree dynamic RGB Chroma spectrum edge glow (`isRgbChroma: true`).
+  * `cyberPcb` (`PcbCircuitPainter`): High-tech printed circuit board with 45°/90° routing lines, gold vias, and microchip footprints.
+* **Expanded Global Fintech Presets:**
+  * 🇵🇪 Perú: `CardPresets.yape` (vibrant purple with cyan neon accents).
+  * 🇨🇱 Chile: `CardPresets.tenpo` (electric teal and dark petrol gradient).
+  * 🇬🇧 United Kingdom: `CardPresets.monzoHotCoral` (fluorescent hot coral salmon with black chip).
+  * 🇺🇸 United States: `CardPresets.robinhoodGold` (matte champagne gold with specular sheen) & `CardPresets.cashApp` (stealth obsidian with neon green accents).
+* **Crypto Web3 Hardware:**
+  * `ledgerObsidian`: Cold wallet hardware aesthetic with micro monospace details and silver foil stamping.
+  * `solanaAurora`: Iridescent Web3 purple-to-emerald gradient with holographic foil finish.
+* **Dynamic Rolling Digit Component (`RollingDigitText`):**
+  * Smooth vertical odometer / slot-machine digit rolling animation with realistic physics and staggered character delays for dynamic CVV codes, virtual card regeneration, and live balances.
+* **Interactive Studio Banking App Enhancements:**
+  * Multi-country switcher with native currencies (`PEN S/.`, `CLP $`, `GBP £`, `USD $`) and local merchants.
+  * Real-time "Rotate CVV" action triggering live `RollingDigitText` odometer spins.
 * **Zero External Dependencies:** Pure Flutter SDK with vector CustomPainters for EMV chips, contactless NFC waves, security hologram, and brand badges (Visa, Mastercard, Amex, Discover).
 

@@ -112,6 +112,10 @@ class VerticalCard extends StatefulWidget {
   /// If null, falls back to [cardTheme.enablePaymentPulse].
   final bool? enablePaymentPulse;
 
+  /// Whether the animated perimeter edge glow smoothly cycles through the full 360-degree RGB chroma spectrum.
+  /// If null, falls back to [cardTheme.isRgbChroma].
+  final bool? isRgbChroma;
+
   /// Default constructor accepting a custom or preset [VerticalCardTheme].
   const VerticalCard({
     super.key,
@@ -144,6 +148,7 @@ class VerticalCard extends StatefulWidget {
     this.edgeGlowColor,
     this.enableDiamondDust,
     this.enablePaymentPulse,
+    this.isRgbChroma,
   });
 
   /// Convenient factory to instantiate a card directly using a preset from [CardPresets].
@@ -177,6 +182,7 @@ class VerticalCard extends StatefulWidget {
     Color? edgeGlowColor,
     bool? enableDiamondDust,
     bool? enablePaymentPulse,
+    bool? isRgbChroma,
   }) {
     return VerticalCard(
       key: key,
@@ -208,6 +214,7 @@ class VerticalCard extends StatefulWidget {
       edgeGlowColor: edgeGlowColor,
       enableDiamondDust: enableDiamondDust,
       enablePaymentPulse: enablePaymentPulse,
+      isRgbChroma: isRgbChroma,
     );
   }
 
@@ -462,6 +469,9 @@ class _VerticalCardState extends State<VerticalCard>
       widget.cardTheme.edgeGlowColor ??
       widget.cardTheme.neonColor ??
       const Color(0xFF00F0FF);
+
+  bool get _effectiveIsRgbChroma =>
+      widget.isRgbChroma ?? widget.cardTheme.isRgbChroma;
 
   @override
   void initState() {
@@ -809,6 +819,7 @@ class _VerticalCardState extends State<VerticalCard>
                                 progress: _edgeGlowController.value,
                                 glowColor: _effectiveEdgeGlowColor,
                                 borderRadius: widget.cardTheme.borderRadius,
+                                isRgbChroma: _effectiveIsRgbChroma,
                               ),
                             ),
                           ),

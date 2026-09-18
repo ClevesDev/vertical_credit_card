@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// Renders a dynamic, animated neon light beam running around the rounded perimeter of the card.
@@ -15,11 +14,15 @@ class CyberEdgeGlowPainter extends CustomPainter {
   /// Beam length as a fraction of the total perimeter (default 0.28 = 28% of perimeter).
   final double beamLengthFraction;
 
+  /// Whether to cycle continuously through the full 360-degree RGB chroma spectrum.
+  final bool isRgbChroma;
+
   CyberEdgeGlowPainter({
     required this.progress,
     required this.glowColor,
     required this.borderRadius,
     this.beamLengthFraction = 0.28,
+    this.isRgbChroma = false,
   });
 
   @override
@@ -58,9 +61,15 @@ class CyberEdgeGlowPainter extends CustomPainter {
       );
     }
 
+    // Determine effective color (dynamic RGB chroma sweep or fixed glow color)
+    final effectiveColor = isRgbChroma
+        ? HSVColor.fromAHSV(1.0, ((progress * 360.0) % 360.0), 0.92, 1.0)
+            .toColor()
+        : glowColor;
+
     // 1. Wide diffused outer neon glow
     final outerGlowPaint = Paint()
-      ..color = glowColor.withOpacity(0.45)
+      ..color = effectiveColor.withOpacity(0.45)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
@@ -70,7 +79,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
 
     // 2. Focused vibrant mid glow
     final midGlowPaint = Paint()
-      ..color = glowColor.withOpacity(0.85)
+      ..color = effectiveColor.withOpacity(0.85)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
       ..strokeCap = StrokeCap.round
@@ -92,5 +101,6 @@ class CyberEdgeGlowPainter extends CustomPainter {
   bool shouldRepaint(covariant CyberEdgeGlowPainter oldDelegate) =>
       oldDelegate.progress != progress ||
       oldDelegate.glowColor != glowColor ||
-      oldDelegate.borderRadius != borderRadius;
+      oldDelegate.borderRadius != borderRadius ||
+      oldDelegate.isRgbChroma != isRgbChroma;
 }
