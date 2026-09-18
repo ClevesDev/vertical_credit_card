@@ -3,6 +3,7 @@
 <div align="center">
 
 [![pub package](https://img.shields.io/badge/pub.dev-0.0.1-blue.svg)](https://pub.dev/packages/vertical_credit_card)
+[![Flutter CI](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml/badge.svg)](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?logo=flutter&logoColor=white)](https://flutter.dev)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ClevesDev/vertical_credit_card/pulls)
@@ -14,18 +15,18 @@ Engineered with interactive 3D tilt physics, dynamic specular lighting, tap-to-r
 
 ---
 
-## ☕ Why does this exist?
+## 💡 Why Vertical Cards?
 
-This package was born on a painfully boring afternoon, fueled by pure caffeine and deep frustration after spending hours scouring `pub.dev` looking for a clean, modern **vertical** credit card widget.
+In recent years, the global banking and fintech landscape has experienced an aesthetic and functional evolution. Pioneer financial institutions and modern neobanks—such as **Apple Card, Nubank, Revolut, BBVA, and N26**—have phased out traditional horizontal plastic layouts in favor of the modern **portrait (vertical) ID-1 format**.
 
-Every existing package was either:
-1. Stuck in 2019.
-2. Strictly horizontal.
-3. Completely abandoned (404).
+The reason is simple:
+- 📱 Smartphones are naturally held vertically.
+- 💳 Contactless POS terminals tap vertically.
+- 👛 Digital wallet interfaces slide vertically.
 
-Stressed out and tired of reinventing the wheel on every fintech project, I sighed and went: *"Fine, I'll build it myself."*
+While early Flutter libraries paved the way for traditional landscape cards, modern fintech applications need a dedicated, first-class vertical card component.
 
-Built as a weekend hobby project so you don't have to suffer like I did. Enjoy!
+`vertical_credit_card` was created to provide Flutter developers with a high-performance vertical card widget: realistic 3D perspective physics, gyroscopic light reflection, physical materials (brushed titanium, carbon fiber, forged Damascus steel, transparent skeleton NFC), and 40+ curated presets—crafted with **100% pure Flutter vector CustomPainters** and zero external dependencies.
 
 ---
 

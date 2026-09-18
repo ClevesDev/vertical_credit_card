@@ -33,10 +33,13 @@ jobs:
       - name: Static code analysis
         run: flutter analyze --fatal-infos=false
 
+      - name: Run package unit tests
+        run: flutter test
+
       - name: Install dependencies (example)
         working-directory: example
         run: flutter pub get
 
-      - name: Run widget & unit tests
+      - name: Run example widget tests
         working-directory: example
         run: flutter test
