@@ -39,7 +39,24 @@ class CardShowcaseScreen extends StatefulWidget {
 class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   int _selectedNavIndex =
       0; // 0: 3D Showcase, 1: Apple Wallet, 2: Checkout Form, 3: Studio
-  int _selectedPresetIndex = 5; // Default to Holo Infinite
+  int _selectedPresetIndex = 12; // Default to 🇨🇴 Nequi in Regional category
+
+  static const List<Map<String, String>> _showcaseCategories = [
+    {'id': 'Regional', 'label': '🌐 Regional', 'desc': 'Fintech & Neobanks'},
+    {'id': 'Neobank', 'label': '🏦 Neobanks', 'desc': 'Global Digital Banks'},
+    {'id': 'Luxury', 'label': '💎 Luxury Metal', 'desc': 'Apple & Amex'},
+    {'id': 'Cyber', 'label': '⚡ Cyberpunk', 'desc': 'Neon & Glowing'},
+    {'id': 'Artistic', 'label': '🎨 Artistic 3D', 'desc': 'Holo & Topographic'},
+    {'id': 'All', 'label': '✨ All', 'desc': 'All 22 Presets'},
+  ];
+  String _selectedShowcaseCategory = 'Regional';
+
+  List<Map<String, dynamic>> get _filteredShowcasePresets {
+    if (_selectedShowcaseCategory == 'All') return _presets;
+    return _presets
+        .where((p) => p['family'] == _selectedShowcaseCategory)
+        .toList();
+  }
 
   // 3D Showcase state
   bool _isFrozen = false;
@@ -79,6 +96,11 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     {'name': 'Nubank', 'family': 'Neobank', 'theme': CardPresets.nubank},
     {'name': 'Wise', 'family': 'Neobank', 'theme': CardPresets.wise},
     {
+      'name': 'Revolut Fluid',
+      'family': 'Neobank',
+      'theme': CardPresets.revolutChromatic,
+    },
+    {
       'name': 'Apple Card',
       'family': 'Luxury',
       'theme': CardPresets.appleTitanium,
@@ -100,28 +122,23 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'theme': CardPresets.matrixGreen,
     },
     {
-      'name': 'Revolut Fluid',
-      'family': 'Chromatic',
-      'theme': CardPresets.revolutChromatic,
-    },
-    {
       'name': 'Holo Infinite',
-      'family': 'Holographic',
+      'family': 'Artistic',
       'theme': CardPresets.holoInfinite,
     },
     {
       'name': 'Painterly Globe',
-      'family': 'Family D',
+      'family': 'Artistic',
       'theme': CardPresets.painterlyGlobe,
     },
     {
       'name': 'Topographic Gold',
-      'family': 'Family D',
+      'family': 'Artistic',
       'theme': CardPresets.topographicGold,
     },
     {
       'name': 'Carbon Stealth',
-      'family': 'Family D',
+      'family': 'Artistic',
       'theme': CardPresets.carbonStealth,
     },
     // Regional & Global Fintech Flagships
@@ -246,6 +263,177 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   // ---------------------------------------------------------------------------
   // 1. 3D SHOWCASE VIEW
   // ---------------------------------------------------------------------------
+  Widget _buildShowcaseSelector() {
+    final filtered = _filteredShowcasePresets;
+    final activePreset = _presets[_selectedPresetIndex];
+    final activeIndexInFiltered = filtered.indexOf(activePreset);
+
+    return Column(
+      children: [
+        // 1. Categories Pill Bar
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: _showcaseCategories.map((cat) {
+              final isSelected = _selectedShowcaseCategory == cat['id'];
+              return Padding(
+                padding: const EdgeInsets.only(right: 6.0),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    setState(() {
+                      _selectedShowcaseCategory = cat['id']!;
+                      final newFiltered = _filteredShowcasePresets;
+                      if (!newFiltered
+                          .contains(_presets[_selectedPresetIndex])) {
+                        _selectedPresetIndex =
+                            _presets.indexOf(newFiltered.first);
+                      }
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOutCubic,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? Colors.cyanAccent.withOpacity(0.18)
+                          : const Color(0xFF141824),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: isSelected
+                            ? Colors.cyanAccent
+                            : Colors.white.withOpacity(0.08),
+                        width: isSelected ? 1.2 : 0.8,
+                      ),
+                      boxShadow: isSelected
+                          ? [
+                              BoxShadow(
+                                color: Colors.cyanAccent.withOpacity(0.25),
+                                blurRadius: 8,
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: Text(
+                      cat['label']!,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight:
+                            isSelected ? FontWeight.w800 : FontWeight.w600,
+                        color: isSelected ? Colors.cyanAccent : Colors.white70,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
+        // 2. Filtered Cards Row with Quick Steppers (< and >)
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: [
+              IconButton(
+                tooltip: 'Previous Card',
+                icon: const Icon(Icons.chevron_left_rounded, size: 24),
+                color: Colors.white70,
+                visualDensity: VisualDensity.compact,
+                onPressed: filtered.isEmpty
+                    ? null
+                    : () {
+                        setState(() {
+                          final currentIdx = activeIndexInFiltered >= 0
+                              ? activeIndexInFiltered
+                              : 0;
+                          final prevIdx = (currentIdx - 1 + filtered.length) %
+                              filtered.length;
+                          _selectedPresetIndex =
+                              _presets.indexOf(filtered[prevIdx]);
+                        });
+                      },
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: filtered.map((preset) {
+                      final isSelected =
+                          _presets[_selectedPresetIndex] == preset;
+                      final isRegional = preset['family'] == 'Regional';
+                      final isHolo = preset['family'] == 'Artistic';
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        child: ChoiceChip(
+                          avatar: isHolo
+                              ? const Icon(Icons.auto_awesome_rounded,
+                                  size: 14, color: Colors.purpleAccent)
+                              : (isRegional
+                                  ? const Icon(Icons.account_balance_rounded,
+                                      size: 13, color: Colors.cyanAccent)
+                                  : null),
+                          label: Text(preset['name'] as String),
+                          selected: isSelected,
+                          selectedColor: Colors.cyanAccent.withOpacity(0.2),
+                          labelStyle: TextStyle(
+                            color:
+                                isSelected ? Colors.cyanAccent : Colors.white70,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            fontSize: 12,
+                          ),
+                          side: BorderSide(
+                            color:
+                                isSelected ? Colors.cyanAccent : Colors.white12,
+                          ),
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() {
+                                _selectedPresetIndex = _presets.indexOf(preset);
+                              });
+                            }
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: 'Next Card',
+                icon: const Icon(Icons.chevron_right_rounded, size: 24),
+                color: Colors.white70,
+                visualDensity: VisualDensity.compact,
+                onPressed: filtered.isEmpty
+                    ? null
+                    : () {
+                        setState(() {
+                          final currentIdx = activeIndexInFiltered >= 0
+                              ? activeIndexInFiltered
+                              : 0;
+                          final nextIdx = (currentIdx + 1) % filtered.length;
+                          _selectedPresetIndex =
+                              _presets.indexOf(filtered[nextIdx]);
+                        });
+                      },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildShowcaseView() {
     final activePreset = _presets[_selectedPresetIndex];
 
@@ -259,67 +447,8 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                 children: [
                   const SizedBox(height: 6),
 
-                  // Horizontal Presets Carousel
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: List.generate(_presets.length, (index) {
-                        final preset = _presets[index];
-                        final isSelected = _selectedPresetIndex == index;
-                        final isFamilyD = preset['family'] == 'Family D';
-                        final isHolo = preset['family'] == 'Holographic';
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: ChoiceChip(
-                            avatar: isHolo
-                                ? const Icon(Icons.auto_awesome_rounded,
-                                    size: 16, color: Colors.purpleAccent)
-                                : (isFamilyD
-                                    ? const Icon(Icons.palette_outlined,
-                                        size: 16, color: Colors.amberAccent)
-                                    : null),
-                            label: Text(preset['name'] as String),
-                            selected: isSelected,
-                            selectedColor: isHolo
-                                ? Colors.purpleAccent.withOpacity(0.22)
-                                : (isFamilyD
-                                    ? Colors.amberAccent.withOpacity(0.22)
-                                    : Colors.cyanAccent.withOpacity(0.22)),
-                            labelStyle: TextStyle(
-                              color: isSelected
-                                  ? (isHolo
-                                      ? Colors.purpleAccent
-                                      : (isFamilyD
-                                          ? Colors.amberAccent
-                                          : Colors.cyanAccent))
-                                  : Colors.white70,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                            side: BorderSide(
-                              color: isSelected
-                                  ? (isHolo
-                                      ? Colors.purpleAccent
-                                      : (isFamilyD
-                                          ? Colors.amberAccent
-                                          : Colors.cyanAccent))
-                                  : Colors.white12,
-                            ),
-                            onSelected: (selected) {
-                              if (selected) {
-                                setState(() {
-                                  _selectedPresetIndex = index;
-                                });
-                              }
-                            },
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
+                  // Categorized Presets Carousel & Stepper
+                  _buildShowcaseSelector(),
 
                   const SizedBox(height: 10),
 
@@ -718,6 +847,13 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
             ),
           ),
 
+          if (_studioBankingView) ...[
+            const SizedBox(height: 14),
+            Center(
+              child: _buildCountrySelector(),
+            ),
+          ],
+
           const SizedBox(height: 20),
 
           // Live customized preview (Canvas vs Banking App Mockup)
@@ -920,6 +1056,210 @@ VerticalCard(
   // ---------------------------------------------------------------------------
   // 5. REGIONAL FINTECH SELECTOR & BANKING APP MOCKUP
   // ---------------------------------------------------------------------------
+  void _showAccountSelectorSheet(BuildContext context) {
+    final accounts = [
+      {
+        'code': 'GLOBAL',
+        'country': 'Global (USA / International)',
+        'currency': 'USD',
+        'flag': '🌎',
+        'account': 'Primary Global Account',
+        'card': 'Nexus Black Metal',
+        'color': Colors.amberAccent,
+      },
+      {
+        'code': 'CO',
+        'country': 'Colombia',
+        'currency': 'COP',
+        'flag': '🇨🇴',
+        'account': 'Cuenta Nequi Ahorros',
+        'card': 'Nequi Magenta Neon',
+        'color': const Color(0xFFFF007A),
+      },
+      {
+        'code': 'MX',
+        'country': 'México',
+        'currency': 'MXN',
+        'flag': '🇲🇽',
+        'account': 'Débito Digital SPEI',
+        'card': 'Mercado Pago Blue',
+        'color': const Color(0xFF009EE3),
+      },
+      {
+        'code': 'BR',
+        'country': 'Brasil',
+        'currency': 'BRL',
+        'flag': '🇧🇷',
+        'account': 'Nu Ultravioleta Black',
+        'card': 'Nubank Ultravioleta',
+        'color': const Color(0xFFC084FC),
+      },
+      {
+        'code': 'AR',
+        'country': 'Argentina',
+        'currency': 'ARS',
+        'flag': '🇦🇷',
+        'account': 'Lemon Crypto & Pesos',
+        'card': 'Lemon Cash Cyber',
+        'color': const Color(0xFF00FF7F),
+      },
+      {
+        'code': 'ES',
+        'country': 'España / Europa',
+        'currency': 'EUR',
+        'flag': '🇪🇸',
+        'account': 'N26 Metal IBAN',
+        'card': 'N26 Frosted Glass',
+        'color': const Color(0xFF00D4B2),
+      },
+    ];
+
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: const Color(0xFF0F1420),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 38,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.white24,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Row(
+                  children: [
+                    Icon(Icons.account_balance_wallet_rounded,
+                        size: 20, color: Colors.cyanAccent),
+                    SizedBox(width: 8),
+                    Text(
+                      'Select Active Account & Region',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Switching accounts updates currency, live card and local merchant transactions.',
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                ),
+                const SizedBox(height: 14),
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: accounts.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 6),
+                    itemBuilder: (context, index) {
+                      final acc = accounts[index];
+                      final isSelected = _studioCountryCode == acc['code'];
+                      final color = acc['color'] as Color;
+
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(14),
+                        onTap: () {
+                          setState(() {
+                            _studioCountryCode = acc['code'] as String;
+                          });
+                          Navigator.pop(sheetContext);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? color.withOpacity(0.12)
+                                : const Color(0xFF141926),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: isSelected
+                                  ? color
+                                  : Colors.white.withOpacity(0.06),
+                              width: isSelected ? 1.2 : 0.8,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                acc['flag'] as String,
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      acc['country'] as String,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w800,
+                                        color:
+                                            isSelected ? color : Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      '${acc['account']} · ${acc['card']}',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: color.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  acc['currency'] as String,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    color: color,
+                                  ),
+                                ),
+                              ),
+                              if (isSelected) ...[
+                                const SizedBox(width: 8),
+                                Icon(Icons.check_circle_rounded,
+                                    size: 18, color: color),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildCountrySelector() {
     final countries = [
       {'code': 'GLOBAL', 'label': 'Global', 'flag': '🌎'},
@@ -1435,12 +1775,7 @@ VerticalCard(
               ],
             ),
 
-            const SizedBox(height: 12),
-
-            // Regional Fintech & Currency Selector
-            _buildCountrySelector(),
-
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
             // User Profile Header
             Row(
@@ -1507,41 +1842,57 @@ VerticalCard(
                         ),
                       ),
                       const SizedBox(height: 2),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 6,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 1.5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: accountTagColor.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: accountTagColor.withOpacity(0.4),
-                                width: 0.6,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(6),
+                        onTap: () => _showAccountSelectorSheet(context),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 1.5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: accountTagColor.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: accountTagColor.withOpacity(0.4),
+                                    width: 0.6,
+                                  ),
+                                ),
+                                child: Text(
+                                  accountTag,
+                                  style: TextStyle(
+                                    fontSize: 8.5,
+                                    fontWeight: FontWeight.w800,
+                                    color: accountTagColor,
+                                    letterSpacing: 0.6,
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              accountTag,
-                              style: TextStyle(
-                                fontSize: 8.5,
-                                fontWeight: FontWeight.w800,
-                                color: accountTagColor,
-                                letterSpacing: 0.6,
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  accountType,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.white70,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 14,
+                                color: accountTagColor.withOpacity(0.9),
+                              ),
+                            ],
                           ),
-                          Text(
-                            accountType,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Colors.white54,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
@@ -1655,12 +2006,31 @@ VerticalCard(
                             ),
                           ),
                           const SizedBox(width: 6),
-                          Text(
-                            currency,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.cyanAccent,
+                          InkWell(
+                            borderRadius: BorderRadius.circular(6),
+                            onTap: () => _showAccountSelectorSheet(context),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 3, vertical: 1),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    currency,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.cyanAccent,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 2),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    size: 14,
+                                    color: Colors.cyanAccent.withOpacity(0.8),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
