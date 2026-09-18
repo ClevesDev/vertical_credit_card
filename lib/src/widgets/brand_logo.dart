@@ -79,7 +79,8 @@ class BrandLogo extends StatelessWidget {
               height: circleDiameter,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFFF79E1B).withOpacity(0.92), // Mastercard Yellow
+                color: const Color(0xFFF79E1B)
+                    .withOpacity(0.92), // Mastercard Yellow
               ),
             ),
           ),

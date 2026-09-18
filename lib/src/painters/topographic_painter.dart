@@ -54,7 +54,8 @@ class TopographicPainter extends CustomPainter {
       _drawOrganicContour(canvas, center1, radius, contourPaint, seed: i * 7);
 
       // Distorted organic contour 2
-      _drawOrganicContour(canvas, center2, radius * 0.85, contourPaint, seed: i * 11);
+      _drawOrganicContour(canvas, center2, radius * 0.85, contourPaint,
+          seed: i * 11);
     }
   }
 

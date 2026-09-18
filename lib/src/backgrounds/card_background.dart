@@ -8,16 +8,19 @@ abstract class CardBackground {
   const CardBackground();
 
   /// Builds the background widget.
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child});
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child});
 
   /// Solid color background.
   const factory CardBackground.solid(Color color) = _SolidCardBackground;
 
   /// Gradient background (linear, sweep, radial).
-  const factory CardBackground.gradient(Gradient gradient) = _GradientCardBackground;
+  const factory CardBackground.gradient(Gradient gradient) =
+      _GradientCardBackground;
 
   /// Luxury brushed metallic finish.
-  const factory CardBackground.metallic(MetalType metalType) = _MetallicCardBackground;
+  const factory CardBackground.metallic(MetalType metalType) =
+      _MetallicCardBackground;
 
   /// Futuristic glassmorphism background with frosted blur and neon border.
   const factory CardBackground.glass({
@@ -27,10 +30,13 @@ abstract class CardBackground {
   }) = _GlassCardBackground;
 
   /// Custom painter background (ideal for artistic textures, waves, and patterns).
-  const factory CardBackground.painter(CustomPainter painter, {Color backgroundColor}) = _PainterCardBackground;
+  const factory CardBackground.painter(CustomPainter painter,
+      {Color backgroundColor}) = _PainterCardBackground;
 
   /// Completely custom builder for maximum flexibility.
-  const factory CardBackground.custom(Widget Function(BuildContext context, Widget child) builder) = _CustomCardBackground;
+  const factory CardBackground.custom(
+          Widget Function(BuildContext context, Widget child) builder) =
+      _CustomCardBackground;
 }
 
 class _SolidCardBackground extends CardBackground {
@@ -38,7 +44,8 @@ class _SolidCardBackground extends CardBackground {
   const _SolidCardBackground(this.color);
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return Container(
       decoration: BoxDecoration(
         color: color,
@@ -54,7 +61,8 @@ class _GradientCardBackground extends CardBackground {
   const _GradientCardBackground(this.gradient);
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return Container(
       decoration: BoxDecoration(
         gradient: gradient,
@@ -70,7 +78,8 @@ class _MetallicCardBackground extends CardBackground {
   const _MetallicCardBackground(this.metalType);
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return CustomPaint(
       painter: MetallicCardPainter(metalType: metalType),
       child: child,
@@ -90,7 +99,8 @@ class _GlassCardBackground extends CardBackground {
   });
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
       child: Container(
@@ -112,10 +122,12 @@ class _PainterCardBackground extends CardBackground {
   final CustomPainter painter;
   final Color backgroundColor;
 
-  const _PainterCardBackground(this.painter, {this.backgroundColor = Colors.transparent});
+  const _PainterCardBackground(this.painter,
+      {this.backgroundColor = Colors.transparent});
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -134,7 +146,8 @@ class _CustomCardBackground extends CardBackground {
   const _CustomCardBackground(this.builder);
 
   @override
-  Widget build(BuildContext context, {required BorderRadius borderRadius, required Widget child}) {
+  Widget build(BuildContext context,
+      {required BorderRadius borderRadius, required Widget child}) {
     return builder(context, child);
   }
 }

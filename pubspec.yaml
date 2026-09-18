@@ -5,6 +5,13 @@ homepage: https://github.com/ClevesDev/vertical_credit_card
 repository: https://github.com/ClevesDev/vertical_credit_card
 issue_tracker: https://github.com/ClevesDev/vertical_credit_card/issues
 
+topics:
+  - credit-card
+  - fintech
+  - vertical-card
+  - 3d-tilt
+  - wallet
+
 environment:
   sdk: '>=3.0.0 <4.0.0'
   flutter: '>=3.10.0'

@@ -120,7 +120,8 @@ class PainterlyGlobePainter extends CustomPainter {
 
     // Draw artistic paint splatter flecks
     for (int i = 0; i < splatterCount; i++) {
-      final radius = minRadius - 20 + random.nextDouble() * (maxRadius - minRadius + 40);
+      final radius =
+          minRadius - 20 + random.nextDouble() * (maxRadius - minRadius + 40);
       final angle = -math.pi * 0.52 + random.nextDouble() * 0.55;
 
       final x = center.dx + radius * math.cos(angle);
