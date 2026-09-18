@@ -117,8 +117,9 @@ class WorldMapPainter extends CustomPainter {
     // 2. Curved Planetary Limb & Glowing Horizon Atmosphere Arc
     // -------------------------------------------------------------------------
     if (showAtmosphere) {
-      final horizonCenter = Offset(w * 0.5, h * 1.55);
-      final horizonRadius = h * 1.32;
+      // Horizon arc curving over the upper third of the card
+      final horizonCenter = Offset(w * 0.5, h * 0.85);
+      final horizonRadius = h * 0.66;
 
       // Atmospheric outer cyan haze glow
       final hazePaint = Paint()
@@ -129,44 +130,50 @@ class WorldMapPainter extends CustomPainter {
 
       // Atmospheric mid soft glow
       final midGlowPaint = Paint()
-        ..color = flightRouteColor.withOpacity(0.20)
+        ..color = flightRouteColor.withOpacity(0.22)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 4.0;
+        ..strokeWidth = 3.5;
       canvas.drawCircle(horizonCenter, horizonRadius, midGlowPaint);
 
       // Crisp planetary limb rim
       final rimPaint = Paint()
         ..color =
-            Color.lerp(flightRouteColor, Colors.white, 0.5)!.withOpacity(0.65)
+            Color.lerp(flightRouteColor, Colors.white, 0.6)!.withOpacity(0.70)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.2;
+        ..strokeWidth = 1.0;
       canvas.drawCircle(horizonCenter, horizonRadius, rimPaint);
     }
 
     // -------------------------------------------------------------------------
-    // 3. Coordinate Grid (Curved Meridians & Latitude Parallels)
+    // 3. Proportional 2:1 World Map Canvas Definition
     // -------------------------------------------------------------------------
+    // Positioned strictly in the hero band between the chip and card number
+    // Map width: 90% of card width. Map height: mapWidth / 2.1 (preserves real geography!)
+    final mapOriginX = w * 0.05;
+    final mapOriginY = h * 0.24;
+    final mapW = w * 0.90;
+    final mapH = mapW / 2.1; // ~103px high on a 240px card
+
+    double mx(double u) => mapOriginX + (u * mapW);
+    double my(double v) => mapOriginY + (v * mapH);
+
+    // Coordinate Grid (Parallels & Meridians within the geographic bounding box)
     if (showGrid) {
       final gridPaint = Paint()
-        ..color = gridColor.withOpacity(0.45)
+        ..color = gridColor.withOpacity(0.40)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.75;
+        ..strokeWidth = 0.65;
 
-      // Parallels
-      for (double yFrac in [0.25, 0.35, 0.45, 0.55, 0.65]) {
-        canvas.drawLine(Offset(0, h * yFrac), Offset(w, h * yFrac), gridPaint);
+      // Parallels (Tropic of Cancer, Equator, Tropic of Capricorn)
+      for (double v in [0.25, 0.50, 0.75]) {
+        canvas.drawLine(
+            Offset(mx(0.0), my(v)), Offset(mx(1.0), my(v)), gridPaint);
       }
 
-      // Meridians (Curved ellipses simulating spherical projection)
-      for (double factor in [0.30, 0.55, 0.80]) {
-        canvas.drawOval(
-          Rect.fromCenter(
-            center: Offset(w * 0.5, h * 0.45),
-            width: w * factor * 2.0,
-            height: h * 0.50,
-          ),
-          gridPaint,
-        );
+      // Meridians (Curved ellipses across the map)
+      for (double u in [0.25, 0.50, 0.75]) {
+        canvas.drawLine(
+            Offset(mx(u), my(0.0)), Offset(mx(u), my(1.0)), gridPaint);
       }
     }
 
@@ -185,150 +192,150 @@ class WorldMapPainter extends CustomPainter {
     final bathymetryPaint = Paint()
       ..color = flightRouteColor.withOpacity(0.12)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.4;
+      ..strokeWidth = 2.2;
 
     void drawLandmass(Path path) {
-      // Bathymetric depth halo
       canvas.drawPath(path, bathymetryPaint);
-      // Continent body fill
       canvas.drawPath(path, landPaint);
-      // Crisp neon coastline rim
       canvas.drawPath(path, coastlinePaint);
     }
 
     // --- NORTH AMERICA ---
     final northAmerica = Path()
-      ..moveTo(w * 0.08, h * 0.22) // Alaska
-      ..quadraticBezierTo(w * 0.16, h * 0.20, w * 0.24, h * 0.20) // Canada
-      ..lineTo(w * 0.26, h * 0.24) // Hudson Bay dip
-      ..lineTo(w * 0.30, h * 0.22) // Labrador
-      ..quadraticBezierTo(w * 0.34, h * 0.26, w * 0.33, h * 0.31) // East Coast
-      ..lineTo(w * 0.30, h * 0.35) // Florida
-      ..lineTo(w * 0.26, h * 0.34) // Gulf of Mexico
-      ..lineTo(w * 0.23, h * 0.38) // Mexico / Central America
-      ..lineTo(w * 0.18, h * 0.34) // Baja California
+      ..moveTo(mx(0.02), my(0.12)) // Alaska
       ..quadraticBezierTo(
-          w * 0.12, h * 0.30, w * 0.08, h * 0.22) // West Coast / Alaska
+          mx(0.10), my(0.04), mx(0.18), my(0.04)) // Northern Canada
+      ..lineTo(mx(0.23), my(0.10)) // Hudson Bay
+      ..lineTo(mx(0.28), my(0.08)) // Labrador
+      ..quadraticBezierTo(
+          mx(0.28), my(0.16), mx(0.26), my(0.22)) // US East Coast
+      ..lineTo(mx(0.25), my(0.32)) // Florida
+      ..lineTo(mx(0.21), my(0.30)) // Gulf of Mexico
+      ..lineTo(mx(0.20), my(0.42)) // Central America
+      ..lineTo(mx(0.16), my(0.36)) // Mexico Pacific
+      ..lineTo(mx(0.13), my(0.28)) // Baja California
+      ..quadraticBezierTo(
+          mx(0.08), my(0.20), mx(0.02), my(0.12)) // West Coast / Alaska
       ..close();
     drawLandmass(northAmerica);
 
-    // Greenland (distinct arctic island)
+    // Greenland
     final greenland = Path()
-      ..moveTo(w * 0.31, h * 0.17)
-      ..lineTo(w * 0.36, h * 0.18)
-      ..lineTo(w * 0.34, h * 0.22)
-      ..lineTo(w * 0.29, h * 0.21)
+      ..moveTo(mx(0.31), my(0.02))
+      ..lineTo(mx(0.36), my(0.04))
+      ..lineTo(mx(0.34), my(0.10))
+      ..lineTo(mx(0.29), my(0.08))
       ..close();
     drawLandmass(greenland);
 
     // --- SOUTH AMERICA ---
     final southAmerica = Path()
-      ..moveTo(w * 0.24, h * 0.42) // Colombia / Venezuela
+      ..moveTo(mx(0.21), my(0.46)) // Colombia / Venezuela
+      ..quadraticBezierTo(mx(0.28), my(0.48), mx(0.32), my(0.52)) // Guianas
+      ..lineTo(mx(0.36), my(0.60)) // Brazil eastern bulge
       ..quadraticBezierTo(
-          w * 0.32, h * 0.43, w * 0.35, h * 0.47) // Northern coast
-      ..lineTo(w * 0.37, h * 0.52) // Brazil eastern bulge
+          mx(0.33), my(0.72), mx(0.29), my(0.82)) // Rio / Buenos Aires
+      ..lineTo(mx(0.25), my(0.96)) // Patagonia
+      ..lineTo(mx(0.22), my(0.74)) // Chile Pacific
       ..quadraticBezierTo(
-          w * 0.34, h * 0.58, w * 0.31, h * 0.63) // Rio / Argentina
-      ..lineTo(w * 0.27, h * 0.68) // Tierra del Fuego / Patagonia
-      ..lineTo(w * 0.24, h * 0.58) // Chile coast
-      ..quadraticBezierTo(
-          w * 0.22, h * 0.48, w * 0.24, h * 0.42) // Peru / Pacific
+          mx(0.18), my(0.56), mx(0.21), my(0.46)) // Peru / Pacific
       ..close();
     drawLandmass(southAmerica);
 
     // --- EUROPE & SCANDINAVIA ---
     final europe = Path()
-      ..moveTo(w * 0.44, h * 0.27) // France / Iberia
-      ..lineTo(w * 0.48, h * 0.25) // Central Europe
-      ..lineTo(w * 0.52, h * 0.21) // Baltic
-      ..lineTo(w * 0.54, h * 0.25) // Eastern Europe
-      ..lineTo(w * 0.50, h * 0.31) // Balkans / Greece
-      ..lineTo(w * 0.47, h * 0.30) // Italy
-      ..lineTo(w * 0.43, h * 0.31) // Spain
+      ..moveTo(mx(0.41), my(0.24)) // Iberia
+      ..lineTo(mx(0.44), my(0.18)) // France
+      ..lineTo(mx(0.48), my(0.16)) // Central Europe
+      ..lineTo(mx(0.52), my(0.14)) // Baltic
+      ..lineTo(mx(0.53), my(0.20)) // Eastern Europe
+      ..lineTo(mx(0.50), my(0.26)) // Balkans
+      ..lineTo(mx(0.47), my(0.26)) // Italy
+      ..lineTo(mx(0.44), my(0.25)) // Mediterranean
       ..close();
     drawLandmass(europe);
 
     // UK & Ireland
     final britishIsles = Path()
-      ..moveTo(w * 0.43, h * 0.22)
-      ..lineTo(w * 0.45, h * 0.21)
-      ..lineTo(w * 0.44, h * 0.25)
-      ..lineTo(w * 0.42, h * 0.24)
+      ..moveTo(mx(0.42), my(0.14))
+      ..lineTo(mx(0.45), my(0.12))
+      ..lineTo(mx(0.44), my(0.18))
+      ..lineTo(mx(0.41), my(0.17))
       ..close();
     drawLandmass(britishIsles);
 
     // Scandinavia
     final scandinavia = Path()
-      ..moveTo(w * 0.49, h * 0.17)
-      ..lineTo(w * 0.53, h * 0.18)
-      ..lineTo(w * 0.51, h * 0.23)
-      ..lineTo(w * 0.48, h * 0.21)
+      ..moveTo(mx(0.48), my(0.04))
+      ..lineTo(mx(0.52), my(0.05))
+      ..lineTo(mx(0.50), my(0.13))
+      ..lineTo(mx(0.47), my(0.11))
       ..close();
     drawLandmass(scandinavia);
 
     // --- AFRICA ---
     final africa = Path()
-      ..moveTo(w * 0.44, h * 0.33) // Morocco
+      ..moveTo(mx(0.41), my(0.28)) // Morocco
       ..quadraticBezierTo(
-          w * 0.52, h * 0.33, w * 0.58, h * 0.34) // Mediterranean coast
-      ..lineTo(w * 0.60, h * 0.40) // Egypt / Red Sea
-      ..lineTo(w * 0.61, h * 0.44) // Horn of Africa
+          mx(0.48), my(0.27), mx(0.55), my(0.28)) // Mediterranean
+      ..lineTo(mx(0.57), my(0.33)) // Egypt / Red Sea
+      ..lineTo(mx(0.61), my(0.38)) // Horn of Africa
       ..quadraticBezierTo(
-          w * 0.58, h * 0.54, w * 0.54, h * 0.61) // East / South Africa
-      ..lineTo(w * 0.50, h * 0.61) // Cape of Good Hope
-      ..quadraticBezierTo(w * 0.46, h * 0.52, w * 0.43,
-          h * 0.44) // Gulf of Guinea / West Africa
-      ..lineTo(w * 0.41, h * 0.39) // Senegal bulge
+          mx(0.58), my(0.52), mx(0.53), my(0.76)) // East / South Africa
+      ..lineTo(mx(0.48), my(0.76)) // Cape of Good Hope
+      ..quadraticBezierTo(
+          mx(0.45), my(0.58), mx(0.43), my(0.46)) // Gulf of Guinea
+      ..lineTo(mx(0.37), my(0.38)) // Senegal bulge
       ..close();
     drawLandmass(africa);
 
     // Madagascar
     final madagascar = Path()
-      ..moveTo(w * 0.61, h * 0.52)
-      ..lineTo(w * 0.63, h * 0.54)
-      ..lineTo(w * 0.62, h * 0.58)
-      ..lineTo(w * 0.60, h * 0.56)
+      ..moveTo(mx(0.61), my(0.58))
+      ..lineTo(mx(0.63), my(0.61))
+      ..lineTo(mx(0.62), my(0.70))
+      ..lineTo(mx(0.60), my(0.66))
       ..close();
     drawLandmass(madagascar);
 
     // --- ASIA & MIDDLE EAST ---
     final asia = Path()
-      ..moveTo(w * 0.56, h * 0.21) // Urals
-      ..lineTo(w * 0.88, h * 0.20) // Siberia
-      ..lineTo(w * 0.88, h * 0.30) // Kamchatka
-      ..quadraticBezierTo(w * 0.82, h * 0.36, w * 0.77, h * 0.37) // China coast
-      ..lineTo(w * 0.74, h * 0.45) // Indochina
-      ..lineTo(w * 0.69, h * 0.45) // India / Bay of Bengal
-      ..lineTo(w * 0.66, h * 0.39) // Arabian Sea
-      ..lineTo(w * 0.60, h * 0.38) // Arabian Peninsula
-      ..lineTo(w * 0.58, h * 0.31) // Middle East
+      ..moveTo(mx(0.53), my(0.10)) // Urals
+      ..lineTo(mx(0.88), my(0.08)) // Siberia
+      ..lineTo(mx(0.92), my(0.14)) // Kamchatka
+      ..quadraticBezierTo(mx(0.84), my(0.24), mx(0.80), my(0.26)) // China coast
+      ..lineTo(mx(0.77), my(0.42)) // Indochina
+      ..lineTo(mx(0.71), my(0.42)) // India
+      ..lineTo(mx(0.66), my(0.36)) // Arabian Sea
+      ..lineTo(mx(0.60), my(0.34)) // Arabian Peninsula
+      ..lineTo(mx(0.56), my(0.28)) // Middle East
       ..close();
     drawLandmass(asia);
 
-    // Japan archipelago
+    // Japan
     final japan = Path()
-      ..moveTo(w * 0.87, h * 0.28)
-      ..lineTo(w * 0.89, h * 0.32)
-      ..lineTo(w * 0.86, h * 0.35)
-      ..lineTo(w * 0.85, h * 0.32)
+      ..moveTo(mx(0.86), my(0.22))
+      ..lineTo(mx(0.88), my(0.25))
+      ..lineTo(mx(0.86), my(0.30))
+      ..lineTo(mx(0.84), my(0.26))
       ..close();
     drawLandmass(japan);
 
     // --- AUSTRALIA & OCEANIA ---
     final australia = Path()
-      ..moveTo(w * 0.77, h * 0.55) // Darwin / North
-      ..quadraticBezierTo(w * 0.85, h * 0.54, w * 0.89, h * 0.58) // Queensland
-      ..lineTo(w * 0.87, h * 0.65) // Sydney / Melbourne
-      ..lineTo(w * 0.80, h * 0.66) // Great Australian Bight
-      ..lineTo(w * 0.75, h * 0.61) // Perth
+      ..moveTo(mx(0.77), my(0.64)) // North / Darwin
+      ..quadraticBezierTo(mx(0.84), my(0.62), mx(0.88), my(0.68)) // Queensland
+      ..lineTo(mx(0.86), my(0.80)) // Sydney / Melbourne
+      ..lineTo(mx(0.79), my(0.82)) // Great Australian Bight
+      ..lineTo(mx(0.74), my(0.74)) // Perth
       ..close();
     drawLandmass(australia);
 
     // New Zealand
     final newZealand = Path()
-      ..moveTo(w * 0.91, h * 0.63)
-      ..lineTo(w * 0.93, h * 0.66)
-      ..lineTo(w * 0.91, h * 0.68)
+      ..moveTo(mx(0.90), my(0.78))
+      ..lineTo(mx(0.92), my(0.82))
+      ..lineTo(mx(0.90), my(0.86))
       ..close();
     drawLandmass(newZealand);
 
@@ -339,7 +346,7 @@ class WorldMapPainter extends CustomPainter {
       final routePaint = Paint()
         ..color = flightRouteColor.withOpacity(0.65)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0;
+        ..strokeWidth = 0.9;
 
       final jetBodyPaint = Paint()
         ..color = compassGoldColor
@@ -351,12 +358,12 @@ class WorldMapPainter extends CustomPainter {
         ..strokeWidth = 0.5;
 
       // Major Hub Coordinates
-      final jfk = Offset(w * 0.29, h * 0.33); // New York JFK
-      final lhr = Offset(w * 0.46, h * 0.27); // London Heathrow
-      final dxb = Offset(w * 0.62, h * 0.36); // Dubai
-      final hnd = Offset(w * 0.87, h * 0.31); // Tokyo Haneda
-      final syd = Offset(w * 0.86, h * 0.63); // Sydney Kingsford
-      final gru = Offset(w * 0.33, h * 0.56); // São Paulo Guarulhos
+      final jfk = Offset(mx(0.26), my(0.24)); // New York JFK
+      final lhr = Offset(mx(0.44), my(0.16)); // London Heathrow
+      final dxb = Offset(mx(0.61), my(0.34)); // Dubai
+      final hnd = Offset(mx(0.86), my(0.26)); // Tokyo Haneda
+      final syd = Offset(mx(0.86), my(0.76)); // Sydney Kingsford
+      final gru = Offset(mx(0.33), my(0.68)); // São Paulo Guarulhos
 
       // Helper to draw a sleek supersonic delta jet
       void drawDeltaJet(Offset pos, double angle) {
@@ -365,15 +372,15 @@ class WorldMapPainter extends CustomPainter {
         canvas.rotate(angle);
 
         final jetPath = Path()
-          ..moveTo(6.5, 0.0) // Nose cone tip
-          ..lineTo(-1.2, 1.8) // Fuselage body right
-          ..lineTo(-3.8, 4.4) // Right swept wingtip
-          ..lineTo(-2.2, 1.2) // Trailing notch right
-          ..lineTo(-4.8, 0.8) // Tail right
-          ..lineTo(-4.8, -0.8) // Tail left
-          ..lineTo(-2.2, -1.2) // Trailing notch left
-          ..lineTo(-3.8, -4.4) // Left swept wingtip
-          ..lineTo(-1.2, -1.8) // Fuselage body left
+          ..moveTo(5.5, 0.0) // Nose cone tip
+          ..lineTo(-1.0, 1.5) // Fuselage body right
+          ..lineTo(-3.2, 3.8) // Right swept wingtip
+          ..lineTo(-1.8, 1.0) // Trailing notch right
+          ..lineTo(-4.0, 0.7) // Tail right
+          ..lineTo(-4.0, -0.7) // Tail left
+          ..lineTo(-1.8, -1.0) // Trailing notch left
+          ..lineTo(-3.2, -3.8) // Left swept wingtip
+          ..lineTo(-1.0, -1.5) // Fuselage body left
           ..close();
 
         canvas.drawPath(jetPath, jetBodyPaint);
@@ -414,25 +421,25 @@ class WorldMapPainter extends CustomPainter {
       }
 
       // Route 1: JFK -> LHR (Transatlantic Corridor)
-      drawGeodesicRoute(jfk, lhr, 16.0, 0.55);
+      drawGeodesicRoute(jfk, lhr, 10.0, 0.55);
 
       // Route 2: LHR -> DXB (Euro-Gulf Corridor)
-      drawGeodesicRoute(lhr, dxb, 12.0, 0.50);
+      drawGeodesicRoute(lhr, dxb, 8.0, 0.50);
 
       // Route 3: DXB -> HND (Asia Express Corridor)
-      drawGeodesicRoute(dxb, hnd, 18.0, 0.52);
+      drawGeodesicRoute(dxb, hnd, 12.0, 0.52);
 
       // Route 4: HND -> SYD (West Pacific Corridor)
-      drawGeodesicRoute(hnd, syd, -14.0, 0.48);
+      drawGeodesicRoute(hnd, syd, -8.0, 0.48);
 
       // Route 5: JFK -> GRU (Pan-American Corridor)
-      drawGeodesicRoute(jfk, gru, 14.0, 0.52);
+      drawGeodesicRoute(jfk, gru, 8.0, 0.52);
 
       // Airport Hub Radar Beacons & IATA Labels
       final beaconOuterPaint = Paint()
         ..color = flightRouteColor.withOpacity(0.35)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.8;
+        ..strokeWidth = 0.7;
 
       final beaconCorePaint = Paint()
         ..color = flightRouteColor
@@ -451,17 +458,15 @@ class WorldMapPainter extends CustomPainter {
         final pos = hub.$1;
         final iata = hub.$2;
 
-        // Concentric radar beacon rings
-        canvas.drawCircle(pos, 7.0, beaconOuterPaint);
-        canvas.drawCircle(pos, 3.5, beaconOuterPaint);
-        canvas.drawCircle(pos, 1.8, beaconCorePaint);
+        canvas.drawCircle(pos, 5.0, beaconOuterPaint);
+        canvas.drawCircle(pos, 2.8, beaconOuterPaint);
+        canvas.drawCircle(pos, 1.4, beaconCorePaint);
 
-        // IATA code text
         final textSpan = TextSpan(
           text: iata,
           style: TextStyle(
             color: flightRouteColor.withOpacity(0.85),
-            fontSize: 5.5,
+            fontSize: 5.0,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.5,
             fontFamily: 'monospace',
@@ -470,33 +475,66 @@ class WorldMapPainter extends CustomPainter {
         final tp =
             TextPainter(text: textSpan, textDirection: TextDirection.ltr);
         tp.layout();
-        tp.paint(canvas, Offset(pos.dx + 4.5, pos.dy - 3.5));
+        tp.paint(canvas, Offset(pos.dx + 3.5, pos.dy - 3.0));
       }
     }
 
     // -------------------------------------------------------------------------
-    // 6. 16-Point 3D Faceted Gold Compass Rose & Nautical Astrolabe Bezel
+    // 6. Navigation Instruments Band (Between Map and Card Number: h * 0.51 to h * 0.65)
     // -------------------------------------------------------------------------
+
+    // 6A. Aviation Telemetry Flight HUD Block (Left side)
+    if (showTelemetry) {
+      final hudLines = [
+        'LAT  34.0522° N',
+        'LON 118.2437° W',
+        'ALT 41,000 FT',
+        'HDG 072° · M 0.85',
+        'GS  560 KTS',
+      ];
+
+      double hudY = h * 0.53;
+      const lineSpacing = 7.5;
+
+      for (int i = 0; i < hudLines.length; i++) {
+        final span = TextSpan(
+          text: hudLines[i],
+          style: TextStyle(
+            color: flightRouteColor.withOpacity(i == 0 || i == 2 ? 0.75 : 0.45),
+            fontSize: 5.0,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.6,
+            fontFamily: 'monospace',
+          ),
+        );
+        final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
+        tp.layout();
+        tp.paint(canvas, Offset(w * 0.08, hudY));
+        hudY += lineSpacing;
+      }
+    }
+
+    // 6B. 16-Point 3D Faceted Gold Compass Rose (Right side, ABOVE card number)
     if (showCompass) {
-      final compassCenter = Offset(w * 0.72, h * 0.74);
-      const compassRadius = 32.0;
+      final compassCenter = Offset(w * 0.74, h * 0.57);
+      const compassRadius = 22.0;
 
       // Outer degree bezel ring
       final bezelPaint = Paint()
         ..color = compassGoldColor.withOpacity(0.40)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.8;
-      canvas.drawCircle(compassCenter, compassRadius, bezelPaint);
-      canvas.drawCircle(compassCenter, compassRadius - 5.0, bezelPaint);
-
-      // 36 Degree tick marks (every 10°)
-      final tickPaint = Paint()
-        ..color = compassGoldColor.withOpacity(0.60)
         ..strokeWidth = 0.75;
-      for (int i = 0; i < 36; i++) {
-        final tickAngle = (i * 10.0) * (math.pi / 180.0);
-        final isMajor = (i % 9 == 0); // 0, 90, 180, 270
-        final innerR = isMajor ? compassRadius - 5.0 : compassRadius - 2.5;
+      canvas.drawCircle(compassCenter, compassRadius, bezelPaint);
+      canvas.drawCircle(compassCenter, compassRadius - 3.5, bezelPaint);
+
+      // Degree tick marks (every 15°)
+      final tickPaint = Paint()
+        ..color = compassGoldColor.withOpacity(0.55)
+        ..strokeWidth = 0.65;
+      for (int i = 0; i < 24; i++) {
+        final tickAngle = (i * 15.0) * (math.pi / 180.0);
+        final isMajor = (i % 6 == 0); // 0, 90, 180, 270
+        final innerR = isMajor ? compassRadius - 4.0 : compassRadius - 2.0;
         final p1 = Offset(
           compassCenter.dx + math.cos(tickAngle) * innerR,
           compassCenter.dy + math.sin(tickAngle) * innerR,
@@ -508,15 +546,15 @@ class WorldMapPainter extends CustomPainter {
         canvas.drawLine(p1, p2, tickPaint);
       }
 
-      // Rhumb navigation rays radiating from compass into ocean
+      // Rhumb navigation rays radiating from compass
       final rhumbPaint = Paint()
-        ..color = compassGoldColor.withOpacity(0.12)
-        ..strokeWidth = 0.6;
+        ..color = compassGoldColor.withOpacity(0.10)
+        ..strokeWidth = 0.5;
       for (int r = 0; r < 8; r++) {
         final rhumbAngle = (r * 45.0) * (math.pi / 180.0);
         final rayEnd = Offset(
-          compassCenter.dx + math.cos(rhumbAngle) * 75.0,
-          compassCenter.dy + math.sin(rhumbAngle) * 75.0,
+          compassCenter.dx + math.cos(rhumbAngle) * 55.0,
+          compassCenter.dy + math.sin(rhumbAngle) * 55.0,
         );
         canvas.drawLine(compassCenter, rayEnd, rhumbPaint);
       }
@@ -535,15 +573,14 @@ class WorldMapPainter extends CustomPainter {
       const innerNotchR = compassRadius * 0.22;
 
       for (int p = 0; p < totalPoints; p++) {
-        final centerAngle =
-            (p * angleStep) - (math.pi / 2); // Start pointing North
+        final centerAngle = (p * angleStep) - (math.pi / 2); // North is up
         double pointLength;
         if (p % 4 == 0) {
-          pointLength = compassRadius * 1.02; // Primary N, E, S, W
+          pointLength = compassRadius * 1.0; // Primary N, E, S, W
         } else if (p % 2 == 0) {
-          pointLength = compassRadius * 0.72; // Secondary NE, SE, SW, NW
+          pointLength = compassRadius * 0.70; // Secondary NE, SE, SW, NW
         } else {
-          pointLength = compassRadius * 0.48; // Tertiary
+          pointLength = compassRadius * 0.45; // Tertiary
         }
 
         final tip = Offset(
@@ -565,7 +602,7 @@ class WorldMapPainter extends CustomPainter {
               math.sin(centerAngle - (angleStep * 0.5)) * innerNotchR,
         );
 
-        // Light facet (3D highlight half)
+        // Light facet (highlight)
         final lightPath = Path()
           ..moveTo(compassCenter.dx, compassCenter.dy)
           ..lineTo(tip.dx, tip.dy)
@@ -573,7 +610,7 @@ class WorldMapPainter extends CustomPainter {
           ..close();
         canvas.drawPath(lightPath, lightFacetPaint);
 
-        // Dark facet (3D shadow half)
+        // Dark facet (shadow)
         final darkPath = Path()
           ..moveTo(compassCenter.dx, compassCenter.dy)
           ..lineTo(tip.dx, tip.dy)
@@ -582,19 +619,19 @@ class WorldMapPainter extends CustomPainter {
         canvas.drawPath(darkPath, darkFacetPaint);
       }
 
-      // Compass Center Jewel Hub
+      // Center Hub
       canvas.drawCircle(
-          compassCenter, 4.2, Paint()..color = const Color(0xFF0A1422));
-      canvas.drawCircle(compassCenter, 3.2, Paint()..color = compassGoldColor);
-      canvas.drawCircle(compassCenter, 1.4, Paint()..color = flightRouteColor);
+          compassCenter, 3.2, Paint()..color = const Color(0xFF0A1422));
+      canvas.drawCircle(compassCenter, 2.2, Paint()..color = compassGoldColor);
+      canvas.drawCircle(compassCenter, 1.0, Paint()..color = flightRouteColor);
 
-      // Cardinal N, S, E, W Text Labels
+      // Cardinal N, S, E, W Labels
       void drawCardinal(String text, Offset pos) {
         final span = TextSpan(
           text: text,
           style: TextStyle(
             color: compassLightGoldColor,
-            fontSize: 6.5,
+            fontSize: 5.5,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.5,
           ),
@@ -606,46 +643,13 @@ class WorldMapPainter extends CustomPainter {
       }
 
       drawCardinal('N',
-          Offset(compassCenter.dx, compassCenter.dy - compassRadius - 5.5));
+          Offset(compassCenter.dx, compassCenter.dy - compassRadius - 4.5));
       drawCardinal('S',
-          Offset(compassCenter.dx, compassCenter.dy + compassRadius + 5.5));
+          Offset(compassCenter.dx, compassCenter.dy + compassRadius + 4.5));
       drawCardinal('E',
-          Offset(compassCenter.dx + compassRadius + 5.5, compassCenter.dy));
+          Offset(compassCenter.dx + compassRadius + 4.5, compassCenter.dy));
       drawCardinal('W',
-          Offset(compassCenter.dx - compassRadius - 5.5, compassCenter.dy));
-    }
-
-    // -------------------------------------------------------------------------
-    // 7. Aviation Telemetry Flight HUD Block (Bottom Left)
-    // -------------------------------------------------------------------------
-    if (showTelemetry) {
-      final hudLines = [
-        'LAT  34.0522° N',
-        'LON 118.2437° W',
-        'ALT 41,000 FT',
-        'HDG 072° · M 0.85',
-        'GS  560 KTS',
-      ];
-
-      double hudY = h * 0.70;
-      const lineSpacing = 8.5;
-
-      for (int i = 0; i < hudLines.length; i++) {
-        final span = TextSpan(
-          text: hudLines[i],
-          style: TextStyle(
-            color: flightRouteColor.withOpacity(i == 0 || i == 2 ? 0.75 : 0.50),
-            fontSize: 5.5,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.8,
-            fontFamily: 'monospace',
-          ),
-        );
-        final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
-        tp.layout();
-        tp.paint(canvas, Offset(w * 0.08, hudY));
-        hudY += lineSpacing;
-      }
+          Offset(compassCenter.dx - compassRadius - 4.5, compassCenter.dy));
     }
   }
 
