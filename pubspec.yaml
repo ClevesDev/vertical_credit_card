@@ -1,6 +1,6 @@
 name: vertical_credit_card
 description: A modern, customizable vertical credit/debit card UI widget for Flutter fintech apps with 3D flip, metallic, glassmorphic, and frozen card states.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/ClevesDev/vertical_credit_card
 repository: https://github.com/ClevesDev/vertical_credit_card
 issue_tracker: https://github.com/ClevesDev/vertical_credit_card/issues
@@ -11,6 +11,10 @@ topics:
   - vertical-card
   - card-wallet
   - wallet
+
+screenshots:
+  - description: '3D vertical credit card UI widget showcase with realistic textures for Flutter.'
+    path: doc/screenshots/vertical_credit_card_banner.jpg
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

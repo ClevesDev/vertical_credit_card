@@ -1,3 +1,7 @@
+## 0.0.4
+
+* **Official pub.dev Screenshots Showcase:** Added native package screenshot showcase (`doc/screenshots/vertical_credit_card_banner.jpg`) enabling visual search previews and image carousels across pub.dev listings.
+
 ## 0.0.3
 
 * **Modernized Documentation Code Snippets:** Updated frosted glassmorphism example in `README.md` to use Flutter 3.27+ `withValues(alpha:)` standard instead of legacy `.withOpacity()`.
