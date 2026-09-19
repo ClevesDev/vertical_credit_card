@@ -17,12 +17,16 @@ class CyberEdgeGlowPainter extends CustomPainter {
   /// Whether to cycle continuously through the full 360-degree RGB chroma spectrum.
   final bool isRgbChroma;
 
+  /// Whether to render a continuous 360-degree glowing neon tube around the entire perimeter.
+  final bool continuousTube;
+
   CyberEdgeGlowPainter({
     required this.progress,
     required this.glowColor,
     required this.borderRadius,
     this.beamLengthFraction = 0.28,
     this.isRgbChroma = false,
+    this.continuousTube = false,
   });
 
   @override
@@ -31,34 +35,41 @@ class CyberEdgeGlowPainter extends CustomPainter {
     final rrect = borderRadius.toRRect(rect);
 
     final basePath = Path()..addRRect(rrect);
-    final metrics = basePath.computeMetrics().toList();
-    if (metrics.isEmpty) return;
 
-    final metric = metrics.first;
-    final totalLength = metric.length;
-    final beamLength = totalLength * beamLengthFraction;
-
-    final currentOffset = (progress * totalLength) % totalLength;
-
-    // Extract path segment(s). Handle wrap-around if beam crosses the end of the perimeter.
-    final beamPath = Path();
-    if (currentOffset + beamLength <= totalLength) {
-      beamPath.addPath(
-        metric.extractPath(currentOffset, currentOffset + beamLength),
-        Offset.zero,
-      );
+    final Path targetPath;
+    if (continuousTube || beamLengthFraction >= 1.0) {
+      targetPath = basePath;
     } else {
-      // First part up to totalLength
-      beamPath.addPath(
-        metric.extractPath(currentOffset, totalLength),
-        Offset.zero,
-      );
-      // Second part wrapped from 0
-      final remainder = (currentOffset + beamLength) - totalLength;
-      beamPath.addPath(
-        metric.extractPath(0, remainder),
-        Offset.zero,
-      );
+      final metrics = basePath.computeMetrics().toList();
+      if (metrics.isEmpty) return;
+
+      final metric = metrics.first;
+      final totalLength = metric.length;
+      final beamLength = totalLength * beamLengthFraction;
+
+      final currentOffset = (progress * totalLength) % totalLength;
+
+      // Extract path segment(s). Handle wrap-around if beam crosses the end of the perimeter.
+      final beamPath = Path();
+      if (currentOffset + beamLength <= totalLength) {
+        beamPath.addPath(
+          metric.extractPath(currentOffset, currentOffset + beamLength),
+          Offset.zero,
+        );
+      } else {
+        // First part up to totalLength
+        beamPath.addPath(
+          metric.extractPath(currentOffset, totalLength),
+          Offset.zero,
+        );
+        // Second part wrapped from 0
+        final remainder = (currentOffset + beamLength) - totalLength;
+        beamPath.addPath(
+          metric.extractPath(0, remainder),
+          Offset.zero,
+        );
+      }
+      targetPath = beamPath;
     }
 
     // Determine effective color (dynamic RGB chroma sweep or fixed glow color)
@@ -75,7 +86,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7.0);
 
-    canvas.drawPath(beamPath, outerGlowPaint);
+    canvas.drawPath(targetPath, outerGlowPaint);
 
     // 2. Focused vibrant mid glow
     final midGlowPaint = Paint()
@@ -85,7 +96,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5);
 
-    canvas.drawPath(beamPath, midGlowPaint);
+    canvas.drawPath(targetPath, midGlowPaint);
 
     // 3. Ultra-bright hot white core
     final corePaint = Paint()
@@ -94,7 +105,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
       ..strokeWidth = 1.2
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawPath(beamPath, corePaint);
+    canvas.drawPath(targetPath, corePaint);
   }
 
   @override
@@ -102,5 +113,6 @@ class CyberEdgeGlowPainter extends CustomPainter {
       oldDelegate.progress != progress ||
       oldDelegate.glowColor != glowColor ||
       oldDelegate.borderRadius != borderRadius ||
-      oldDelegate.isRgbChroma != isRgbChroma;
+      oldDelegate.isRgbChroma != isRgbChroma ||
+      oldDelegate.continuousTube != continuousTube;
 }

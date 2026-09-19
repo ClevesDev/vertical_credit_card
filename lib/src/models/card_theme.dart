@@ -119,6 +119,9 @@ class VerticalCardTheme {
   /// Whether the animated perimeter edge glow smoothly cycles through the full 360-degree RGB chroma spectrum.
   final bool isRgbChroma;
 
+  /// Whether the perimeter edge glow renders as a continuous 360-degree glowing neon tube.
+  final bool continuousEdgeTube;
+
   const VerticalCardTheme({
     this.type = VerticalCardThemeType.flat,
     required this.background,
@@ -137,6 +140,7 @@ class VerticalCardTheme {
     this.enableDiamondDust = false,
     this.enablePaymentPulse = false,
     this.isRgbChroma = false,
+    this.continuousEdgeTube = false,
   });
 
   /// Creates a copy of this theme with the given fields replaced with new values.
@@ -158,6 +162,7 @@ class VerticalCardTheme {
     bool? enableDiamondDust,
     bool? enablePaymentPulse,
     bool? isRgbChroma,
+    bool? continuousEdgeTube,
   }) {
     return VerticalCardTheme(
       type: type ?? this.type,
@@ -177,6 +182,7 @@ class VerticalCardTheme {
       enableDiamondDust: enableDiamondDust ?? this.enableDiamondDust,
       enablePaymentPulse: enablePaymentPulse ?? this.enablePaymentPulse,
       isRgbChroma: isRgbChroma ?? this.isRgbChroma,
+      continuousEdgeTube: continuousEdgeTube ?? this.continuousEdgeTube,
     );
   }
 

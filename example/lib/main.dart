@@ -54,7 +54,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     {'id': 'Luxury', 'label': '👑 Luxury Metal', 'desc': 'Apple & Amex'},
     {'id': 'Cyber', 'label': '⚡ Cyberpunk', 'desc': 'Neon & Glowing'},
     {'id': 'Artistic', 'label': '🎨 Artistic 3D', 'desc': 'Holo & Patterns'},
-    {'id': 'All', 'label': '✨ All', 'desc': 'All 40 Presets'},
+    {'id': 'All', 'label': '✨ All', 'desc': 'All 44 Presets'},
   ];
   String _selectedShowcaseCategory = 'Regional';
 
@@ -135,6 +135,21 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
       'name': 'Matrix Green',
       'family': 'Cyber',
       'theme': CardPresets.matrixGreen,
+    },
+    {
+      'name': 'Flutter Impeller',
+      'family': 'Cyber',
+      'theme': CardPresets.flutterImpeller,
+    },
+    {
+      'name': 'Chromatic Fluid',
+      'family': 'Cyber',
+      'theme': CardPresets.chromaticFluid,
+    },
+    {
+      'name': 'Neo Digital Glass',
+      'family': 'Cyber',
+      'theme': CardPresets.neoDigital,
     },
     {
       'name': 'Holo Infinite',
@@ -763,6 +778,15 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
     } else if (name == 'Wise') {
       bankName = 'WISE';
       brand = CardBrand.visa;
+    } else if (name == 'Flutter Impeller') {
+      bankName = 'FLUTTER GPU';
+      brand = CardBrand.generic;
+    } else if (name == 'Chromatic Fluid') {
+      bankName = 'NEON SILK';
+      brand = CardBrand.generic;
+    } else if (name == 'Neo Digital Glass') {
+      bankName = 'CYBERPUNK';
+      brand = CardBrand.generic;
     }
 
     return VerticalCard(

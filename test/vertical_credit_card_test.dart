@@ -435,4 +435,59 @@ void main() {
       expect(find.text('DESERT GOLD'), findsOneWidget);
     });
   });
+
+  group('Masterpiece Mockup Presets Tests', () {
+    test(
+        'Initializes Flutter Impeller, Chromatic Fluid, Golden Kintsugi, and Neo Digital',
+        () {
+      final impeller = CardPresets.flutterImpeller;
+      expect(impeller.enableEdgeGlow, isTrue);
+      expect(impeller.edgeGlowColor, const Color(0xFF00E5FF));
+
+      final fluid = CardPresets.chromaticFluid;
+      expect(fluid.textFinish, CardTextFinish.silverFoil);
+
+      final kintsugi = CardPresets.goldenKintsugi;
+      expect(kintsugi.textFinish, CardTextFinish.goldFoil);
+
+      final neoDigital = CardPresets.neoDigital;
+      expect(neoDigital.continuousEdgeTube, isTrue);
+      expect(neoDigital.edgeGlowColor, const Color(0xFF00F0FF));
+    });
+
+    testWidgets('Renders Flutter Impeller and Neo Digital in widget tree',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  VerticalCard.preset(
+                    preset: CardPresets.flutterImpeller,
+                    cardNumber: '4111 2222 3333 4444',
+                    cardHolder: 'FLUTTER DEV',
+                    expiryDate: '10/29',
+                    cvv: '123',
+                  ),
+                  VerticalCard.preset(
+                    preset: CardPresets.neoDigital,
+                    cardNumber: '5105 1051 0510 5100',
+                    cardHolder: 'NEO DIGITAL',
+                    expiryDate: '08/26',
+                    cvv: '456',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('FLUTTER DEV'), findsOneWidget);
+      expect(find.text('NEO DIGITAL'), findsOneWidget);
+    });
+  });
 }

@@ -4,10 +4,12 @@ import '../models/card_theme.dart';
 import '../painters/alpine_horizon_painter.dart';
 import '../painters/art_deco_painter.dart';
 import '../painters/carbon_fiber_painter.dart';
+import '../painters/chromatic_ribbons_painter.dart';
 import '../painters/constellation_painter.dart';
 import '../painters/damascus_steel_painter.dart';
 import '../painters/desert_dune_painter.dart';
 import '../painters/great_wave_painter.dart';
+import '../painters/impeller_tech_painter.dart';
 import '../painters/kintsugi_painter.dart';
 import '../painters/nfc_antenna_painter.dart';
 import '../painters/painterly_globe_painter.dart';
@@ -110,23 +112,50 @@ class CardPresets {
         enablePaymentPulse: true,
       );
 
-  /// Chromatic fluid liquid mesh gradient with vibrant shifting orbs (Revolut Metal & Apple Card style).
-  static VerticalCardTheme get revolutChromatic => const VerticalCardTheme(
+  /// Flagship Flutter Impeller GPU Edition in midnight titanium with circuit traces and IMPELLER watermark.
+  static VerticalCardTheme get flutterImpeller => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: CardBackground.fluid(
-          colors: [
-            Color(0xFF7928CA), // Electric Purple
-            Color(0xFF0070F3), // Neon Blue
-            Color(0xFFFF0080), // Hot Pink
-            Color(0xFF00DFD8), // Turquoise
-          ],
-        ),
+        background: CardBackground.painter(ImpellerTechPainter()),
+        textColor: Color(0xFFE0F2FE),
+        secondaryTextColor: Color(0xAA7DD3FC),
+        chipColor: ChipColor.silver,
+        textFinish: CardTextFinish.silverFoil,
+        enableEdgeGlow: true,
+        edgeGlowColor: Color(0xFF00E5FF),
+        enablePaymentPulse: true,
+      );
+
+  /// Vibrant flowing chromatic neon silk ribbons (magenta, cyan, and violet) with glossy specular crests.
+  static VerticalCardTheme get chromaticFluid => const VerticalCardTheme(
+        type: VerticalCardThemeType.artistic,
+        background: CardBackground.painter(ChromaticRibbonsPainter()),
         textColor: Colors.white,
         secondaryTextColor: Color(0xCCFFFFFF),
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
+        enableEdgeGlow: true,
+        edgeGlowColor: Color(0xFFFF007A),
         enablePaymentPulse: true,
       );
+
+  /// Translucent frosted glass with continuous 360-degree electroluminescent neon tube edge glow.
+  static VerticalCardTheme get neoDigital => VerticalCardTheme.glass(
+        neonColor: const Color(0xFF00F0FF),
+        blur: 16.0,
+        chipColor: ChipColor.silver,
+      ).copyWith(
+        enableEdgeGlow: true,
+        continuousEdgeTube: true,
+        edgeGlowColor: const Color(0xFF00F0FF),
+        textFinish: CardTextFinish.silverFoil,
+        enablePaymentPulse: true,
+      );
+
+  /// Alias for [neoDigital] frosted glass card.
+  static VerticalCardTheme get frostedGlass => neoDigital;
+
+  /// Chromatic fluid liquid mesh gradient with vibrant shifting orbs (Revolut Metal & Apple Card style).
+  static VerticalCardTheme get revolutChromatic => chromaticFluid;
 
   // ---------------------------------------------------------------------------
   // FAMILIA D: ARTE ABSTRACTO & TEXTURAS

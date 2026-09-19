@@ -6,6 +6,7 @@
 [![Flutter CI](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml/badge.svg)](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/clevesdev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Presets](https://img.shields.io/badge/Presets-40%2B%20Ready-FF007F?style=flat&logo=palette&logoColor=white)](#1-using-instant-presets-cardpresets)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?logo=flutter&logoColor=white)](https://flutter.dev)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ClevesDev/vertical_credit_card/pulls)
 
@@ -43,10 +44,15 @@ The reason is simple:
 
 `vertical_credit_card` was engineered to give Flutter developers a first-class, production-ready vertical card component: realistic 3D perspective physics, gyroscopic light reflection, physical materials (brushed titanium, carbon fiber, Damascus steel, transparent skeleton NFC), and 40+ curated presets—crafted with **100% pure Flutter vector CustomPainters** and zero external dependencies.
 
+<div align="center">
+  <img src="doc/screenshots/vertical_cards_lineup.jpg" width="100%" alt="Vertical Credit Card Lineup - Next-Generation ID-1 Portrait Banking Presets" />
+</div>
+
 ---
 
 ## ✨ Features
 
+- 🎨 ![40+ Presets](https://img.shields.io/badge/40%2B%20PRESETS-100%25%20CUSTOMIZABLE-FF007F?style=flat-square) **Production-Ready Themes:** Curated designs across 8 flagship categories (Global Neobanks, Luxury Metals, Cyberpunk Neon, Fine Art 3D, Regional Fintechs, Exotic Materials, Gamer RGB, and Web3 Hardware)—every single preset is 100% customizable via `.copyWith(...)` or parameter overrides.
 - 📱 **100% Native Vertical Orientation:** Designed specifically for portrait mobile screens following the modern ID-1 portrait format.
 - 🕹️ **Interactive 3D Perspective Tilt:** Reacts fluidly to finger dragging and mouse hovering with 3D matrix deflection and spring physics.
 - 💡 **Dynamic Specular Light Reflection:** Dynamic specular glare sweep moves realistically across the surface as the card deflects.
@@ -191,9 +197,45 @@ VerticalCard.preset(
 
 ---
 
-### 5. Tactile Finishes & Sensory Visual Effects
+### 5. Physical Typography Relief & Tactile Word Finishes (`CardTextFinish`)
 
-Elevate cards into luxury physical objects using hot foil stamping, neon edge glows, diamond dust micro-glitter, and contactless payment pulses:
+Elevate digital banking cards into luxury physical objects. Rather than flat digital typography, `vertical_credit_card` simulates real-world tactile stamping processes—including **chiseled 3D letterpress embossing** and **directional metallic foil stamping** that dynamically glints as the card tilts in 3D:
+
+<div align="center">
+  <img src="doc/screenshots/card_typography_embossed.png" width="340" alt="Embossed Tactile Letterpress Typography on Rose Gold Metallic Card" />
+  <p><em>Physical 3D letterpress embossed relief with chiseled highlights and shadows running in WebAssembly (Studio Mode)</em></p>
+</div>
+
+#### 🔍 Physical Typography Micro-Textures
+
+| Finish (`CardTextFinish`) | Micro-Texture & Physical Simulation | Real-World Look & Feel |
+| :--- | :--- | :--- |
+| **`CardTextFinish.embossed`** | **Dual-vector chiseled relief:** An upper-left specular bevel highlight (`alpha: 0.55`, offset: `-1, -1`) paired with an offset deep physical drop shadow (`alpha: 0.70`, offset: `1.2, 1.5`). Recreates the tangible stamped depth of classic physical bank cards. | Authentic debit/credit cards, physical plastic relief. |
+| **`CardTextFinish.goldFoil`** | **5-stop bullion gold gradient with dynamic `ShaderMask`:** Specular gleam sweeps across each glyph in real time based on 3D gyroscopic tilt angle. | Luxury VIP, wealth management, prestige cards. |
+| **`CardTextFinish.silverFoil`** | **Liquid platinum / chrome gradient:** High-reflectance metallic sheen responding to light glare deflection. | Platinum metal cards, aerospace titanium. |
+| **`CardTextFinish.roseGoldFoil`** | **Warm copper & blush metallic bullion:** Directional specular shimmer across cardholder name and numbers. | Modern luxury, fashion, lifestyle neobanks. |
+| **`CardTextFinish.flat`** | **Crisp anti-aliased printed ink:** Clean flat printing with subtle soft backdrop shadow for high legibility. | Minimalist neobanks (Apple Card, Nubank). |
+
+```dart
+VerticalCard.preset(
+  preset: CardPresets.appleTitanium,
+  cardNumber: '4000 1234 5678 9010',
+  cardHolder: 'DIMAS CLEVES',
+  expiryDate: '12/30',
+  cvv: '842',
+  bankName: 'CUSTOM CARD',
+  // 🔨 Physical 3D letterpress embossed stamping on all card words
+  textFinish: CardTextFinish.embossed,
+  enable3DTilt: true,
+  enableSpecularGlare: true,
+)
+```
+
+---
+
+### 6. Sensory Visual Effects (Edge Glow, Diamond Dust, Payment Pulse)
+
+Enhance tactile engagement with neon edge glows, diamond dust micro-glitter, and contactless payment pulses:
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/06_rosegold_diamond_dust.gif" width="420" alt="Rose Gold Luxury Finish & Diamond Dust Twinkles" />
@@ -222,7 +264,7 @@ VerticalCard.preset(
 
 ---
 
-### 6. Custom Background Strategy (`CardBackground`)
+### 7. Custom Background Strategy (`CardBackground`)
 
 Use the Open-Closed architecture to define any background style without touching the core widget:
 
@@ -286,7 +328,7 @@ CardBackground.custom((context, child) {
 
 ---
 
-### 7. Apple Wallet Multi-Card Stack (`VerticalCardStack`)
+### 8. Apple Wallet Multi-Card Stack (`VerticalCardStack`)
 
 Present multiple credit, debit, or loyalty cards in an overlapping vertical cascade inspired by Apple Wallet. Tapping any card smoothly expands it into focus with spring physics:
 
@@ -344,7 +386,7 @@ class _WalletViewState extends State<WalletView> {
 
 ---
 
-### 8. Dynamic Rolling Digits (`RollingDigitText`)
+### 9. Dynamic Rolling Digits (`RollingDigitText`)
 
 Add vertical odometer/slot-machine rolling animations for live rotating CVV security codes, virtual card regeneration, or real-time balance updates:
 
@@ -366,7 +408,7 @@ RollingDigitText(
 
 ---
 
-### 9. Synchronized Checkout Form with CVV Auto-Flip (`VerticalCardInputForm`)
+### 10. Synchronized Checkout Form with CVV Auto-Flip (`VerticalCardInputForm`)
 
 Synchronize card previews with a real-time input form that automatically formats card numbers (`1234 5678...`), expiry dates (`MM/YY`), and auto-flips the card to the back when the user taps into the CVV field:
 
@@ -420,7 +462,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
 ---
 
-### 10. Slot Injection (Custom Branding & EMV Chips)
+### 11. Slot Injection (Custom Branding & EMV Chips)
 
 Inject custom logos, microchips, or membership badges into dedicated slots without modifying the package source:
 

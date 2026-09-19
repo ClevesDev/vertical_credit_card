@@ -820,6 +820,8 @@ class _VerticalCardState extends State<VerticalCard>
                                 glowColor: _effectiveEdgeGlowColor,
                                 borderRadius: widget.cardTheme.borderRadius,
                                 isRgbChroma: _effectiveIsRgbChroma,
+                                continuousTube:
+                                    widget.cardTheme.continuousEdgeTube,
                               ),
                             ),
                           ),
