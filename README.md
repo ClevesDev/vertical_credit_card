@@ -15,6 +15,22 @@ Engineered with interactive 3D perspective physics, gyroscopic specular reflecti
 
 ---
 
+## 🎬 Visual Showcase
+
+<div align="center">
+
+| 👛 Apple Wallet Multi-Card Stack | 🌊 Revolut Chromatic Fluid Mesh 3D |
+| :---: | :---: |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/04_apple_wallet_stack.gif" width="360" alt="Apple Wallet Cascading Multi-Card Stack" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/01_fluid_mesh_3d.gif" width="360" alt="Chromatic Fluid Mesh 3D Tilt" /> |
+| **🌈 Holo Infinite Rainbow Sheen** | **✨ Rose Gold & Diamond Dust Sparkles** |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/02_holo_rainbow_sheen.gif" width="360" alt="Holo Infinite Rainbow Sheen" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/06_rosegold_diamond_dust.gif" width="360" alt="Rose Gold Diamond Dust Sparkles" /> |
+| **🎨 World Navigator Fine Art** | **📱 Fintech Mobile Banking App** |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/03_painterly_globe_art.gif" width="360" alt="World Navigator Fine Art" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/07_banking_app_dashboard.gif" width="360" alt="Mobile Banking Dashboard" /> |
+
+</div>
+
+---
+
 ## 💡 Why Vertical Cards?
 
 In recent years, the global banking and fintech landscape has experienced an aesthetic and functional evolution. Pioneer financial institutions and modern neobanks—such as **Apple Card, Nubank, Revolut, BBVA, and N26**—have phased out traditional horizontal plastic layouts in favor of the modern **portrait (vertical) ID-1 format**.
@@ -105,6 +121,10 @@ class MyCardWidget extends StatelessWidget {
 
 The card responds to touch drag gestures and pointer hover events with smooth 3D perspective deflection and a specular light sweep. You can toggle tilt, glare, and configure the maximum tilt deflection angle:
 
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/01_fluid_mesh_3d.gif" width="420" alt="Interactive 3D Perspective Tilt & Specular Light Sweep" />
+</div>
+
 ```dart
 VerticalCard(
   cardNumber: '5412 8888 1024 4321',
@@ -174,6 +194,10 @@ VerticalCard.preset(
 
 Elevate cards into luxury physical objects using hot foil stamping, neon edge glows, diamond dust micro-glitter, and contactless payment pulses:
 
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/06_rosegold_diamond_dust.gif" width="420" alt="Rose Gold Luxury Finish & Diamond Dust Twinkles" />
+</div>
+
 ```dart
 VerticalCard.preset(
   preset: CardPresets.goldPrestige,
@@ -200,6 +224,10 @@ VerticalCard.preset(
 ### 6. Custom Background Strategy (`CardBackground`)
 
 Use the Open-Closed architecture to define any background style without touching the core widget:
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/03_painterly_globe_art.gif" width="420" alt="Custom Vector Painter Background - World Navigator" />
+</div>
 
 ```dart
 // 1. Solid Color
@@ -260,6 +288,10 @@ CardBackground.custom((context, child) {
 ### 7. Apple Wallet Multi-Card Stack (`VerticalCardStack`)
 
 Present multiple credit, debit, or loyalty cards in an overlapping vertical cascade inspired by Apple Wallet. Tapping any card smoothly expands it into focus with spring physics:
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/04_apple_wallet_stack.gif" width="420" alt="Apple Wallet Multi-Card Cascading Stack" />
+</div>
 
 ```dart
 class WalletView extends StatefulWidget {
