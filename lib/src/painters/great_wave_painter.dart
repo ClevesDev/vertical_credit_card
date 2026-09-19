@@ -89,18 +89,18 @@ class GreatWavePainter extends CustomPainter {
 
     canvas.drawPath(
       mainWave,
-      Paint()..color = deepSeaColor.withOpacity(0.95),
+      Paint()..color = deepSeaColor.withValues(alpha: 0.95),
     );
 
     // 5. Stylized Foam Crests & Claw Sprays (Hokusai finger curls)
     final foamPaint = Paint()
-      ..color = foamColor.withOpacity(0.90)
+      ..color = foamColor.withValues(alpha: 0.90)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.4
       ..strokeCap = StrokeCap.round;
 
     final foamFill = Paint()
-      ..color = foamColor.withOpacity(0.85)
+      ..color = foamColor.withValues(alpha: 0.85)
       ..style = PaintingStyle.fill;
 
     // Curl peak crest
@@ -140,7 +140,7 @@ class GreatWavePainter extends CustomPainter {
     canvas.drawPath(
       midFoam,
       Paint()
-        ..color = foamColor.withOpacity(0.65)
+        ..color = foamColor.withValues(alpha: 0.65)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.6,
     );
@@ -163,7 +163,7 @@ class GreatWavePainter extends CustomPainter {
 
     // 7. Gold Metallic Swell Flow Lines
     final goldLinePaint = Paint()
-      ..color = goldAccentColor.withOpacity(0.55)
+      ..color = goldAccentColor.withValues(alpha: 0.55)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
       ..strokeCap = StrokeCap.round;

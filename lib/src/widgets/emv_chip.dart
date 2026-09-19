@@ -27,7 +27,7 @@ class EmvChip extends StatelessWidget {
           Color(0xFFA5AAB3),
           Color(0xFFD4D7DC),
         ];
-        trackColor = const Color(0xFF7A808C).withOpacity(0.5);
+        trackColor = const Color(0xFF7A808C).withValues(alpha: 0.5);
         break;
 
       case ChipColor.black:
@@ -37,7 +37,7 @@ class EmvChip extends StatelessWidget {
           Color(0xFF121314),
           Color(0xFF282A2D),
         ];
-        trackColor = Colors.white.withOpacity(0.2);
+        trackColor = Colors.white.withValues(alpha: 0.2);
         break;
 
       case ChipColor.gold:
@@ -47,7 +47,7 @@ class EmvChip extends StatelessWidget {
           Color(0xFFFFA000),
           Color(0xFFFFD54F),
         ];
-        trackColor = const Color(0xFF795548).withOpacity(0.4);
+        trackColor = const Color(0xFF795548).withValues(alpha: 0.4);
         break;
     }
 
@@ -63,7 +63,7 @@ class EmvChip extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 2,
             offset: const Offset(0, 1),
           ),

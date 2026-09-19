@@ -69,7 +69,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
 
     // 1. Wide diffused outer neon glow
     final outerGlowPaint = Paint()
-      ..color = effectiveColor.withOpacity(0.45)
+      ..color = effectiveColor.withValues(alpha: 0.45)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
@@ -79,7 +79,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
 
     // 2. Focused vibrant mid glow
     final midGlowPaint = Paint()
-      ..color = effectiveColor.withOpacity(0.85)
+      ..color = effectiveColor.withValues(alpha: 0.85)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
       ..strokeCap = StrokeCap.round
@@ -89,7 +89,7 @@ class CyberEdgeGlowPainter extends CustomPainter {
 
     // 3. Ultra-bright hot white core
     final corePaint = Paint()
-      ..color = Colors.white.withOpacity(0.95)
+      ..color = Colors.white.withValues(alpha: 0.95)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
       ..strokeCap = StrokeCap.round;

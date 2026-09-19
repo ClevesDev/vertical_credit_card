@@ -47,8 +47,8 @@ class ConstellationPainter extends CustomPainter {
         center: const Alignment(0.4, -0.2),
         radius: 0.8,
         colors: [
-          nebulaColor.withOpacity(0.45),
-          nebulaColor.withOpacity(0.0),
+          nebulaColor.withValues(alpha: 0.45),
+          nebulaColor.withValues(alpha: 0.0),
         ],
       ).createShader(rect);
     canvas.drawRect(rect, nebula1);
@@ -58,7 +58,7 @@ class ConstellationPainter extends CustomPainter {
         center: const Alignment(-0.5, 0.6),
         radius: 0.7,
         colors: [
-          const Color(0xFF1E1B4B).withOpacity(0.40),
+          const Color(0xFF1E1B4B).withValues(alpha: 0.40),
           Colors.transparent,
         ],
       ).createShader(rect);
@@ -68,7 +68,7 @@ class ConstellationPainter extends CustomPainter {
     if (showCelestialRings) {
       final ringCenter = Offset(w * 0.5, h * 0.48);
       final ringPaint = Paint()
-        ..color = lineColor.withOpacity(0.16)
+        ..color = lineColor.withValues(alpha: 0.16)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.8;
 
@@ -92,7 +92,7 @@ class ConstellationPainter extends CustomPainter {
       final opacity = (0.20 + (((i * 13) % 80) / 100.0)).clamp(0.15, 0.90);
       final radius = (i % 7 == 0) ? 1.5 : ((i % 3 == 0) ? 1.1 : 0.7);
 
-      microStarPaint.color = starColor.withOpacity(opacity);
+      microStarPaint.color = starColor.withValues(alpha: opacity);
       canvas.drawCircle(Offset(sx, sy), radius, microStarPaint);
     }
 
@@ -108,7 +108,7 @@ class ConstellationPainter extends CustomPainter {
     ];
 
     final constLinePaint = Paint()
-      ..color = lineColor.withOpacity(0.55)
+      ..color = lineColor.withValues(alpha: 0.55)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
@@ -170,7 +170,7 @@ class ConstellationPainter extends CustomPainter {
         star,
         4.5,
         Paint()
-          ..color = starColor.withOpacity(0.3)
+          ..color = starColor.withValues(alpha: 0.3)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.8,
       );
@@ -179,7 +179,7 @@ class ConstellationPainter extends CustomPainter {
     // 7. 4-Point Diamond Starburst Flares on Alpha Stars
     void drawStarburstFlare(Offset center, double flareLength, Color color) {
       final flarePaint = Paint()
-        ..color = color.withOpacity(0.85)
+        ..color = color.withValues(alpha: 0.85)
         ..strokeWidth = 1.1
         ..strokeCap = StrokeCap.round;
 

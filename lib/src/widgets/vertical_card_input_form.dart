@@ -134,18 +134,19 @@ class _VerticalCardInputFormState extends State<VerticalCardInputForm> {
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       labelStyle: widget.labelStyle ??
-          TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 13),
-      hintStyle: TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 13),
+          TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 13),
+      hintStyle:
+          TextStyle(color: Colors.white.withValues(alpha: 0.25), fontSize: 13),
       filled: true,
       fillColor: const Color(0xFF141722),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),

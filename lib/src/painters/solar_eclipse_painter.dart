@@ -73,7 +73,7 @@ class SolarEclipsePainter extends CustomPainter {
       final pos = Offset(starPoints[i].dx * w, starPoints[i].dy * h);
       final r = (i % 3 == 0) ? 1.3 : 0.75;
       final alpha = (i % 2 == 0) ? 0.60 : 0.30;
-      starPaint.color = Colors.white.withOpacity(alpha);
+      starPaint.color = Colors.white.withValues(alpha: alpha);
       canvas.drawCircle(pos, r, starPaint);
     }
 
@@ -87,8 +87,8 @@ class SolarEclipsePainter extends CustomPainter {
     final outerHazePaint = Paint()
       ..shader = RadialGradient(
         colors: [
-          coronaColor.withOpacity(0.30),
-          coronaColor.withOpacity(0.12),
+          coronaColor.withValues(alpha: 0.30),
+          coronaColor.withValues(alpha: 0.12),
           Colors.transparent,
         ],
         stops: const [0.65, 0.85, 1.0],
@@ -99,8 +99,8 @@ class SolarEclipsePainter extends CustomPainter {
     final midCoronaPaint = Paint()
       ..shader = RadialGradient(
         colors: [
-          Color.lerp(coronaColor, Colors.white, 0.3)!.withOpacity(0.55),
-          coronaColor.withOpacity(0.35),
+          Color.lerp(coronaColor, Colors.white, 0.3)!.withValues(alpha: 0.55),
+          coronaColor.withValues(alpha: 0.35),
           Colors.transparent,
         ],
         stops: const [0.75, 0.90, 1.0],
@@ -111,7 +111,8 @@ class SolarEclipsePainter extends CustomPainter {
     // 5. Solar Prominence Wisps (Flame-like coronal tongues)
     if (showProminences) {
       final prominencePaint = Paint()
-        ..color = Color.lerp(coronaColor, Colors.white, 0.4)!.withOpacity(0.40)
+        ..color =
+            Color.lerp(coronaColor, Colors.white, 0.4)!.withValues(alpha: 0.40)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.4;
 
@@ -138,7 +139,7 @@ class SolarEclipsePainter extends CustomPainter {
       ..shader = RadialGradient(
         colors: [
           Colors.transparent,
-          Color.lerp(coronaColor, Colors.white, 0.6)!.withOpacity(0.85),
+          Color.lerp(coronaColor, Colors.white, 0.6)!.withValues(alpha: 0.85),
           Colors.white,
           Colors.transparent,
         ],
@@ -162,7 +163,7 @@ class SolarEclipsePainter extends CustomPainter {
 
     // Faint lunar rim back-glow
     final moonEdgePaint = Paint()
-      ..color = coronaColor.withOpacity(0.18)
+      ..color = coronaColor.withValues(alpha: 0.18)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.8;
     canvas.drawCircle(center, moonRadius, moonEdgePaint);
@@ -181,8 +182,8 @@ class SolarEclipsePainter extends CustomPainter {
         ..shader = RadialGradient(
           colors: [
             flareColor,
-            Color.lerp(coronaColor, Colors.white, 0.5)!.withOpacity(0.8),
-            coronaColor.withOpacity(0.3),
+            Color.lerp(coronaColor, Colors.white, 0.5)!.withValues(alpha: 0.8),
+            coronaColor.withValues(alpha: 0.3),
             Colors.transparent,
           ],
           stops: const [0.0, 0.25, 0.6, 1.0],
@@ -191,12 +192,13 @@ class SolarEclipsePainter extends CustomPainter {
 
       // B. 4-Point Starburst Diffraction Flare Spikes
       final spikePaint = Paint()
-        ..color = Colors.white.withOpacity(0.90)
+        ..color = Colors.white.withValues(alpha: 0.90)
         ..strokeWidth = 1.4
         ..strokeCap = StrokeCap.round;
 
       final subSpikePaint = Paint()
-        ..color = Color.lerp(coronaColor, Colors.white, 0.7)!.withOpacity(0.60)
+        ..color =
+            Color.lerp(coronaColor, Colors.white, 0.7)!.withValues(alpha: 0.60)
         ..strokeWidth = 0.8
         ..strokeCap = StrokeCap.round;
 
@@ -231,7 +233,8 @@ class SolarEclipsePainter extends CustomPainter {
       ];
       for (int s = 0; s < sparkOffsets.length; s++) {
         final sparkR = (s % 2 == 0) ? 1.2 : 0.8;
-        sparkPaint.color = Colors.white.withOpacity((s % 2 == 0) ? 0.85 : 0.50);
+        sparkPaint.color =
+            Colors.white.withValues(alpha: (s % 2 == 0) ? 0.85 : 0.50);
         canvas.drawCircle(sparkOffsets[s], sparkR, sparkPaint);
       }
     }

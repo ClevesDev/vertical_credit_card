@@ -48,7 +48,7 @@ class TopographicPainter extends CustomPainter {
     for (int i = 1; i <= 16; i++) {
       final radius = i * 22.0;
       final opacity = (0.08 + (i % 3 == 0 ? 0.20 : 0.10)).clamp(0.0, 1.0);
-      contourPaint.color = lineColor.withOpacity(opacity);
+      contourPaint.color = lineColor.withValues(alpha: opacity);
 
       // Distorted organic oval contour 1
       _drawOrganicContour(canvas, center1, radius, contourPaint, seed: i * 7);

@@ -41,7 +41,7 @@ class NfcAntennaPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round;
 
     final sheenPaint = Paint()
-      ..color = highlightColor.withOpacity(0.4)
+      ..color = highlightColor.withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
       ..strokeWidth = traceWidth * 0.6
       ..strokeCap = StrokeCap.round

@@ -202,7 +202,7 @@ class VerticalCardTheme {
       shadows: shadows ??
           [
             BoxShadow(
-              color: Colors.black.withOpacity(0.35),
+              color: Colors.black.withValues(alpha: 0.35),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),
@@ -257,7 +257,7 @@ class VerticalCardTheme {
       shadows: shadows ??
           [
             BoxShadow(
-              color: Colors.black.withOpacity(0.45),
+              color: Colors.black.withValues(alpha: 0.45),
               blurRadius: 22,
               offset: const Offset(0, 12),
             ),
@@ -279,7 +279,7 @@ class VerticalCardTheme {
       background: CardBackground.glass(
         neonColor: neonColor,
         blur: blur,
-        backgroundColor: Colors.white.withOpacity(0.08),
+        backgroundColor: Colors.white.withValues(alpha: 0.08),
       ),
       neonColor: neonColor,
       blur: blur,
@@ -289,13 +289,13 @@ class VerticalCardTheme {
       borderRadius: borderRadius,
       shadows: [
         BoxShadow(
-          color: neonColor.withOpacity(0.25),
+          color: neonColor.withValues(alpha: 0.25),
           blurRadius: 20,
           spreadRadius: -2,
           offset: const Offset(0, 4),
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withValues(alpha: 0.4),
           blurRadius: 25,
           offset: const Offset(0, 15),
         ),
@@ -322,7 +322,7 @@ class VerticalCardTheme {
       shadows: shadows ??
           [
             BoxShadow(
-              color: Colors.black.withOpacity(0.35),
+              color: Colors.black.withValues(alpha: 0.35),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),

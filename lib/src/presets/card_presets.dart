@@ -111,9 +111,9 @@ class CardPresets {
       );
 
   /// Chromatic fluid liquid mesh gradient with vibrant shifting orbs (Revolut Metal & Apple Card style).
-  static VerticalCardTheme get revolutChromatic => VerticalCardTheme(
+  static VerticalCardTheme get revolutChromatic => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.fluid(
+        background: CardBackground.fluid(
           colors: [
             Color(0xFF7928CA), // Electric Purple
             Color(0xFF0070F3), // Neon Blue
@@ -122,7 +122,7 @@ class CardPresets {
           ],
         ),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xCCFFFFFF),
+        secondaryTextColor: Color(0xCCFFFFFF),
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
         enablePaymentPulse: true,
@@ -134,36 +134,36 @@ class CardPresets {
 
   /// Dynamic orbital painterly globe with warm solar brushstrokes
   /// on a deep navy background (Crédit Agricole Mastercard artistic edition).
-  static VerticalCardTheme get painterlyGlobe => VerticalCardTheme(
+  static VerticalCardTheme get painterlyGlobe => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(PainterlyGlobePainter()),
+        background: CardBackground.painter(PainterlyGlobePainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xCCFFFFFF),
+        secondaryTextColor: Color(0xCCFFFFFF),
         chipColor: ChipColor.gold,
       );
 
   /// Elegant golden contour elevation lines over obsidian black.
-  static VerticalCardTheme get topographicGold => VerticalCardTheme(
+  static VerticalCardTheme get topographicGold => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(TopographicPainter()),
-        textColor: const Color(0xFFF7E7B4),
-        secondaryTextColor: const Color(0xAAD4AF37),
+        background: CardBackground.painter(TopographicPainter()),
+        textColor: Color(0xFFF7E7B4),
+        secondaryTextColor: Color(0xAAD4AF37),
         chipColor: ChipColor.gold,
       );
 
   /// Stealth dark twill-weave carbon fiber with metallic accents.
-  static VerticalCardTheme get carbonStealth => VerticalCardTheme(
+  static VerticalCardTheme get carbonStealth => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(CarbonFiberPainter()),
+        background: CardBackground.painter(CarbonFiberPainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xAAFFFFFF),
+        secondaryTextColor: Color(0xAAFFFFFF),
         chipColor: ChipColor.silver,
       );
 
   /// Deep obsidian black with dynamic iridescent rainbow holographic foil sheen.
-  static VerticalCardTheme get holoInfinite => VerticalCardTheme(
+  static VerticalCardTheme get holoInfinite => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.gradient(
+        background: CardBackground.gradient(
           LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -175,7 +175,7 @@ class CardPresets {
           ),
         ),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xCCFFFFFF),
+        secondaryTextColor: Color(0xCCFFFFFF),
         chipColor: ChipColor.silver,
         isHolographic: true,
       );
@@ -418,33 +418,33 @@ class CardPresets {
   // ---------------------------------------------------------------------------
 
   /// Translucent skeleton card revealing concentric copper NFC antenna coils and solder pads.
-  static VerticalCardTheme get skeletonNfc => VerticalCardTheme(
+  static VerticalCardTheme get skeletonNfc => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(NfcAntennaPainter()),
+        background: CardBackground.painter(NfcAntennaPainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFFFFB070),
+        secondaryTextColor: Color(0xFFFFB070),
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
         enablePaymentPulse: true,
       );
 
   /// Natural organic bamboo wood grain with warm golden tan and toasted fibers.
-  static VerticalCardTheme get bambooEco => VerticalCardTheme(
+  static VerticalCardTheme get bambooEco => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(WoodGrainPainter()),
-        textColor: const Color(0xFF382310),
-        secondaryTextColor: const Color(0xFF6B4724),
+        background: CardBackground.painter(WoodGrainPainter()),
+        textColor: Color(0xFF382310),
+        secondaryTextColor: Color(0xFF6B4724),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.embossed,
         enablePaymentPulse: true,
       );
 
   /// Forged Damascus steel with distinctive wavy water-pattern metal folds and silver foil lettering.
-  static VerticalCardTheme get damascusSteel => VerticalCardTheme(
+  static VerticalCardTheme get damascusSteel => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(DamascusSteelPainter()),
-        textColor: const Color(0xFFF0F3F8),
-        secondaryTextColor: const Color(0xFFA5B0C2),
+        background: CardBackground.painter(DamascusSteelPainter()),
+        textColor: Color(0xFFF0F3F8),
+        secondaryTextColor: Color(0xFFA5B0C2),
         chipColor: ChipColor.black,
         textFinish: CardTextFinish.silverFoil,
         enablePaymentPulse: true,
@@ -475,15 +475,15 @@ class CardPresets {
   // ---------------------------------------------------------------------------
 
   /// High-tech cyber printed circuit board with 45-degree traces, solder pads, and microchips.
-  static VerticalCardTheme get cyberPcb => VerticalCardTheme(
+  static VerticalCardTheme get cyberPcb => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(PcbCircuitPainter()),
-        textColor: const Color(0xFF00E5FF),
-        secondaryTextColor: const Color(0xFF00FF88),
+        background: CardBackground.painter(PcbCircuitPainter()),
+        textColor: Color(0xFF00E5FF),
+        secondaryTextColor: Color(0xFF00FF88),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.flat,
         enableEdgeGlow: true,
-        edgeGlowColor: const Color(0xFF00E5FF),
+        edgeGlowColor: Color(0xFF00E5FF),
         enablePaymentPulse: true,
       );
 
@@ -516,9 +516,9 @@ class CardPresets {
       );
 
   /// Web3 gradient inspired by Solana purple-to-emerald aurora with iridescent holographic sheen.
-  static VerticalCardTheme get solanaAurora => VerticalCardTheme(
+  static VerticalCardTheme get solanaAurora => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.gradient(
+        background: CardBackground.gradient(
           LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -530,7 +530,7 @@ class CardPresets {
           ),
         ),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFFE0FFFA),
+        secondaryTextColor: Color(0xFFE0FFFA),
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
         isHolographic: true,
@@ -542,57 +542,57 @@ class CardPresets {
   // ---------------------------------------------------------------------------
 
   /// Layered minimalist mountain horizon with dusk twilight and gold ridge highlights.
-  static VerticalCardTheme get alpineHorizon => VerticalCardTheme(
+  static VerticalCardTheme get alpineHorizon => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(AlpineHorizonPainter()),
+        background: CardBackground.painter(AlpineHorizonPainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFFF9A825),
+        secondaryTextColor: Color(0xFFF9A825),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,
       );
 
   /// Luxury global traveler world map with geodesic flight routes, supersonic delta jets, and 3D gold compass rose.
-  static VerticalCardTheme get worldNavigator => VerticalCardTheme(
+  static VerticalCardTheme get worldNavigator => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(WorldMapPainter()),
+        background: CardBackground.painter(WorldMapPainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFF00E5FF),
+        secondaryTextColor: Color(0xFF00E5FF),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enableEdgeGlow: true,
-        edgeGlowColor: const Color(0xFF00E5FF),
+        edgeGlowColor: Color(0xFF00E5FF),
         enablePaymentPulse: true,
       );
 
   /// Dynamic Japanese Ukiyo-e surging ocean wave pattern with crest foam and gold accents.
-  static VerticalCardTheme get greatWave => VerticalCardTheme(
+  static VerticalCardTheme get greatWave => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(GreatWavePainter()),
+        background: CardBackground.painter(GreatWavePainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFFF1F5F9),
+        secondaryTextColor: Color(0xFFF1F5F9),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,
       );
 
   /// Japanese Golden Kintsugi fractured ceramic with liquid molten gold seams.
-  static VerticalCardTheme get goldenKintsugi => VerticalCardTheme(
+  static VerticalCardTheme get goldenKintsugi => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(KintsugiPainter()),
-        textColor: const Color(0xFFFDF6E2),
-        secondaryTextColor: const Color(0xFFFFD700),
+        background: CardBackground.painter(KintsugiPainter()),
+        textColor: Color(0xFFFDF6E2),
+        secondaryTextColor: Color(0xFFFFD700),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,
       );
 
   /// Deep space celestial star map with constellations and astrolabe orbital rings.
-  static VerticalCardTheme get cosmosConstellation => VerticalCardTheme(
+  static VerticalCardTheme get cosmosConstellation => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(ConstellationPainter()),
+        background: CardBackground.painter(ConstellationPainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFF93C5FD),
+        secondaryTextColor: Color(0xFF93C5FD),
         chipColor: ChipColor.silver,
         textFinish: CardTextFinish.silverFoil,
         enableDiamondDust: true,
@@ -600,35 +600,35 @@ class CardPresets {
       );
 
   /// Symmetrical 1920s Great Gatsby architectural Art Déco fan arches and gold chevrons.
-  static VerticalCardTheme get artDecoGold => VerticalCardTheme(
+  static VerticalCardTheme get artDecoGold => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(ArtDecoPainter()),
-        textColor: const Color(0xFFFBF4D9),
-        secondaryTextColor: const Color(0xFFD4AF37),
+        background: CardBackground.painter(ArtDecoPainter()),
+        textColor: Color(0xFFFBF4D9),
+        secondaryTextColor: Color(0xFFD4AF37),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,
       );
 
   /// Minimalist total solar eclipse with liquid gold corona and diamond ring lens flare on obsidian.
-  static VerticalCardTheme get solarEclipse => VerticalCardTheme(
+  static VerticalCardTheme get solarEclipse => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(SolarEclipsePainter()),
+        background: CardBackground.painter(SolarEclipsePainter()),
         textColor: Colors.white,
-        secondaryTextColor: const Color(0xFFFFD54F),
+        secondaryTextColor: Color(0xFFFFD54F),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enableEdgeGlow: true,
-        edgeGlowColor: const Color(0xFFFFB300),
+        edgeGlowColor: Color(0xFFFFB300),
         enablePaymentPulse: true,
       );
 
   /// Warm architectural desert sand dunes at sunset with sharp metallic gold ridge highlights.
-  static VerticalCardTheme get desertDune => VerticalCardTheme(
+  static VerticalCardTheme get desertDune => const VerticalCardTheme(
         type: VerticalCardThemeType.artistic,
-        background: const CardBackground.painter(DesertDunePainter()),
-        textColor: const Color(0xFFFFF3E0),
-        secondaryTextColor: const Color(0xFFFFD54F),
+        background: CardBackground.painter(DesertDunePainter()),
+        textColor: Color(0xFFFFF3E0),
+        secondaryTextColor: Color(0xFFFFD54F),
         chipColor: ChipColor.gold,
         textFinish: CardTextFinish.goldFoil,
         enablePaymentPulse: true,

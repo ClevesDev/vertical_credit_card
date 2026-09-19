@@ -34,9 +34,9 @@ class SpecularGlarePainter extends CustomPainter {
       ),
       radius: 0.95,
       colors: [
-        Colors.white.withOpacity(0.40 * intensity),
-        Colors.white.withOpacity(0.15 * intensity),
-        Colors.white.withOpacity(0.0),
+        Colors.white.withValues(alpha: 0.40 * intensity),
+        Colors.white.withValues(alpha: 0.15 * intensity),
+        Colors.white.withValues(alpha: 0.0),
       ],
       stops: const [0.0, 0.45, 1.0],
     ).createShader(rect);
@@ -59,9 +59,9 @@ class SpecularGlarePainter extends CustomPainter {
           1.0 + (tiltY * 2),
         ),
         colors: [
-          Colors.white.withOpacity(0.0),
-          Colors.white.withOpacity(0.18 * intensity),
-          Colors.white.withOpacity(0.0),
+          Colors.white.withValues(alpha: 0.0),
+          Colors.white.withValues(alpha: 0.18 * intensity),
+          Colors.white.withValues(alpha: 0.0),
         ],
         stops: const [0.35, 0.50, 0.65],
       ).createShader(rect)

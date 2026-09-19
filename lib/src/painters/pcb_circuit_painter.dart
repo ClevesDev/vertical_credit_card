@@ -50,7 +50,7 @@ class PcbCircuitPainter extends CustomPainter {
 
     // 2. Subtle silkscreen micro grid (dots)
     final gridDotPaint = Paint()
-      ..color = traceColor.withOpacity(0.06)
+      ..color = traceColor.withValues(alpha: 0.06)
       ..style = PaintingStyle.fill;
 
     const gridStep = 18.0;
@@ -62,14 +62,14 @@ class PcbCircuitPainter extends CustomPainter {
 
     // 3. Traces Paint
     final tracePaint = Paint()
-      ..color = traceColor.withOpacity(0.40)
+      ..color = traceColor.withValues(alpha: 0.40)
       ..style = PaintingStyle.stroke
       ..strokeWidth = traceWidth
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
     final accentTracePaint = Paint()
-      ..color = accentColor.withOpacity(0.55)
+      ..color = accentColor.withValues(alpha: 0.55)
       ..style = PaintingStyle.stroke
       ..strokeWidth = traceWidth
       ..strokeCap = StrokeCap.round
@@ -78,7 +78,7 @@ class PcbCircuitPainter extends CustomPainter {
     // Helper to draw a via (circular pad with drill hole)
     void drawVia(Offset center, {double radius = 3.2, bool isGold = true}) {
       final padPaint = Paint()
-        ..color = (isGold ? padColor : traceColor).withOpacity(0.75)
+        ..color = (isGold ? padColor : traceColor).withValues(alpha: 0.75)
         ..style = PaintingStyle.fill;
       canvas.drawCircle(center, radius, padPaint);
 
@@ -155,7 +155,7 @@ class PcbCircuitPainter extends CustomPainter {
     canvas.drawRect(
       icRect,
       Paint()
-        ..color = traceColor.withOpacity(0.3)
+        ..color = traceColor.withValues(alpha: 0.3)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.8,
     );
@@ -169,7 +169,7 @@ class PcbCircuitPainter extends CustomPainter {
 
     // IC Pins (left and right sides)
     final pinPaint = Paint()
-      ..color = padColor.withOpacity(0.9)
+      ..color = padColor.withValues(alpha: 0.9)
       ..strokeWidth = 1.2;
 
     for (int p = 0; p < 4; p++) {
@@ -195,11 +195,11 @@ class PcbCircuitPainter extends CustomPainter {
       // Solder end caps
       canvas.drawRect(
         const Rect.fromLTWH(-5, -2.5, 2.5, 5),
-        Paint()..color = padColor.withOpacity(0.85),
+        Paint()..color = padColor.withValues(alpha: 0.85),
       );
       canvas.drawRect(
         const Rect.fromLTWH(2.5, -2.5, 2.5, 5),
-        Paint()..color = padColor.withOpacity(0.85),
+        Paint()..color = padColor.withValues(alpha: 0.85),
       );
       canvas.restore();
     }

@@ -80,7 +80,7 @@ class BrandLogo extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: const Color(0xFFF79E1B)
-                    .withOpacity(0.92), // Mastercard Yellow
+                    .withValues(alpha: 0.92), // Mastercard Yellow
               ),
             ),
           ),
@@ -149,13 +149,14 @@ class BrandLogo extends StatelessWidget {
       height: height,
       width: height * 1.4,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withOpacity(0.4), width: 1.5),
+        border:
+            Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.5),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Icon(
         Icons.credit_card,
         size: height * 0.65,
-        color: Colors.white.withOpacity(0.8),
+        color: Colors.white.withValues(alpha: 0.8),
       ),
     );
   }

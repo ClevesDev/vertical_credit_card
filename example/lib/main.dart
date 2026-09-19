@@ -85,14 +85,14 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
   double _studioBorderRadius = 16.0;
   double _studioMaxTiltAngle = 0.24;
   MetalType _studioMetal = MetalType.gold;
-  ChipColor _studioChip = ChipColor.gold;
+  final ChipColor _studioChip = ChipColor.gold;
   CardTextFinish _studioTextFinish = CardTextFinish.goldFoil;
   bool _studioEdgeGlow = false;
   bool _studioDiamondDust = true;
   bool _studioPaymentPulse = true;
   bool _studioHolo = false;
   bool _studioTilt = true;
-  bool _studioGlare = true;
+  final bool _studioGlare = true;
   bool _studioBankingView = false;
   bool _studioIsFrozen = false;
   bool _studioPrivacy = false;
@@ -355,7 +355,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
         onDestinationSelected: (index) =>
             setState(() => _selectedNavIndex = index),
         backgroundColor: const Color(0xFF0F1118),
-        indicatorColor: Colors.cyanAccent.withOpacity(0.18),
+        indicatorColor: Colors.cyanAccent.withValues(alpha: 0.18),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.threed_rotation_rounded),
@@ -418,19 +418,20 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.cyanAccent.withOpacity(0.18)
+                          ? Colors.cyanAccent.withValues(alpha: 0.18)
                           : const Color(0xFF141824),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: isSelected
                             ? Colors.cyanAccent
-                            : Colors.white.withOpacity(0.08),
+                            : Colors.white.withValues(alpha: 0.08),
                         width: isSelected ? 1.2 : 0.8,
                       ),
                       boxShadow: isSelected
                           ? [
                               BoxShadow(
-                                color: Colors.cyanAccent.withOpacity(0.25),
+                                color:
+                                    Colors.cyanAccent.withValues(alpha: 0.25),
                                 blurRadius: 8,
                               ),
                             ]
@@ -501,7 +502,8 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                                   : null),
                           label: Text(preset['name'] as String),
                           selected: isSelected,
-                          selectedColor: Colors.cyanAccent.withOpacity(0.2),
+                          selectedColor:
+                              Colors.cyanAccent.withValues(alpha: 0.2),
                           labelStyle: TextStyle(
                             color:
                                 isSelected ? Colors.cyanAccent : Colors.white70,
@@ -577,7 +579,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                       Icon(
                         Icons.swipe_outlined,
                         size: 15,
-                        color: Colors.white.withOpacity(0.45),
+                        color: Colors.white.withValues(alpha: 0.45),
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -585,7 +587,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                             ? 'Tap to flip FRONT  •  Drag to TILT in 3D'
                             : 'Tap to FLIP 3D  •  Drag to TILT with light reflection',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.45),
+                          color: Colors.white.withValues(alpha: 0.45),
                           fontSize: 11.5,
                         ),
                       ),
@@ -608,7 +610,8 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF14171E),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.07)),
+                      border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.07)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -684,8 +687,8 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isActive
-                    ? activeColor.withOpacity(0.20)
-                    : Colors.white.withOpacity(0.05),
+                    ? activeColor.withValues(alpha: 0.20)
+                    : Colors.white.withValues(alpha: 0.05),
                 border: Border.all(
                   color: isActive ? activeColor : Colors.white12,
                   width: 1.2,
@@ -838,7 +841,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               Text(
                 'Tap any card to expand / focus wallet',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -889,9 +892,10 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.cyanAccent.withOpacity(0.1),
+              color: Colors.cyanAccent.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.cyanAccent.withOpacity(0.3)),
+              border:
+                  Border.all(color: Colors.cyanAccent.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -902,7 +906,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
                 Text(
                   'Focus CVV field to watch the 3D auto-flip!',
                   style: TextStyle(
-                    color: Colors.cyanAccent.withOpacity(0.9),
+                    color: Colors.cyanAccent.withValues(alpha: 0.9),
                     fontSize: 12.5,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1054,7 +1058,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               return ChoiceChip(
                 label: Text(finish.name),
                 selected: isSelected,
-                selectedColor: Colors.amberAccent.withOpacity(0.3),
+                selectedColor: Colors.amberAccent.withValues(alpha: 0.3),
                 onSelected: (sel) {
                   if (sel) setState(() => _studioTextFinish = finish);
                 },
@@ -1075,7 +1079,7 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
               return ChoiceChip(
                 label: Text(metal.name),
                 selected: isSelected,
-                selectedColor: Colors.cyanAccent.withOpacity(0.25),
+                selectedColor: Colors.cyanAccent.withValues(alpha: 0.25),
                 onSelected: (sel) {
                   if (sel) setState(() => _studioMetal = metal);
                 },
@@ -1089,31 +1093,31 @@ class _CardShowcaseScreenState extends State<CardShowcaseScreen> {
           SwitchListTile(
             title: const Text('✨ Diamond Dust / Micro-Glitter'),
             value: _studioDiamondDust,
-            activeColor: Colors.amberAccent,
+            activeThumbColor: Colors.amberAccent,
             onChanged: (val) => setState(() => _studioDiamondDust = val),
           ),
           SwitchListTile(
             title: const Text('⚡ Cyber Edge Glow (Perimeter Beam)'),
             value: _studioEdgeGlow,
-            activeColor: Colors.cyanAccent,
+            activeThumbColor: Colors.cyanAccent,
             onChanged: (val) => setState(() => _studioEdgeGlow = val),
           ),
           SwitchListTile(
             title: const Text('📡 NFC Contactless Tap Pulse'),
             value: _studioPaymentPulse,
-            activeColor: const Color(0xFF00FFC2),
+            activeThumbColor: const Color(0xFF00FFC2),
             onChanged: (val) => setState(() => _studioPaymentPulse = val),
           ),
           SwitchListTile(
             title: const Text('🌈 Holographic Rainbow Foil'),
             value: _studioHolo,
-            activeColor: Colors.purpleAccent,
+            activeThumbColor: Colors.purpleAccent,
             onChanged: (val) => setState(() => _studioHolo = val),
           ),
           SwitchListTile(
             title: const Text('🕹️ 3D Tilt Physics'),
             value: _studioTilt,
-            activeColor: Colors.cyanAccent,
+            activeThumbColor: Colors.cyanAccent,
             onChanged: (val) => setState(() => _studioTilt = val),
           ),
 
@@ -1337,13 +1341,13 @@ VerticalCard(
                               horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? color.withOpacity(0.12)
+                                ? color.withValues(alpha: 0.12)
                                 : const Color(0xFF141926),
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
                               color: isSelected
                                   ? color
-                                  : Colors.white.withOpacity(0.06),
+                                  : Colors.white.withValues(alpha: 0.06),
                               width: isSelected ? 1.2 : 0.8,
                             ),
                           ),
@@ -1382,7 +1386,7 @@ VerticalCard(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: color.withOpacity(0.15),
+                                  color: color.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -1450,19 +1454,19 @@ VerticalCard(
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? Colors.cyanAccent.withOpacity(0.18)
+                      ? Colors.cyanAccent.withValues(alpha: 0.18)
                       : const Color(0xFF141824),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: isSelected
                         ? Colors.cyanAccent
-                        : Colors.white.withOpacity(0.08),
+                        : Colors.white.withValues(alpha: 0.08),
                     width: isSelected ? 1.2 : 0.8,
                   ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: Colors.cyanAccent.withOpacity(0.25),
+                            color: Colors.cyanAccent.withValues(alpha: 0.25),
                             blurRadius: 8,
                             spreadRadius: 0.5,
                           ),
@@ -2059,12 +2063,12 @@ VerticalCard(
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.55),
+              color: Colors.black.withValues(alpha: 0.55),
               blurRadius: 28,
               offset: const Offset(0, 12),
             ),
             BoxShadow(
-              color: Colors.cyanAccent.withOpacity(0.04),
+              color: Colors.cyanAccent.withValues(alpha: 0.04),
               blurRadius: 20,
               spreadRadius: 2,
             ),
@@ -2094,7 +2098,7 @@ VerticalCard(
                     color: const Color(0xFF05070A),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
                   ),
                   child: Row(
@@ -2113,7 +2117,7 @@ VerticalCard(
                         width: 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -2126,13 +2130,13 @@ VerticalCard(
                     Icon(
                       Icons.signal_cellular_alt_rounded,
                       size: 13,
-                      color: Colors.white.withOpacity(0.85),
+                      color: Colors.white.withValues(alpha: 0.85),
                     ),
                     const SizedBox(width: 4),
                     Icon(
                       Icons.wifi_rounded,
                       size: 13,
-                      color: Colors.white.withOpacity(0.85),
+                      color: Colors.white.withValues(alpha: 0.85),
                     ),
                     const SizedBox(width: 4),
                     const Icon(
@@ -2164,7 +2168,7 @@ VerticalCard(
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.cyanAccent.withOpacity(0.3),
+                            color: Colors.cyanAccent.withValues(alpha: 0.3),
                             blurRadius: 8,
                           ),
                         ],
@@ -2226,10 +2230,12 @@ VerticalCard(
                                   vertical: 1.5,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: accountTagColor.withOpacity(0.15),
+                                  color:
+                                      accountTagColor.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(4),
                                   border: Border.all(
-                                    color: accountTagColor.withOpacity(0.4),
+                                    color:
+                                        accountTagColor.withValues(alpha: 0.4),
                                     width: 0.6,
                                   ),
                                 ),
@@ -2258,7 +2264,7 @@ VerticalCard(
                               Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 size: 14,
-                                color: accountTagColor.withOpacity(0.9),
+                                color: accountTagColor.withValues(alpha: 0.9),
                               ),
                             ],
                           ),
@@ -2274,7 +2280,7 @@ VerticalCard(
                     color: const Color(0xFF161A26),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
                   ),
                   child: Stack(
@@ -2283,7 +2289,7 @@ VerticalCard(
                       Icon(
                         Icons.notifications_outlined,
                         size: 18,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                       Positioned(
                         top: 6,
@@ -2316,7 +2322,7 @@ VerticalCard(
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.08),
+                  color: Colors.white.withValues(alpha: 0.08),
                 ),
               ),
               child: Column(
@@ -2331,7 +2337,7 @@ VerticalCard(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.8,
-                          color: Colors.white.withOpacity(0.55),
+                          color: Colors.white.withValues(alpha: 0.55),
                         ),
                       ),
                       InkWell(
@@ -2348,7 +2354,7 @@ VerticalCard(
                                 ? Icons.visibility_off_rounded
                                 : Icons.visibility_rounded,
                             size: 16,
-                            color: Colors.cyanAccent.withOpacity(0.8),
+                            color: Colors.cyanAccent.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
@@ -2397,7 +2403,8 @@ VerticalCard(
                                   Icon(
                                     Icons.keyboard_arrow_down_rounded,
                                     size: 14,
-                                    color: Colors.cyanAccent.withOpacity(0.8),
+                                    color: Colors.cyanAccent
+                                        .withValues(alpha: 0.8),
                                   ),
                                 ],
                               ),
@@ -2411,10 +2418,12 @@ VerticalCard(
                           vertical: 3.5,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF00FFC2).withOpacity(0.12),
+                          color:
+                              const Color(0xFF00FFC2).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color(0xFF00FFC2).withOpacity(0.35),
+                            color:
+                                const Color(0xFF00FFC2).withValues(alpha: 0.35),
                             width: 0.8,
                           ),
                         ),
@@ -2478,7 +2487,7 @@ VerticalCard(
                 color: const Color(0xFF141926),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.cyanAccent.withOpacity(0.25),
+                  color: Colors.cyanAccent.withValues(alpha: 0.25),
                   width: 0.8,
                 ),
               ),
@@ -2517,10 +2526,10 @@ VerticalCard(
                         vertical: 3,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.cyanAccent.withOpacity(0.12),
+                        color: Colors.cyanAccent.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                          color: Colors.cyanAccent.withOpacity(0.4),
+                          color: Colors.cyanAccent.withValues(alpha: 0.4),
                           width: 0.8,
                         ),
                       ),
@@ -2634,7 +2643,7 @@ VerticalCard(
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    color: Colors.cyanAccent.withOpacity(0.8),
+                    color: Colors.cyanAccent.withValues(alpha: 0.8),
                   ),
                 ),
               ],
@@ -2665,7 +2674,7 @@ VerticalCard(
                 width: 110,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -2691,13 +2700,13 @@ VerticalCard(
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? activeColor.withOpacity(0.18)
+              ? activeColor.withValues(alpha: 0.18)
               : const Color(0xFF161A26),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isActive
-                ? activeColor.withOpacity(0.6)
-                : Colors.white.withOpacity(0.08),
+                ? activeColor.withValues(alpha: 0.6)
+                : Colors.white.withValues(alpha: 0.08),
             width: 1,
           ),
         ),
@@ -2739,7 +2748,7 @@ VerticalCard(
         color: const Color(0xFF121622),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
         ),
       ),
       child: Row(
@@ -2775,7 +2784,7 @@ VerticalCard(
                   subtitle,
                   style: TextStyle(
                     fontSize: 10,
-                    color: Colors.white.withOpacity(0.45),
+                    color: Colors.white.withValues(alpha: 0.45),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -2799,7 +2808,7 @@ VerticalCard(
                 time,
                 style: TextStyle(
                   fontSize: 9.5,
-                  color: Colors.white.withOpacity(0.4),
+                  color: Colors.white.withValues(alpha: 0.4),
                 ),
               ),
             ],

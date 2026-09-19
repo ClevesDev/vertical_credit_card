@@ -65,7 +65,7 @@ class CarbonFiberPainter extends CustomPainter {
         radius: 0.85,
         colors: [
           Colors.transparent,
-          Colors.black.withOpacity(0.55),
+          Colors.black.withValues(alpha: 0.55),
         ],
         stops: const [0.55, 1.0],
       ).createShader(rect);
