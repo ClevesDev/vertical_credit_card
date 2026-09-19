@@ -1,3 +1,7 @@
+## 0.0.2
+
+* **Visual Showcase on pub.dev:** Restored absolute raw GitHub URLs for visual showcase and demo GIFs so they render in high-resolution across pub.dev package listings and README viewers.
+
 ## 0.0.1
 
 * **Native Vertical Orientation:** 100% focused on portrait cards following ISO/IEC 7810 ID-1 aspect ratio ($1 : 1.586$).

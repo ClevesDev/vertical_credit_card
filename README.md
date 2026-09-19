@@ -21,11 +21,11 @@ Engineered with interactive 3D perspective physics, gyroscopic specular reflecti
 
 | 👛 Apple Wallet Multi-Card Stack | 🌊 Revolut Chromatic Fluid Mesh 3D |
 | :---: | :---: |
-| <img src="doc/demos/04_apple_wallet_stack.gif" width="360" alt="Apple Wallet Cascading Multi-Card Stack" /> | <img src="doc/demos/01_fluid_mesh_3d.gif" width="360" alt="Chromatic Fluid Mesh 3D Tilt" /> |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/04_apple_wallet_stack.gif" width="360" alt="Apple Wallet Cascading Multi-Card Stack" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/01_fluid_mesh_3d.gif" width="360" alt="Chromatic Fluid Mesh 3D Tilt" /> |
 | **🌈 Holo Infinite Rainbow Sheen** | **✨ Rose Gold & Diamond Dust Sparkles** |
-| <img src="doc/demos/02_holo_rainbow_sheen.gif" width="360" alt="Holo Infinite Rainbow Sheen" /> | <img src="doc/demos/06_rosegold_diamond_dust.gif" width="360" alt="Rose Gold Diamond Dust Sparkles" /> |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/02_holo_rainbow_sheen.gif" width="360" alt="Holo Infinite Rainbow Sheen" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/06_rosegold_diamond_dust.gif" width="360" alt="Rose Gold Diamond Dust Sparkles" /> |
 | **🎨 World Navigator Fine Art** | **📱 Fintech Mobile Banking App** |
-| <img src="doc/demos/03_painterly_globe_art.gif" width="360" alt="World Navigator Fine Art" /> | <img src="doc/demos/07_banking_app_dashboard.gif" width="360" alt="Mobile Banking Dashboard" /> |
+| <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/03_painterly_globe_art.gif" width="360" alt="World Navigator Fine Art" /> | <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/07_banking_app_dashboard.gif" width="360" alt="Mobile Banking Dashboard" /> |
 
 </div>
 
@@ -122,7 +122,7 @@ class MyCardWidget extends StatelessWidget {
 The card responds to touch drag gestures and pointer hover events with smooth 3D perspective deflection and a specular light sweep. You can toggle tilt, glare, and configure the maximum tilt deflection angle:
 
 <div align="center">
-  <img src="doc/demos/01_fluid_mesh_3d.gif" width="420" alt="Interactive 3D Perspective Tilt & Specular Light Sweep" />
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/01_fluid_mesh_3d.gif" width="420" alt="Interactive 3D Perspective Tilt & Specular Light Sweep" />
 </div>
 
 ```dart
@@ -195,7 +195,7 @@ VerticalCard.preset(
 Elevate cards into luxury physical objects using hot foil stamping, neon edge glows, diamond dust micro-glitter, and contactless payment pulses:
 
 <div align="center">
-  <img src="doc/demos/06_rosegold_diamond_dust.gif" width="420" alt="Rose Gold Luxury Finish & Diamond Dust Twinkles" />
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/06_rosegold_diamond_dust.gif" width="420" alt="Rose Gold Luxury Finish & Diamond Dust Twinkles" />
 </div>
 
 ```dart
@@ -226,7 +226,7 @@ VerticalCard.preset(
 Use the Open-Closed architecture to define any background style without touching the core widget:
 
 <div align="center">
-  <img src="doc/demos/03_painterly_globe_art.gif" width="420" alt="Custom Vector Painter Background - World Navigator" />
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/03_painterly_globe_art.gif" width="420" alt="Custom Vector Painter Background - World Navigator" />
 </div>
 
 ```dart
@@ -290,7 +290,7 @@ CardBackground.custom((context, child) {
 Present multiple credit, debit, or loyalty cards in an overlapping vertical cascade inspired by Apple Wallet. Tapping any card smoothly expands it into focus with spring physics:
 
 <div align="center">
-  <img src="doc/demos/04_apple_wallet_stack.gif" width="420" alt="Apple Wallet Multi-Card Cascading Stack" />
+  <img src="https://raw.githubusercontent.com/ClevesDev/vertical_credit_card/main/doc/demos/04_apple_wallet_stack.gif" width="420" alt="Apple Wallet Multi-Card Cascading Stack" />
 </div>
 
 ```dart
