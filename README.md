@@ -2,8 +2,9 @@
 
 <div align="center">
 
-[![pub package](https://img.shields.io/badge/pub.dev-0.0.1-blue.svg)](https://pub.dev/packages/vertical_credit_card)
+[![pub package](https://img.shields.io/pub/v/vertical_credit_card.svg?color=blue)](https://pub.dev/packages/vertical_credit_card)
 [![Flutter CI](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml/badge.svg)](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/clevesdev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?logo=flutter&logoColor=white)](https://flutter.dev)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ClevesDev/vertical_credit_card/pulls)
@@ -247,9 +248,9 @@ CardBackground.metallic(MetalType.brushedTitanium) // gold, platinum, copper, br
 
 // 4. Frosted Glassmorphism
 CardBackground.glass(
-  neonColor: Colors.cyanAccent.withOpacity(0.6),
+  neonColor: Colors.cyanAccent.withValues(alpha: 0.6),
   blur: 16.0,
-  backgroundColor: Colors.black.withOpacity(0.3),
+  backgroundColor: Colors.black.withValues(alpha: 0.3),
 )
 
 // 5. Chromatic Fluid Mesh Gradient (Revolut Metal & Apple Card style)
@@ -544,6 +545,18 @@ VerticalCard(
 | **Gamer & Esports RGB** | `razerChroma`, `cyberPcb` | Full 360° rainbow chroma edge cycling and printed circuit board traces & vias. |
 | **Web3 & Hardware Wallets** | `ledgerObsidian`, `solanaAurora` | Cold storage crypto aesthetic and Solana purple-to-emerald gradient. |
 | **Cyberpunk & Translucent Glass** | `neonCyan`, `matrixGreen`, `revolutChromatic` | Translucent glassmorphism with neon glow and organic chromatic fluid mesh gradients. |
+
+---
+
+## ☕ Support
+
+If you find `vertical_credit_card` useful and it saved you time in your project, consider supporting its development! Every coffee helps keep the project maintained, tested, and expanding with new 3D features:
+
+<div align="center">
+
+[![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/clevesdev)
+
+</div>
 
 ---
 

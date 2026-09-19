@@ -1,3 +1,8 @@
+## 0.0.3
+
+* **Modernized Documentation Code Snippets:** Updated frosted glassmorphism example in `README.md` to use Flutter 3.27+ `withValues(alpha:)` standard instead of legacy `.withOpacity()`.
+* **Dynamic Badges & Sponsorship:** Added dynamic `pub.dev` version badge, Ko-fi sponsor badge, and GitHub funding configuration (`.github/FUNDING.yml`).
+
 ## 0.0.2
 
 * **Visual Showcase on pub.dev:** Restored absolute raw GitHub URLs for visual showcase and demo GIFs so they render in high-resolution across pub.dev package listings and README viewers.
