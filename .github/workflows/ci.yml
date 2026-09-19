@@ -31,7 +31,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Static code analysis
-        run: flutter analyze --fatal-infos=false
+        run: flutter analyze --no-fatal-infos
 
       - name: Run package unit tests
         run: flutter test
