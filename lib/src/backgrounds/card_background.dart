@@ -116,7 +116,7 @@ class _GlassCardBackground extends CardBackground {
           color: backgroundColor,
           borderRadius: borderRadius,
           border: Border.all(
-            color: neonColor.withOpacity(0.65),
+            color: neonColor.withValues(alpha: 0.65),
             width: 1.5,
           ),
         ),

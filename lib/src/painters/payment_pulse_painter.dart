@@ -40,7 +40,7 @@ class PaymentPulsePainter extends CustomPainter {
 
       // Diffused outer wave
       final wavePaint = Paint()
-        ..color = pulseColor.withOpacity(opacity * 0.35)
+        ..color = pulseColor.withValues(alpha: opacity * 0.35)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3.0 + (1.0 - curvedProgress) * 4.0
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
@@ -49,7 +49,7 @@ class PaymentPulsePainter extends CustomPainter {
 
       // Core wave ring
       final corePaint = Paint()
-        ..color = Colors.white.withOpacity(opacity * 0.6)
+        ..color = Colors.white.withValues(alpha: opacity * 0.6)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5;
 
@@ -60,7 +60,7 @@ class PaymentPulsePainter extends CustomPainter {
     final flashOpacity =
         (1.0 - Curves.easeOutQuad.transform(progress)).clamp(0.0, 1.0);
     final flashPaint = Paint()
-      ..color = pulseColor.withOpacity(flashOpacity * 0.5)
+      ..color = pulseColor.withValues(alpha: flashOpacity * 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
 
     canvas.drawCircle(center, 24.0 * (1.0 + progress * 0.5), flashPaint);

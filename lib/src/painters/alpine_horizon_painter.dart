@@ -66,15 +66,15 @@ class AlpineHorizonPainter extends CustomPainter {
       final haloPaint = Paint()
         ..shader = RadialGradient(
           colors: [
-            sunMoonColor.withOpacity(0.35),
-            sunMoonColor.withOpacity(0.0),
+            sunMoonColor.withValues(alpha: 0.35),
+            sunMoonColor.withValues(alpha: 0.0),
           ],
         ).createShader(
             Rect.fromCircle(center: sunCenter, radius: sunRadius * 2.2));
       canvas.drawCircle(sunCenter, sunRadius * 2.2, haloPaint);
 
       // Core disk
-      final sunPaint = Paint()..color = sunMoonColor.withOpacity(0.85);
+      final sunPaint = Paint()..color = sunMoonColor.withValues(alpha: 0.85);
       canvas.drawCircle(sunCenter, sunRadius, sunPaint);
     }
 
@@ -93,7 +93,7 @@ class AlpineHorizonPainter extends CustomPainter {
 
     canvas.drawPath(
       distantPath,
-      Paint()..color = distantMountainColor.withOpacity(0.70),
+      Paint()..color = distantMountainColor.withValues(alpha: 0.70),
     );
 
     // 4. Layer 2: Mid-range Faceted Peaks with Directional Shading
@@ -107,7 +107,7 @@ class AlpineHorizonPainter extends CustomPainter {
       ..close();
     canvas.drawPath(
       midLeftFacet,
-      Paint()..color = midMountainColor.withOpacity(0.90),
+      Paint()..color = midMountainColor.withValues(alpha: 0.90),
     );
 
     // Main Central Peak (Left facet)
@@ -131,7 +131,7 @@ class AlpineHorizonPainter extends CustomPainter {
       ..close();
     canvas.drawPath(
       centerPeakRight,
-      Paint()..color = foregroundMountainColor.withOpacity(0.85),
+      Paint()..color = foregroundMountainColor.withValues(alpha: 0.85),
     );
 
     // 5. Layer 3: Dramatic Foreground Ridges
@@ -149,7 +149,7 @@ class AlpineHorizonPainter extends CustomPainter {
 
     // 6. Metallic Ridge & Snow Contour Highlights
     final ridgePaint = Paint()
-      ..color = ridgeHighlightColor.withOpacity(0.65)
+      ..color = ridgeHighlightColor.withValues(alpha: 0.65)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.3
       ..strokeCap = StrokeCap.round
@@ -178,7 +178,7 @@ class AlpineHorizonPainter extends CustomPainter {
     canvas.drawPath(
       fgRidgePath,
       Paint()
-        ..color = ridgeHighlightColor.withOpacity(0.40)
+        ..color = ridgeHighlightColor.withValues(alpha: 0.40)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.0,
     );
@@ -190,7 +190,7 @@ class AlpineHorizonPainter extends CustomPainter {
         end: Alignment.topCenter,
         colors: [
           foregroundMountainColor,
-          foregroundMountainColor.withOpacity(0.0),
+          foregroundMountainColor.withValues(alpha: 0.0),
         ],
         stops: const [0.0, 0.45],
       ).createShader(rect);

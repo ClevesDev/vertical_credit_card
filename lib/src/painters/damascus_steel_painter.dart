@@ -45,7 +45,7 @@ class DamascusSteelPainter extends CustomPainter {
           darkSteel,
           midSteel,
           darkSteel,
-          midSteel.withOpacity(0.9),
+          midSteel.withValues(alpha: 0.9),
         ],
         stops: const [0.0, 0.4, 0.75, 1.0],
       ).createShader(rect);
@@ -91,10 +91,10 @@ class DamascusSteelPainter extends CustomPainter {
       final isCoreEtch = i % 5 == 0;
 
       final color = isBrightRidge
-          ? etchedHighlight.withOpacity(0.35)
+          ? etchedHighlight.withValues(alpha: 0.35)
           : isCoreEtch
-              ? lightSteel.withOpacity(0.40)
-              : lightSteel.withOpacity(0.18);
+              ? lightSteel.withValues(alpha: 0.40)
+              : lightSteel.withValues(alpha: 0.18);
 
       final width = isBrightRidge ? 1.6 : (isCoreEtch ? 2.2 : 1.0);
 
@@ -110,7 +110,7 @@ class DamascusSteelPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = 1.0
-          ..color = darkSteel.withOpacity(0.65);
+          ..color = darkSteel.withValues(alpha: 0.65);
 
         final shadowPath = Path();
         shadowPath.moveTo(0, baseY + 2.0);
@@ -137,7 +137,7 @@ class DamascusSteelPainter extends CustomPainter {
         end: Alignment.bottomLeft,
         colors: [
           Colors.transparent,
-          Colors.white.withOpacity(0.08),
+          Colors.white.withValues(alpha: 0.08),
           Colors.transparent,
         ],
         stops: const [0.35, 0.5, 0.65],

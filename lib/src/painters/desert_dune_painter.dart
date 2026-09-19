@@ -48,8 +48,8 @@ class DesertDunePainter extends CustomPainter {
     final sunGlowPaint = Paint()
       ..shader = RadialGradient(
         colors: [
-          const Color(0xFFFFE082).withOpacity(0.40),
-          const Color(0xFFFF8F00).withOpacity(0.15),
+          const Color(0xFFFFE082).withValues(alpha: 0.40),
+          const Color(0xFFFF8F00).withValues(alpha: 0.15),
           Colors.transparent,
         ],
         stops: const [0.0, 0.5, 1.0],
@@ -65,7 +65,7 @@ class DesertDunePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final goldGlowPaint = Paint()
-      ..color = goldRidgeColor.withOpacity(0.35)
+      ..color = goldRidgeColor.withValues(alpha: 0.35)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0;
 
@@ -77,12 +77,12 @@ class DesertDunePainter extends CustomPainter {
       ..lineTo(0, h)
       ..close();
     final dune1Paint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          const Color(0xFFC4682E),
-          const Color(0xFF7A3614),
+          Color(0xFFC4682E),
+          Color(0xFF7A3614),
         ],
       ).createShader(rect);
     canvas.drawPath(dune1, dune1Paint);
@@ -127,12 +127,12 @@ class DesertDunePainter extends CustomPainter {
       ..lineTo(0, h)
       ..close();
     final dune3Paint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          const Color(0xFFB55722),
-          const Color(0xFF4A1B07),
+          Color(0xFFB55722),
+          Color(0xFF4A1B07),
         ],
       ).createShader(rect);
     canvas.drawPath(dune3, dune3Paint);
@@ -152,12 +152,12 @@ class DesertDunePainter extends CustomPainter {
       ..lineTo(0, h)
       ..close();
     final dune4Paint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          const Color(0xFF6E280A),
-          const Color(0xFF1F0D05),
+          Color(0xFF6E280A),
+          Color(0xFF1F0D05),
         ],
       ).createShader(rect);
     canvas.drawPath(dune4, dune4Paint);

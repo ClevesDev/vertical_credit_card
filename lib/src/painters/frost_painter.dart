@@ -13,23 +13,23 @@ class FrostOverlayPainter extends CustomPainter {
 
     // Cold translucent frosty mist
     final frostMist = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(0.0, -0.2),
+      ..shader = const RadialGradient(
+        center: Alignment(0.0, -0.2),
         radius: 0.9,
         colors: [
-          const Color(0xC0C7E5F9), // Ice blue
-          const Color(0x908AC4EC),
-          const Color(0x604E9BCF),
-          const Color(0x30184E77),
+          Color(0xC0C7E5F9), // Ice blue
+          Color(0x908AC4EC),
+          Color(0x604E9BCF),
+          Color(0x30184E77),
         ],
-        stops: const [0.0, 0.45, 0.75, 1.0],
+        stops: [0.0, 0.45, 0.75, 1.0],
       ).createShader(rect);
 
     canvas.drawRect(rect, frostMist);
 
     // Subtle crystalline crack lines
     final iceCrackPaint = Paint()
-      ..color = Colors.white.withOpacity(0.35 * animationValue)
+      ..color = Colors.white.withValues(alpha: 0.35 * animationValue)
       ..strokeWidth = 1.2
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -56,7 +56,7 @@ class FrostOverlayPainter extends CustomPainter {
     canvas.drawPath(path2, iceCrackPaint);
 
     // Scattered micro frost sparkles
-    final sparklePaint = Paint()..color = Colors.white.withOpacity(0.5);
+    final sparklePaint = Paint()..color = Colors.white.withValues(alpha: 0.5);
     final random = math.Random(42); // Deterministic seed
     for (int i = 0; i < 24; i++) {
       final x = random.nextDouble() * w;

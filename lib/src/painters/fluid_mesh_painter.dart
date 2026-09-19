@@ -66,9 +66,9 @@ class FluidMeshPainter extends CustomPainter {
       final orbPaint = Paint()
         ..shader = RadialGradient(
           colors: [
-            orb.color.withOpacity(0.65),
-            orb.color.withOpacity(0.25),
-            orb.color.withOpacity(0.0),
+            orb.color.withValues(alpha: 0.65),
+            orb.color.withValues(alpha: 0.25),
+            orb.color.withValues(alpha: 0.0),
           ],
           stops: const [0.0, 0.55, 1.0],
         ).createShader(

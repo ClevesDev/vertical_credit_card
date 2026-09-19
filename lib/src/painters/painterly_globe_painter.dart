@@ -101,7 +101,7 @@ class PainterlyGlobePainter extends CustomPainter {
       final sweep = math.pi * 0.38 + random.nextDouble() * 0.22;
 
       final color = colors[random.nextInt(colors.length)]
-          .withOpacity(0.55 + random.nextDouble() * 0.4);
+          .withValues(alpha: 0.55 + random.nextDouble() * 0.4);
 
       final strokePaint = Paint()
         ..color = color
@@ -128,7 +128,7 @@ class PainterlyGlobePainter extends CustomPainter {
       final y = center.dy + radius * math.sin(angle);
 
       final color = colors[random.nextInt(colors.length)]
-          .withOpacity(0.65 + random.nextDouble() * 0.35);
+          .withValues(alpha: 0.65 + random.nextDouble() * 0.35);
 
       final splatterPaint = Paint()
         ..color = color

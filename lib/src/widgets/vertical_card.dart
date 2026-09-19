@@ -847,13 +847,14 @@ class _VerticalCardState extends State<VerticalCard>
                                     color: const Color(0x990A192F),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                      color: Colors.cyanAccent.withOpacity(0.8),
+                                      color: Colors.cyanAccent
+                                          .withValues(alpha: 0.8),
                                       width: 1.5,
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Colors.cyanAccent.withOpacity(0.35),
+                                        color: Colors.cyanAccent
+                                            .withValues(alpha: 0.35),
                                         blurRadius: 15,
                                       ),
                                     ],

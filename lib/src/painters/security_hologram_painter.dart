@@ -25,17 +25,17 @@ class SecurityHologramPainter extends CustomPainter {
     canvas.clipRRect(rrect);
 
     // 1. Base brushed silver/platinum foil background
-    final baseGradient = LinearGradient(
+    const baseGradient = LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      colors: const [
+      colors: [
         Color(0xFFE0E0E6),
         Color(0xFFB8B8C2),
         Color(0xFFE8E8EE),
         Color(0xFFA0A0AA),
         Color(0xFFD0D0D8),
       ],
-      stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
+      stops: [0.0, 0.25, 0.5, 0.75, 1.0],
     );
     canvas.drawRect(rect, Paint()..shader = baseGradient.createShader(rect));
 
@@ -62,7 +62,7 @@ class SecurityHologramPainter extends CustomPainter {
 
     // 3. Security micro-etching grid lines
     final linePaint = Paint()
-      ..color = Colors.white.withOpacity(0.22)
+      ..color = Colors.white.withValues(alpha: 0.22)
       ..strokeWidth = 0.5
       ..style = PaintingStyle.stroke;
 
@@ -110,7 +110,7 @@ class SecurityHologramPainter extends CustomPainter {
 
     // 5. Specular highlight glint across edge
     final borderPaint = Paint()
-      ..color = Colors.white.withOpacity(0.4)
+      ..color = Colors.white.withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
     canvas.drawRRect(rrect, borderPaint);

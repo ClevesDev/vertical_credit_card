@@ -88,7 +88,7 @@ class CardFront extends StatelessWidget {
                   ],
                   ContactlessIcon(
                     size: 22.0,
-                    color: textColor.withOpacity(0.75),
+                    color: textColor.withValues(alpha: 0.75),
                   ),
                 ],
               ),
@@ -105,7 +105,7 @@ class CardFront extends StatelessWidget {
               Icon(
                 Icons.arrow_upward_rounded,
                 size: 16,
-                color: textColor.withOpacity(0.35),
+                color: textColor.withValues(alpha: 0.35),
               ),
             ],
           ),
@@ -150,7 +150,7 @@ class CardFront extends StatelessWidget {
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
                       size: 15.0,
-                      color: textColor.withOpacity(0.35),
+                      color: textColor.withValues(alpha: 0.35),
                     ),
                   ],
                 ),
@@ -279,12 +279,12 @@ List<Shadow> _getTextShadows(CardTextFinish finish, Color baseTextColor) {
     case CardTextFinish.embossed:
       return [
         Shadow(
-          color: Colors.white.withOpacity(0.55),
+          color: Colors.white.withValues(alpha: 0.55),
           offset: const Offset(-1, -1),
           blurRadius: 1,
         ),
         Shadow(
-          color: Colors.black.withOpacity(0.7),
+          color: Colors.black.withValues(alpha: 0.7),
           offset: const Offset(1.2, 1.5),
           blurRadius: 2,
         ),
@@ -294,7 +294,7 @@ List<Shadow> _getTextShadows(CardTextFinish finish, Color baseTextColor) {
     case CardTextFinish.roseGoldFoil:
       return [
         Shadow(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withValues(alpha: 0.4),
           offset: const Offset(0, 1.5),
           blurRadius: 2,
         ),
@@ -302,7 +302,7 @@ List<Shadow> _getTextShadows(CardTextFinish finish, Color baseTextColor) {
     case CardTextFinish.flat:
       return [
         Shadow(
-          color: Colors.black.withOpacity(0.3),
+          color: Colors.black.withValues(alpha: 0.3),
           offset: const Offset(0, 1),
           blurRadius: 2,
         ),

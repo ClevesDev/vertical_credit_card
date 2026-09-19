@@ -94,7 +94,7 @@ class MetallicCardPainter extends CustomPainter {
 
     // Subtle brushed hair-lines texture
     final brushPaint = Paint()
-      ..color = Colors.white.withOpacity(0.025)
+      ..color = Colors.white.withValues(alpha: 0.025)
       ..strokeWidth = 0.5;
 
     for (double y = 0; y < size.height; y += 3) {

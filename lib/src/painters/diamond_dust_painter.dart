@@ -64,7 +64,7 @@ class DiamondDustPainter extends CustomPainter {
       if (flash < 0.05) continue;
 
       final pointPaint = Paint()
-        ..color = sparkleColor.withOpacity(flash * 0.9)
+        ..color = sparkleColor.withValues(alpha: flash * 0.9)
         ..style = PaintingStyle.fill;
 
       // Small circular core
@@ -81,7 +81,7 @@ class DiamondDustPainter extends CustomPainter {
           ..close();
 
         final flarePaint = Paint()
-          ..color = Colors.white.withOpacity(flash * 0.8)
+          ..color = Colors.white.withValues(alpha: flash * 0.8)
           ..style = PaintingStyle.fill;
 
         canvas.drawPath(flarePath, flarePaint);

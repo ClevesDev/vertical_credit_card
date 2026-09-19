@@ -92,10 +92,10 @@ class WoodGrainPainter extends CustomPainter {
       final isAccentStreak = i % 7 == 0;
 
       final color = isAccentStreak
-          ? ringColor.withOpacity(0.35)
+          ? ringColor.withValues(alpha: 0.35)
           : isDarkerStreak
-              ? grainColor.withOpacity(0.28)
-              : grainColor.withOpacity(0.12);
+              ? grainColor.withValues(alpha: 0.28)
+              : grainColor.withValues(alpha: 0.12);
 
       final width = isAccentStreak ? 1.4 : (isDarkerStreak ? 1.0 : 0.6);
 
@@ -112,7 +112,7 @@ class WoodGrainPainter extends CustomPainter {
       ..strokeWidth = 0.8;
 
     for (int r = 1; r <= 4; r++) {
-      knotPaint.color = ringColor.withOpacity(0.22 - (r * 0.04));
+      knotPaint.color = ringColor.withValues(alpha: 0.22 - (r * 0.04));
       canvas.drawOval(
         Rect.fromCenter(
           center: knotCenter,
@@ -125,7 +125,7 @@ class WoodGrainPainter extends CustomPainter {
 
     // 4. Subtle porous fiber sheen overlay
     final fiberPaint = Paint()
-      ..color = Colors.white.withOpacity(0.04)
+      ..color = Colors.white.withValues(alpha: 0.04)
       ..strokeWidth = 0.5;
 
     for (double x = 4; x < w; x += 12) {

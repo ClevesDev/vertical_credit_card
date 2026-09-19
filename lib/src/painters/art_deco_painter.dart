@@ -47,13 +47,13 @@ class ArtDecoPainter extends CustomPainter {
     canvas.drawRect(rect, bgPaint);
 
     final goldPaint = Paint()
-      ..color = goldColor.withOpacity(0.55)
+      ..color = goldColor.withValues(alpha: 0.55)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.square;
 
     final brightPaint = Paint()
-      ..color = highlightGold.withOpacity(0.80)
+      ..color = highlightGold.withValues(alpha: 0.80)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth * 0.8
       ..strokeCap = StrokeCap.square;

@@ -52,7 +52,7 @@ class CardBack extends StatelessWidget {
               Text(
                 'AUTHORIZED SIGNATURE • NOT VALID UNLESS SIGNED',
                 style: TextStyle(
-                  color: secTextColor.withOpacity(0.6),
+                  color: secTextColor.withValues(alpha: 0.6),
                   fontSize: 7.0,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,
@@ -78,7 +78,7 @@ class CardBack extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'cursive',
                           fontSize: 14.0,
-                          color: Colors.black.withOpacity(0.55),
+                          color: Colors.black.withValues(alpha: 0.55),
                           fontStyle: FontStyle.italic,
                         ),
                       ),
@@ -133,7 +133,7 @@ class CardBack extends StatelessWidget {
                   'This card is issued pursuant to license by the financial institution. '
                   'Use of this card is governed by the cardholder agreement.',
                   style: TextStyle(
-                    color: secTextColor.withOpacity(0.55),
+                    color: secTextColor.withValues(alpha: 0.55),
                     fontSize: 7.5,
                     height: 1.3,
                   ),
@@ -148,7 +148,7 @@ class CardBack extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.25),
+                      color: Colors.black.withValues(alpha: 0.25),
                       blurRadius: 4,
                       offset: const Offset(0, 1),
                     ),

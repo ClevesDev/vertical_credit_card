@@ -99,12 +99,12 @@ class WorldMapPainter extends CustomPainter {
       final pos = Offset(starCoords[i].dx * w, starCoords[i].dy * h);
       final r = (i % 3 == 0) ? 1.4 : 0.8;
       final alpha = (i % 2 == 0) ? 0.60 : 0.35;
-      starPaint.color = Colors.white.withOpacity(alpha);
+      starPaint.color = Colors.white.withValues(alpha: alpha);
       canvas.drawCircle(pos, r, starPaint);
       if (i % 4 == 0) {
         // Micro starburst cross
         final flarePaint = Paint()
-          ..color = flightRouteColor.withOpacity(0.40)
+          ..color = flightRouteColor.withValues(alpha: 0.40)
           ..strokeWidth = 0.5;
         canvas.drawLine(Offset(pos.dx - 2.5, pos.dy),
             Offset(pos.dx + 2.5, pos.dy), flarePaint);
@@ -123,22 +123,22 @@ class WorldMapPainter extends CustomPainter {
 
       // Atmospheric outer cyan haze glow
       final hazePaint = Paint()
-        ..color = flightRouteColor.withOpacity(0.08)
+        ..color = flightRouteColor.withValues(alpha: 0.08)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 14.0;
       canvas.drawCircle(horizonCenter, horizonRadius, hazePaint);
 
       // Atmospheric mid soft glow
       final midGlowPaint = Paint()
-        ..color = flightRouteColor.withOpacity(0.22)
+        ..color = flightRouteColor.withValues(alpha: 0.22)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3.5;
       canvas.drawCircle(horizonCenter, horizonRadius, midGlowPaint);
 
       // Crisp planetary limb rim
       final rimPaint = Paint()
-        ..color =
-            Color.lerp(flightRouteColor, Colors.white, 0.6)!.withOpacity(0.70)
+        ..color = Color.lerp(flightRouteColor, Colors.white, 0.6)!
+            .withValues(alpha: 0.70)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.0;
       canvas.drawCircle(horizonCenter, horizonRadius, rimPaint);
@@ -160,7 +160,7 @@ class WorldMapPainter extends CustomPainter {
     // Coordinate Grid (Parallels & Meridians within the geographic bounding box)
     if (showGrid) {
       final gridPaint = Paint()
-        ..color = gridColor.withOpacity(0.40)
+        ..color = gridColor.withValues(alpha: 0.40)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.65;
 
@@ -185,12 +185,12 @@ class WorldMapPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final coastlinePaint = Paint()
-      ..color = flightRouteColor.withOpacity(0.45)
+      ..color = flightRouteColor.withValues(alpha: 0.45)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.85;
 
     final bathymetryPaint = Paint()
-      ..color = flightRouteColor.withOpacity(0.12)
+      ..color = flightRouteColor.withValues(alpha: 0.12)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.2;
 
@@ -344,7 +344,7 @@ class WorldMapPainter extends CustomPainter {
     // -------------------------------------------------------------------------
     if (showFlightRoutes) {
       final routePaint = Paint()
-        ..color = flightRouteColor.withOpacity(0.65)
+        ..color = flightRouteColor.withValues(alpha: 0.65)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.9;
 
@@ -437,7 +437,7 @@ class WorldMapPainter extends CustomPainter {
 
       // Airport Hub Radar Beacons & IATA Labels
       final beaconOuterPaint = Paint()
-        ..color = flightRouteColor.withOpacity(0.35)
+        ..color = flightRouteColor.withValues(alpha: 0.35)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.7;
 
@@ -465,7 +465,7 @@ class WorldMapPainter extends CustomPainter {
         final textSpan = TextSpan(
           text: iata,
           style: TextStyle(
-            color: flightRouteColor.withOpacity(0.85),
+            color: flightRouteColor.withValues(alpha: 0.85),
             fontSize: 5.0,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.5,
@@ -500,7 +500,8 @@ class WorldMapPainter extends CustomPainter {
         final span = TextSpan(
           text: hudLines[i],
           style: TextStyle(
-            color: flightRouteColor.withOpacity(i == 0 || i == 2 ? 0.75 : 0.45),
+            color: flightRouteColor.withValues(
+                alpha: i == 0 || i == 2 ? 0.75 : 0.45),
             fontSize: 5.0,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.6,
@@ -521,7 +522,7 @@ class WorldMapPainter extends CustomPainter {
 
       // Outer degree bezel ring
       final bezelPaint = Paint()
-        ..color = compassGoldColor.withOpacity(0.40)
+        ..color = compassGoldColor.withValues(alpha: 0.40)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.75;
       canvas.drawCircle(compassCenter, compassRadius, bezelPaint);
@@ -529,7 +530,7 @@ class WorldMapPainter extends CustomPainter {
 
       // Degree tick marks (every 15°)
       final tickPaint = Paint()
-        ..color = compassGoldColor.withOpacity(0.55)
+        ..color = compassGoldColor.withValues(alpha: 0.55)
         ..strokeWidth = 0.65;
       for (int i = 0; i < 24; i++) {
         final tickAngle = (i * 15.0) * (math.pi / 180.0);
@@ -548,7 +549,7 @@ class WorldMapPainter extends CustomPainter {
 
       // Rhumb navigation rays radiating from compass
       final rhumbPaint = Paint()
-        ..color = compassGoldColor.withOpacity(0.10)
+        ..color = compassGoldColor.withValues(alpha: 0.10)
         ..strokeWidth = 0.5;
       for (int r = 0; r < 8; r++) {
         final rhumbAngle = (r * 45.0) * (math.pi / 180.0);

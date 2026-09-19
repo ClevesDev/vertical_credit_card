@@ -87,7 +87,7 @@ class KintsugiPainter extends CustomPainter {
 
     // 3. Draw Fissure Shadows (Cast slight shadow for physical crack depth)
     final shadowPaint = Paint()
-      ..color = shadowCrack.withOpacity(0.85)
+      ..color = shadowCrack.withValues(alpha: 0.85)
       ..style = PaintingStyle.stroke
       ..strokeWidth = crackWidth + 1.6
       ..strokeCap = StrokeCap.round
@@ -111,7 +111,7 @@ class KintsugiPainter extends CustomPainter {
 
     // 5. Specular Radiant Gold Highlights (Fine center bead)
     final highlightPaint = Paint()
-      ..color = highlightGold.withOpacity(0.80)
+      ..color = highlightGold.withValues(alpha: 0.80)
       ..style = PaintingStyle.stroke
       ..strokeWidth = crackWidth * 0.45
       ..strokeCap = StrokeCap.round
@@ -123,7 +123,7 @@ class KintsugiPainter extends CustomPainter {
 
     // 6. Gold Foil Leaf / Powder Flecks around Junctions
     final goldFleckPaint = Paint()
-      ..color = goldColor.withOpacity(0.75)
+      ..color = goldColor.withValues(alpha: 0.75)
       ..style = PaintingStyle.fill;
 
     final junctions = [
