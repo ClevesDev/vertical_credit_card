@@ -244,8 +244,7 @@ class BankingAppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile =
-        MockBankingData.getProfile(countryCode, cardBorderRadius);
+    final profile = MockBankingData.getProfile(countryCode, cardBorderRadius);
     final cardMockupWidth = cardWidth.clamp(190.0, 225.0);
 
     return Container(

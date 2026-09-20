@@ -79,8 +79,8 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
                       final newFiltered = _filteredPresets;
                       if (!newFiltered.contains(
                           PresetCatalog.allPresets[_selectedPresetIndex])) {
-                        _selectedPresetIndex = PresetCatalog.allPresets
-                            .indexOf(newFiltered.first);
+                        _selectedPresetIndex =
+                            PresetCatalog.allPresets.indexOf(newFiltered.first);
                       }
                     });
                   },
@@ -193,8 +193,8 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
                           onSelected: (selected) {
                             if (selected) {
                               setState(() {
-                                _selectedPresetIndex = PresetCatalog.allPresets
-                                    .indexOf(preset);
+                                _selectedPresetIndex =
+                                    PresetCatalog.allPresets.indexOf(preset);
                               });
                             }
                           },
@@ -436,8 +436,8 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
                           label: 'Privacy',
                           isActive: widget.isPrivacyMode,
                           activeColor: Colors.amberAccent,
-                          onTap: () => widget.onPrivacyModeChanged(
-                              !widget.isPrivacyMode),
+                          onTap: () => widget
+                              .onPrivacyModeChanged(!widget.isPrivacyMode),
                         ),
 
                         // Freeze card button
