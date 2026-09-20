@@ -4,6 +4,8 @@
 
 [![pub package](https://img.shields.io/pub/v/vertical_credit_card.svg?color=blue)](https://pub.dev/packages/vertical_credit_card)
 [![Flutter CI](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml/badge.svg)](https://github.com/ClevesDev/vertical_credit_card/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Web_Playground-00D4B2?style=flat&logo=googlechrome&logoColor=white)](https://clevesdev.github.io/vertical_credit_card/)
+[![GitHub Stars](https://img.shields.io/github/stars/ClevesDev/vertical_credit_card?style=flat&logo=github&color=FFD700)](https://github.com/ClevesDev/vertical_credit_card/stargazers)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/clevesdev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Presets](https://img.shields.io/badge/Presets-40%2B%20Ready-FF007F?style=flat&logo=palette&logoColor=white)](#1-using-instant-presets-cardpresets)
@@ -18,6 +20,10 @@ Engineered with interactive 3D perspective physics, gyroscopic specular reflecti
 ---
 
 ## 🎬 Visual Showcase
+ 
+> [!TIP]
+> **Try the Interactive 3D Web Playground live in your browser without installing:**  
+> 🌐 **[https://clevesdev.github.io/vertical_credit_card/](https://clevesdev.github.io/vertical_credit_card/)** &nbsp; [![Star on GitHub](https://img.shields.io/github/stars/ClevesDev/vertical_credit_card?style=social)](https://github.com/ClevesDev/vertical_credit_card/stargazers)
 
 <div align="center">
 
