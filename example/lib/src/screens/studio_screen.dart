@@ -216,8 +216,8 @@ class _StudioScreenState extends State<StudioScreen> {
               enableEdgeGlow: _studioEdgeGlow,
               enableDiamondDust: _studioDiamondDust,
               enablePaymentPulse: _studioPaymentPulse,
-              onTogglePaymentPulse: () => setState(
-                  () => _studioPaymentPulse = !_studioPaymentPulse),
+              onTogglePaymentPulse: () =>
+                  setState(() => _studioPaymentPulse = !_studioPaymentPulse),
             ),
 
           const SizedBox(height: 24),
