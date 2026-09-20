@@ -1,3 +1,10 @@
+## 0.0.5
+
+* **Live Interactive Web Demo:** Added official GitHub Pages deployment link (`https://clevesdev.github.io/vertical_credit_card/`) and dynamic live demo badges to `README.md`.
+* **GitHub Community & Stargazers:** Added real-time GitHub stargazers badge to README callouts.
+* **Modular Example Architecture:** Complete refactoring of `example/lib/main.dart` into clean, domain-driven screens (`ShowcaseScreen`, `WalletScreen`, `CheckoutScreen`, `StudioScreen`), widgets (`BankingAppShell`, `CodeExportDialog`), and mock catalog layers with comprehensive developer documentation and quickstart guides.
+* **Automated Web CI/CD:** Added GitHub Actions workflow (`deploy_web.yml`) for automated builds and deployment to GitHub Pages.
+
 ## 0.0.4
 
 * **Official pub.dev Screenshots Showcase:** Added native package screenshot showcase (`doc/screenshots/vertical_credit_card_banner.jpg`) enabling visual search previews and image carousels across pub.dev listings.
